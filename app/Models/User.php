@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'gender',
         'region',
         'banned_at',
+        'pr0gramm_identifier',
     ];
 
     /**
