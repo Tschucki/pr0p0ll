@@ -24,6 +24,7 @@ return new class extends Migration
             $table->timestamp('banned_at')->nullable();
             $table->string('password'); // Required for Session
             $table->boolean('admin')->default(false);
+            $table->boolean('needs_data_review')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

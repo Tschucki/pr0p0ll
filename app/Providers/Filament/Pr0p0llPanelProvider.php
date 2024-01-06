@@ -3,9 +3,12 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
+use App\Filament\Pages\UpdateUserData;
+use App\Filament\Widgets\NeedsDataReviewWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -39,9 +42,9 @@ class Pr0p0llPanelProvider extends PanelProvider
             ->login(Login::class)
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                NeedsDataReviewWidget::class
             ])
+            ->profile(UpdateUserData::class)
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

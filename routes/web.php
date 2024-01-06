@@ -23,6 +23,6 @@ Route::get('/oauth/callback', [Pr0authController::class, 'callback'])->name('oau
 
 Route::get('/oauth/start', [Pr0authController::class, 'start'])->name('oauth.start');
 
-Route::get('test', function () {
-    return 'test';
-})->name('test');
+Route::get('login', function () {
+    return Redirect::route('filament.pr0p0ll.auth.login');
+})->name('login');
