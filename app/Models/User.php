@@ -54,4 +54,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'birthday' => 'date',
         'banned_at' => 'date',
     ];
+
+    public function notificationPreference(): HasOne
+    {
+        return $this->hasOne(NotificationPreference::class);
+    }
 }
