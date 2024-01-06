@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // TODO: Add Landing
+    return Redirect::route('filament.pr0p0ll.pages.dashboard');
 });
