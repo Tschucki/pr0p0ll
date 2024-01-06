@@ -11,12 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', static function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('pr0gramm_identifier')->index();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->date('birthday')->nullable(); // Always the 1st - Month & Year relevant
+            $table->string('nationality')->nullable();
+            $table->enum('gender', ['M', 'F', 'N/A'])->default('N/A');
+            $table->string('region')->nullable();
+            $table->timestamp('banned_at')->nullable();
+            $table->string('password'); // Required for Session
+            $table->boolean('admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
