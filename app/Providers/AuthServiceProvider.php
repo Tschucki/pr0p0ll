@@ -3,6 +3,12 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Polls\MyPoll;
+use App\Models\Polls\Poll;
+use App\Models\Polls\PublicPoll;
+use App\Policies\MyPollPolicy;
+use App\Policies\PollPolicy;
+use App\Policies\PublicPollPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,6 +20,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //
+        MyPoll::class => MyPollPolicy::class,
+        PublicPoll::class => PublicPollPolicy::class,
+        Poll::class => PollPolicy::class,
     ];
 
     /**
