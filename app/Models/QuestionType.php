@@ -19,10 +19,15 @@ class QuestionType extends Model
      */
     public function scopeActive(Builder $query): void
     {
-        $query->where('disabled',false);
+        $query->where('disabled', false);
     }
 
-    public function hasOptions():bool
+    public function answerType()
+    {
+        return new $this->answer_type;
+    }
+
+    public function hasOptions(): bool
     {
         return in_array($this->component, ['radio', 'checkbox-list']);
     }

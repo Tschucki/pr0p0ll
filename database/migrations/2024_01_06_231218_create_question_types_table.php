@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('component');
+            $table->string('answer_type');
             $table->string('icon')->nullable();
             $table->boolean('disabled')->default(false);
             $table->timestamps();
