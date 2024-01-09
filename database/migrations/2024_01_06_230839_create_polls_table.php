@@ -20,11 +20,12 @@ return new class extends Migration
             $table->text('description');
             $table->fullText('description');
             $table->string('closes_after');
-            $table->enum('anonymity', ['anonymous', 'public']);
+            $table->boolean('not_anonymous')->default(true);
             $table->text('original_content_link')->nullable();
             $table->boolean('visible_to_public')->default(false);
-            $table->boolean('in_review')->default(true);
+            $table->boolean('in_review')->nullable();
             $table->boolean('approved')->default(false);
+            $table->dateTime('published_at')->nullable();
             $table->text('admin_notes')->nullable();
             $table->timestamps();
         });
