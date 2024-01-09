@@ -7,12 +7,8 @@ use App\Enums\Nationality;
 use App\Enums\Region;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Pages\Auth\EditProfile;
-use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class UpdateUserData extends EditProfile
 {
@@ -46,5 +42,11 @@ class UpdateUserData extends EditProfile
                     ->statePath('data'),
             ),
         ];
+    }
+
+    public function save(): void
+    {
+        // TODO: Add own save as some props are hidden
+        dd('TODO');
     }
 }
