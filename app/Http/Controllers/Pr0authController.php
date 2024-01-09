@@ -25,7 +25,7 @@ class Pr0authController extends Controller
             ]
         ];*/
 
-        $user = User::firstOrNew([
+        $user = User::updateOrCreate([
             'pr0gramm_identifier' => $user->user['identifier'],
         ], [
             'name' => $user->name,
