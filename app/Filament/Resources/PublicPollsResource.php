@@ -15,9 +15,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class PublicPollsResource extends Resource
 {
     protected static ?string $model = PublicPoll::class;
+
     protected static ?string $navigationGroup = 'Umfragen';
+
     protected static ?string $label = 'Öffentliche Umfrage';
+
     protected static ?string $pluralLabel = 'Öffentliche Umfragen';
+
     protected static ?string $icon = 'heroicon-o-clipboard-list';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';

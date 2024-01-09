@@ -40,9 +40,10 @@ abstract class Poll extends Model
     {
         return $this->questions->map(function (Question $question) {
             $type = $question->questionType;
+
             return [
                 'id' => $question->getKey(),
-                'type' => (string)($type->getKey()),
+                'type' => (string) ($type->getKey()),
                 'data' => [
                     'question_type_id' => $type->getKey(),
                     'title' => $question->title,
@@ -53,13 +54,13 @@ abstract class Poll extends Model
         })->toArray();
     }
 
-    public function isInReview():bool
+    public function isInReview(): bool
     {
-        return (bool)$this->in_review;
+        return (bool) $this->in_review;
     }
 
-    public function isApproved():bool
+    public function isApproved(): bool
     {
-        return (bool)$this->approved;
+        return (bool) $this->approved;
     }
 }

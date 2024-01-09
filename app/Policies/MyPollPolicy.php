@@ -27,7 +27,7 @@ class MyPollPolicy
 
     public function update(User $user, MyPoll $myPoll): bool
     {
-        if($myPoll->isInReview() || $myPoll->isApproved()) {
+        if ($myPoll->isInReview() || $myPoll->isApproved()) {
             return false;
         }
 

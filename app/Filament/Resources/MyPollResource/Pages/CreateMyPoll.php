@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class CreateMyPoll extends CreateRecord
 {
     protected static string $resource = MyPollResource::class;
+
     protected static ?string $title = 'Eigene Umfrage erstellen';
 
     protected function mutateFormDataBeforeCreate(array $data): array
@@ -36,7 +37,7 @@ class CreateMyPoll extends CreateRecord
                         'title' => $option['title'],
                         'helperText' => $option['helperText'],
                     ];
-                })->toArray()
+                })->toArray(),
             ];
         });
 
@@ -56,7 +57,6 @@ class CreateMyPoll extends CreateRecord
             $poll = static::getModel()::create($data);
 
             $poll->questions()->createMany($validatedQuestions);
-
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             Notification::make()

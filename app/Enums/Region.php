@@ -8,7 +8,6 @@ enum Region: string implements HasLabel
 {
     case BAVARIA = 'bavaria';
 
-
     public function getLabel(): ?string
     {
         return match ($this) {

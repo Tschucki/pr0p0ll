@@ -5,14 +5,9 @@ namespace App\Filament\Resources\MyPollResource\Pages;
 use App\Filament\Actions\PollPreviewAction;
 use App\Filament\Actions\SubmitForReviewAction;
 use App\Filament\Resources\MyPollResource;
-use App\Models\Polls\MyPoll;
 use App\Models\Question;
-use App\Services\PollFormService;
 use Filament\Actions;
-use Filament\Forms\Components\Placeholder;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\HtmlString;
 
 class EditMyPoll extends EditRecord
 {
@@ -24,11 +19,11 @@ class EditMyPoll extends EditRecord
         $record = $this->getRecord();
 
         // Delete removed questions (if any)
-        $questionIds = collect($questions)->filter(fn(array $question) => isset($question['id']))->map(fn(array $question) => $question['id']);
+        $questionIds = collect($questions)->filter(fn (array $question) => isset($question['id']))->map(fn (array $question) => $question['id']);
         Question::where('poll_id', $record->getKey())->whereNotIn('id', $questionIds)->delete();
 
         // Update existing questions
-        collect($questions)->filter(fn(array $question) => isset($question['id']))->each(function (array $question) {
+        collect($questions)->filter(fn (array $question) => isset($question['id']))->each(function (array $question) {
             Question::where('id', $question['id'])->update([
                 'title' => $question['data']['title'],
                 'hint' => $question['data']['hint'],
@@ -40,11 +35,11 @@ class EditMyPoll extends EditRecord
                         'title' => $option['title'],
                         'helperText' => $option['helperText'],
                     ];
-                })->toArray()
+                })->toArray(),
             ]);
         });
         // Create new questions
-        collect($questions)->filter(fn(array $question) => !isset($question['id']))->each(function (array $question) use ($record) {
+        collect($questions)->filter(fn (array $question) => ! isset($question['id']))->each(function (array $question) use ($record) {
             Question::create([
                 'poll_id' => $record->getKey(),
                 'title' => $question['data']['title'],
@@ -57,7 +52,7 @@ class EditMyPoll extends EditRecord
                         'title' => $option['title'],
                         'helperText' => $option['helperText'],
                     ];
-                })->toArray()
+                })->toArray(),
             ]);
         });
 
@@ -72,8 +67,8 @@ class EditMyPoll extends EditRecord
             PollPreviewAction::make(),
             SubmitForReviewAction::make(),
             Actions\ActionGroup::make([
-                Actions\DeleteAction::make()
-            ])
+                Actions\DeleteAction::make(),
+            ]),
         ];
     }
 }

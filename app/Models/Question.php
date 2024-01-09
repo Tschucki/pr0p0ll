@@ -37,6 +37,6 @@ class Question extends Model
 
     public function hasOptions(): bool
     {
-        return !empty($this->options);
+        return ! empty($this->options);
     }
 }

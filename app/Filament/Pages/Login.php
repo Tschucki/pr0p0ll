@@ -12,6 +12,7 @@ use Illuminate\Contracts\Support\Htmlable;
 class Login extends \Filament\Pages\Auth\Login
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
     protected static bool $shouldRegisterNavigation = false;
 
     protected static string $view = 'filament.pages.login';

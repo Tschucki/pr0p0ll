@@ -34,7 +34,7 @@ return [
     'pr0gramm' => [
         'client_id' => env('PR0GRAMM_CLIENT_ID'),
         'client_secret' => env('PR0GRAMM_CLIENT_SECRET'),
-        'redirect' => env('PR0GRAMM_REDIRECT_URI')
+        'redirect' => env('PR0GRAMM_REDIRECT_URI'),
     ],
 
 ];

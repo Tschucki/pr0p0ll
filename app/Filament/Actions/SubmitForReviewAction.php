@@ -16,6 +16,6 @@ class SubmitForReviewAction
                 'in_review' => true,
             ]);
             Notification::make('submitted')->title('Umfrage wurde zur Prüfung freigegeben')->body('Deine Umfrage wurde zur Prüfung freigegeben.')->send();
-        })->requiresConfirmation()->hidden(fn(MyPoll $myPoll) => $myPoll->isInReview() || $myPoll->isApproved());
+        })->requiresConfirmation()->hidden(fn (MyPoll $myPoll) => $myPoll->isInReview() || $myPoll->isApproved());
     }
 }

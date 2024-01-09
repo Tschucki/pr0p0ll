@@ -16,7 +16,6 @@ use Filament\Forms\Components\Toggle;
 
 class PollFormService
 {
-
     private MyPoll $poll;
 
     // TODO: Create Facade
@@ -29,9 +28,10 @@ class PollFormService
     {
         return $this->poll->questions->map(function (Question $question) {
             $type = $question->questionType;
+
             return [
                 'id' => $question->getKey(),
-                'type' => (string)($type->getKey()),
+                'type' => (string) ($type->getKey()),
                 'data' => [
                     'question_type_id' => $type->getKey(),
                     'title' => $question->title,
@@ -42,13 +42,13 @@ class PollFormService
         })->toArray();
     }
 
-
     public function buildForm(): array
     {
         $form = [];
         $this->poll->questions->each(function (Question $question) use (&$form) {
             $form[] = $this->createField($question);
         });
+
         return $form;
     }
 
@@ -59,6 +59,7 @@ class PollFormService
         if ($question->questionType->hasOptions()) {
             $component->options($this->getOptions($question))->descriptions($this->getOptionsDescriptions($question));
         }
+
         return $component;
     }
 
@@ -94,11 +95,12 @@ class PollFormService
     private function getOptionsDescriptions(Question $question): array
     {
         return collect($question->options)->map(function ($option) {
-            if(isset($option['helperText'])) {
+            if (isset($option['helperText'])) {
                 return [
                     $option['title'] => $option['helperText'],
                 ];
             }
+
             return [];
         })->flatten()->toArray();
     }

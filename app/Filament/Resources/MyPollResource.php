@@ -10,7 +10,6 @@ use App\Filament\Resources\MyPollResource\Pages\ViewMyPoll;
 use App\Models\Polls\MyPoll;
 use App\Models\Question;
 use App\Models\QuestionType;
-use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Builder\Block;
@@ -29,8 +28,11 @@ use Filament\Tables\Table;
 class MyPollResource extends Resource
 {
     protected static ?string $model = MyPoll::class;
+
     protected static ?string $label = 'Meine Umfrage';
+
     protected static ?string $navigationGroup = 'Umfragen';
+
     protected static ?string $pluralLabel = 'Meine Umfragen';
 
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
@@ -78,16 +80,16 @@ class MyPollResource extends Resource
                                         Components\Repeater::make('options')->label('Auswahlmöglichkeiten')->schema([
                                             TextInput::make('title')->required()->label('Titel')->maxLength(255),
                                             TextInput::make('helperText')->nullable()->label('Hilfetext')->maxLength(255),
-                                        ])->required()->visible(fn() => $questionType->hasOptions()),
+                                        ])->required()->visible(fn () => $questionType->hasOptions()),
                                     ])->icon($questionType->icon)->label(function (?array $state) use ($questionType): string {
                                         if ($state === null) {
                                             return $questionType->title;
                                         }
 
-                                        return $state['title'] ? $state['title'] . ' - ' . $questionType->title : $questionType->title;
+                                        return $state['title'] ? $state['title'].' - '.$questionType->title : $questionType->title;
                                     });
                                 })->toArray();
-                            })->collapsible()->collapsed(fn(MyPoll $poll) => $poll)->reactive()->live()->blockNumbers(false)
+                            })->collapsible()->collapsed(fn (MyPoll $poll) => $poll)->reactive()->live()->blockNumbers(false),
                     ]),
                 ])->columnSpanFull(),
             ]);
@@ -122,11 +124,11 @@ class MyPollResource extends Resource
         return $infolist->schema([
             Section::make($infolist->getRecord()->title)->schema([
                 TextEntry::make('description')->columnSpanFull()->label('Beschreibung')->markdown(),
-                TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn(MyPoll $poll) => !$poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn(MyPoll $poll) => $poll->not_anonymous ? 'Dein Name wird angezeigt' : 'Dein Name wird nicht angezeigt'),
-                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn(MyPoll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
+                TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn (MyPoll $poll) => ! $poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn (MyPoll $poll) => $poll->not_anonymous ? 'Dein Name wird angezeigt' : 'Dein Name wird nicht angezeigt'),
+                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (MyPoll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
                 RepeatableEntry::make('questions')->label('Fragen')->schema([
                     TextEntry::make('title')->label('Frage'),
-                    TextEntry::make('hint')->visible(fn(Question $question) =>$question->hint)->label('Hilfe für Nutzer'),
+                    TextEntry::make('hint')->visible(fn (Question $question) => $question->hint)->label('Hilfe für Nutzer'),
                     TextEntry::make('questionType.title')->label('Typ'),
                 ])->columnSpanFull(),
                 /*Section::make('Statistiken')->schema([

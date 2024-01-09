@@ -15,7 +15,6 @@ enum QuestionType: string implements HasLabel
     case TIME = 'time';
     case COLOR = 'color';
 
-
     public function getLabel(): ?string
     {
         return match ($this) {

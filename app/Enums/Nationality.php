@@ -16,7 +16,6 @@ enum Nationality: string implements HasLabel
     case NLD = 'netherlands';
     case CZE = 'cz';
 
-
     public function getLabel(): ?string
     {
         return match ($this) {

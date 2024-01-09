@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Answer;
 use App\Models\Polls\MyPoll;
 use App\Models\User;
 use App\Notifications\PollNeedsReviewNotification;

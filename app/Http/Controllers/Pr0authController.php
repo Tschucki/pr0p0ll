@@ -12,7 +12,6 @@ class Pr0authController extends Controller
     {
         $user = Socialite::driver('pr0gramm')->user();
 
-
         /* $user->user => [
             "name" => string,
             "registered" => timestamp,

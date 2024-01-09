@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Abstracts\AnswerType;
 use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\ColorAnswer;
 use App\Models\AnswerTypes\DateAnswer;
@@ -12,7 +11,6 @@ use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
 use App\Models\AnswerTypes\TimeAnswer;
 use App\Models\QuestionType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionTypeSeeder extends Seeder
