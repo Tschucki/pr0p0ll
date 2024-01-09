@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Filament\Resources\PollResource\Pages;
+namespace App\Filament\Resources\MyPollResource\Pages;
 
-use App\Filament\Resources\PollResource;
-use App\Models\Poll;
+use App\Filament\Actions\PollPreviewAction;
+use App\Filament\Actions\SubmitForReviewAction;
+use App\Filament\Resources\MyPollResource;
+use App\Models\Polls\MyPoll;
 use App\Models\Question;
 use App\Services\PollFormService;
 use Filament\Actions;
 use Filament\Forms\Components\Placeholder;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\HtmlString;
 
-class EditPoll extends EditRecord
+class EditMyPoll extends EditRecord
 {
-    protected static string $resource = PollResource::class;
+    protected static string $resource = MyPollResource::class;
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
@@ -68,14 +69,11 @@ class EditPoll extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('Vorschau anzeigen')->form(fn(Poll $poll) => [
-                Placeholder::make('Titel')->content($poll->title),
-                Placeholder::make('Beschreibung')->content(new HtmlString('<div class="prose dark:prose-invert">' . \Str::markdown($poll->description) . '</div>')),
-                \Filament\Forms\Components\Section::make('Fragen')->schema(function() use($poll) {
-                    return (new PollFormService($poll))->buildForm();
-                }),
-            ])->modalHeading('Vorschau')->modalSubmitAction(false),
-            Actions\DeleteAction::make(),
+            PollPreviewAction::make(),
+            SubmitForReviewAction::make(),
+            Actions\ActionGroup::make([
+                Actions\DeleteAction::make()
+            ])
         ];
     }
 }

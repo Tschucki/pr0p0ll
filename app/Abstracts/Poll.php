@@ -1,17 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\Abstracts;
 
+use App\Models\Answer;
+use App\Models\Question;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Poll extends Model
+abstract class Poll extends Model
 {
     protected $guarded = [];
 
+    protected $table = 'polls';
+
     protected $casts = [
+        'published_at' => 'datetime',
         'visible_to_public' => 'boolean',
         'in_review' => 'boolean',
         'approved' => 'boolean',
+        'not_anonymous' => 'boolean',
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -22,6 +29,11 @@ class Poll extends Model
     public function questions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Question::class, 'poll_id');
+    }
+
+    public function answers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Answer::class, 'poll_id');
     }
 
     public function getBuilderData(): array
@@ -39,5 +51,15 @@ class Poll extends Model
                 ],
             ];
         })->toArray();
+    }
+
+    public function isInReview():bool
+    {
+        return (bool)$this->in_review;
+    }
+
+    public function isApproved():bool
+    {
+        return (bool)$this->approved;
     }
 }

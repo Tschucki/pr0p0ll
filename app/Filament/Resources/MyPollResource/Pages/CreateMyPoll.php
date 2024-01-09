@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Filament\Resources\PollResource\Pages;
+namespace App\Filament\Resources\MyPollResource\Pages;
 
-use App\Filament\Resources\PollResource;
-use App\Models\Poll;
-use Carbon\Carbon;
-use Filament\Actions;
+use App\Filament\Resources\MyPollResource;
+use App\Models\Polls\MyPoll;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
 
-class CreatePoll extends CreateRecord
+class CreateMyPoll extends CreateRecord
 {
-    protected static string $resource = PollResource::class;
+    protected static string $resource = MyPollResource::class;
+    protected static ?string $title = 'Eigene Umfrage erstellen';
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
@@ -54,7 +51,7 @@ class CreatePoll extends CreateRecord
             unset($data['questions']);
 
             /**
-             * @var Poll $poll
+             * @var MyPoll $poll
              * */
             $poll = static::getModel()::create($data);
 

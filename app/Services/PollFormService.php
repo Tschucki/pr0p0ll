@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Enums\QuestionType;
-use App\Models\Poll;
+use App\Models\Polls\MyPoll;
 use App\Models\Question;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\ColorPicker;
@@ -17,10 +17,10 @@ use Filament\Forms\Components\Toggle;
 class PollFormService
 {
 
-    private Poll $poll;
+    private MyPoll $poll;
 
     // TODO: Create Facade
-    public function __construct(Poll $poll)
+    public function __construct(MyPoll $poll)
     {
         $this->poll = $poll;
     }
@@ -94,9 +94,12 @@ class PollFormService
     private function getOptionsDescriptions(Question $question): array
     {
         return collect($question->options)->map(function ($option) {
-            return [
-                $option['title'] => $option['helperText'],
-            ];
+            if(isset($option['helperText'])) {
+                return [
+                    $option['title'] => $option['helperText'],
+                ];
+            }
+            return [];
         })->flatten()->toArray();
     }
 }

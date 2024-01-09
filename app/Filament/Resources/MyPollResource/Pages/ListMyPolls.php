@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PollResource\Pages;
+namespace App\Filament\Resources\MyPollResource\Pages;
 
-use App\Filament\Resources\PollResource;
+use App\Filament\Resources\MyPollResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListPolls extends ListRecords
+class ListMyPolls extends ListRecords
 {
-    protected static string $resource = PollResource::class;
+    protected static string $resource = MyPollResource::class;
 
     protected function getHeaderActions(): array
     {
