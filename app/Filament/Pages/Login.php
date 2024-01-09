@@ -6,12 +6,8 @@ use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms\Form;
-use Filament\Http\Responses\Auth\Contracts\LoginResponse;
-use Filament\Models\Contracts\FilamentUser;
 use Filament\Notifications\Notification;
-use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
-use Laravel\Socialite\Facades\Socialite;
 
 class Login extends \Filament\Pages\Auth\Login
 {
