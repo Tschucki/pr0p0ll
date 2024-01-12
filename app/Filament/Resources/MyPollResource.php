@@ -6,6 +6,7 @@ use App\Enums\ClosesAfter;
 use App\Filament\Resources\MyPollResource\Pages\CreateMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\EditMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\ListMyPolls;
+use App\Filament\Resources\MyPollResource\Pages\MyPollResults;
 use App\Filament\Resources\MyPollResource\Pages\ViewMyPoll;
 use App\Models\Polls\MyPoll;
 use App\Models\Question;
@@ -24,6 +25,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Yepsua\Filament\Tables\Components\RatingColumn;
 
 class MyPollResource extends Resource
 {
@@ -75,13 +77,14 @@ class MyPollResource extends Resource
                                 return QuestionType::active()->get()->map(function (QuestionType $questionType) {
                                     return Block::make($questionType->getKey())->label($questionType->title)->schema([
                                         Components\Hidden::make('question_type_id')->default($questionType->getKey()),
+                                        Components\Hidden::make('uuid')->default(\Str::uuid()->toString()),
                                         TextInput::make('title')->label('Titel')->maxLength(255)->required()->live(),
                                         Textarea::make('hint')->label('Hilfe für Nutzer')->nullable(),
                                         Components\Repeater::make('options')->label('Auswahlmöglichkeiten')->schema([
                                             TextInput::make('title')->required()->label('Titel')->maxLength(255),
                                             TextInput::make('helperText')->nullable()->label('Hilfetext')->maxLength(255),
                                         ])->required()->visible(fn () => $questionType->hasOptions()),
-                                    ])->icon($questionType->icon)->label(function (?array $state) use ($questionType): string {
+                                    ])->reactive()->icon($questionType->icon)->label(function (?array $state) use ($questionType): string {
                                         if ($state === null) {
                                             return $questionType->title;
                                         }
@@ -102,6 +105,8 @@ class MyPollResource extends Resource
                 Tables\Columns\TextColumn::make('title')->label('Titel')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('questions_count')->counts('questions')->label('Anzahl Fragen')->sortable()->toggleable(),
                 Tables\Columns\TextColumn::make('answers_count')->counts('answers')->label('Anzahl Antworten')->sortable()->toggleable(),
+                Tables\Columns\TextColumn::make('participants_count')->counts('participants')->label('Anzahl Teilnehmer')->sortable()->toggleable(),
+                RatingColumn::make('rating')->state(fn (MyPoll $myPoll) => $myPoll->participants()->avg('rating'))->label('Bewertung'),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime('d.m.Y H:i')->suffix(' Uhr')->label('Änderungsdatum')->sortable()->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d.m.Y H:i')->suffix(' Uhr')->label('Erstelldatum')->sortable()->toggleable(),
             ])
@@ -109,6 +114,7 @@ class MyPollResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (MyPoll $poll) => route('filament.pr0p0ll.resources.my-polls.results', ['record' => $poll])),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
@@ -122,6 +128,9 @@ class MyPollResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
+            Section::make('Nachricht von Admin')->schema([
+                TextEntry::make('admin_notes')->label(false),
+            ])->visible(fn (MyPoll $myPoll) => $myPoll->admin_notes),
             Section::make($infolist->getRecord()->title)->schema([
                 TextEntry::make('description')->columnSpanFull()->label('Beschreibung')->markdown(),
                 TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn (MyPoll $poll) => ! $poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn (MyPoll $poll) => $poll->not_anonymous ? 'Dein Name wird angezeigt' : 'Dein Name wird nicht angezeigt'),
@@ -157,6 +166,7 @@ class MyPollResource extends Resource
             'create' => CreateMyPoll::route('/create'),
             'index' => ListMyPolls::route('/'),
             'view' => ViewMyPoll::route('/{record}'),
+            'results' => MyPollResults::route('/{record}/auswertung'),
             'edit' => EditMyPoll::route('/{record}/edit'),
         ];
     }

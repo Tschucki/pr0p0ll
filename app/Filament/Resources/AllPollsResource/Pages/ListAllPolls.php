@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\AllPollsResource\Pages;
 
 use App\Filament\Resources\AllPollsResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListAllPolls extends ListRecords
@@ -13,7 +12,7 @@ class ListAllPolls extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+
         ];
     }
 }

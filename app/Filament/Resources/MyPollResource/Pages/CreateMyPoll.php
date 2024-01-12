@@ -43,7 +43,8 @@ class CreateMyPoll extends CreateRecord
 
         try {
             $validatedQuestions = \Illuminate\Support\Facades\Validator::make($questions->toArray(), [
-                '*.title' => 'required',
+                '*.title' => 'required|string',
+                '*.hint' => 'nullable|string',
                 '*.question_type_id' => 'required|exists:question_types,id',
                 '*.options' => 'array|present',
                 '*.options.*.title' => 'required',

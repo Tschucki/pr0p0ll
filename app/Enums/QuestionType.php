@@ -14,6 +14,7 @@ enum QuestionType: string implements HasLabel
     case DATETIME = 'datetime';
     case TIME = 'time';
     case COLOR = 'color';
+    case NUMBER = 'number';
 
     public function getLabel(): ?string
     {
@@ -26,6 +27,7 @@ enum QuestionType: string implements HasLabel
             self::DATETIME => 'Datum und Uhrzeit',
             self::TIME => 'Uhrzeit',
             self::COLOR => 'Farbe',
+            self::NUMBER => 'Zahl',
         };
     }
 }

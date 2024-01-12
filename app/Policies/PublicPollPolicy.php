@@ -17,7 +17,7 @@ class PublicPollPolicy
 
     public function view(User $user, PublicPoll $publicPoll): bool
     {
-        return false;
+        return $publicPoll->isVisibleForPublic();
     }
 
     public function create(User $user): bool

@@ -7,6 +7,7 @@ use App\Models\AnswerTypes\ColorAnswer;
 use App\Models\AnswerTypes\DateAnswer;
 use App\Models\AnswerTypes\DateTimeAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
+use App\Models\AnswerTypes\NumberAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
 use App\Models\AnswerTypes\TimeAnswer;
@@ -90,6 +91,15 @@ class QuestionTypeSeeder extends Seeder
                 'component' => 'color',
                 'answer_type' => ColorAnswer::class,
                 'icon' => 'heroicon-o-swatch',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'title' => 'Zahl',
+                'description' => 'Eine Frage mit einer Zahl-Antwort',
+                'component' => 'number',
+                'answer_type' => NumberAnswer::class,
+                'icon' => 'heroicon-o-calculator',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

@@ -13,6 +13,7 @@ class Question extends Model
     protected $casts = [
         'position' => 'integer',
         'options' => 'array',
+        'blocks' => 'array',
     ];
 
     public function questionType(): \Illuminate\Database\Eloquent\Relations\BelongsTo

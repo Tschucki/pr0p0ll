@@ -58,6 +58,12 @@ return new class extends Migration
             $table->time('answer_value');
             $table->timestamps();
         });
+
+        Schema::create('number_answers', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('answer_value');
+            $table->timestamps();
+        });
     }
 
     /**

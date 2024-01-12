@@ -36,6 +36,20 @@ abstract class Poll extends Model
         return $this->hasMany(Answer::class, 'poll_id');
     }
 
+    public function userParticipated(User $user): bool
+    {
+        return $this->participants()->where('participant_id', $user->getKey())->exists();
+    }
+
+    public function participants(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'participants_2_polls', 'poll_id', 'participant_id')
+            ->withTimestamps()
+            ->withPivot([
+                'rating',
+            ]);
+    }
+
     public function getBuilderData(): array
     {
         return $this->questions->map(function (Question $question) {
@@ -62,5 +76,42 @@ abstract class Poll extends Model
     public function isApproved(): bool
     {
         return (bool) $this->approved;
+    }
+
+    public function isVisibleForPublic(): bool
+    {
+        return $this->isApproved() && ! $this->isInReview() && $this->visible_to_public;
+    }
+
+    public function approve(): void
+    {
+        $this->update([
+            'approved' => true,
+            'in_review' => false,
+            'visible_to_public' => true,
+            'published_at' => now(),
+        ]);
+    }
+
+    public function deny(string $reason): void
+    {
+        $this->update([
+            'approved' => false,
+            'in_review' => false,
+            'visible_to_public' => false,
+            'published_at' => null,
+            'admin_notes' => $reason,
+        ]);
+    }
+
+    public function disable(string $reason): void
+    {
+        $this->update([
+            'approved' => false,
+            'in_review' => false,
+            'visible_to_public' => false,
+            'published_at' => null,
+            'admin_notes' => $reason,
+        ]);
     }
 }

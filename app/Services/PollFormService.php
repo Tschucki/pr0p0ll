@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Abstracts\Poll;
 use App\Enums\QuestionType;
-use App\Models\Polls\MyPoll;
 use App\Models\Question;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\ColorPicker;
@@ -12,14 +12,15 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 
 class PollFormService
 {
-    private MyPoll $poll;
+    private Poll $poll;
 
     // TODO: Create Facade
-    public function __construct(MyPoll $poll)
+    public function __construct(Poll $poll)
     {
         $this->poll = $poll;
     }
@@ -79,17 +80,19 @@ class PollFormService
             QuestionType::TIME->value => DateTimePicker::make($question->getKey())->seconds(false)->date(false)->time()->displayFormat('HH:mm'),
             QuestionType::DATETIME->value => DateTimePicker::make($question->getKey())->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
             QuestionType::COLOR->value => ColorPicker::make($question->getKey()),
+            QuestionType::NUMBER->value => TextInput::make($question->getKey())->numeric(),
             default => throw new \InvalidArgumentException('Unknown question type'),
         };
     }
 
     private function getOptions(Question $question): array
     {
-        return collect($question->options)->map(function ($option) {
+
+        return collect($question->options)->mapWithKeys(function ($option) {
             return [
                 $option['title'] => $option['title'],
             ];
-        })->flatten()->toArray();
+        })->toArray();
     }
 
     private function getOptionsDescriptions(Question $question): array

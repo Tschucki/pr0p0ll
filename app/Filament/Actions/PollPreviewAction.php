@@ -19,7 +19,7 @@ class PollPreviewAction
 
             if ($fullPreview) {
                 $preview[] = Placeholder::make('Titel')->content($poll->title);
-                $preview[] = Placeholder::make('Beschreibung')->content(new HtmlString('<div class="prose dark:prose-invert">'.Str::markdown($poll->description).'</div>'));
+                $preview[] = Placeholder::make('Beschreibung')->content(fn () => new HtmlString('<div class="prose dark:prose-invert">'.Str::markdown($poll->description).'</div>'))->visible(fn () => $poll->description);
             }
 
             $preview[] = Section::make('Fragen')->schema(function () use ($poll) {

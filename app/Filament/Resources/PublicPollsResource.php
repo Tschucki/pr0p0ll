@@ -3,12 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PublicPollsResource\Pages;
-use App\Models\Polls\MyPoll;
 use App\Models\Polls\PublicPoll;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
-use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -38,22 +37,24 @@ class PublicPollsResource extends Resource
     {
         return $table
             ->columns([
-                Stack::make([
-                    Tables\Columns\TextColumn::make('title')->label('Titel')->searchable()->sortable(),
-                ]),
-            ])
-            ->contentGrid([
-                'md' => 2,
-                'xl' => 3,
+                Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('description')->label('Beschreibung')->hidden()->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->visible(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous)->searchable()->sortable(),
+                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->searchable()->boolean()->sortable()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('participate')->label('Teilnehmen'),
+                Tables\Actions\Action::make('participate')
+                    ->icon('heroicon-o-plus-circle')
+                    ->button()
+                    ->label('Teilnehmen')
+                    ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
+                    ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
             ])
             ->bulkActions([])
-            ->query(MyPoll::query()
+            ->query(PublicPoll::query()
                 ->where('visible_to_public', true)
                 ->where('approved', true)
                 ->where('in_review', false)
@@ -72,6 +73,7 @@ class PublicPollsResource extends Resource
     {
         return [
             'index' => Pages\ListPublicPolls::route('/'),
+            'teilnehmen' => Pages\PollParticipation::route('/{record}/teilnehmen'),
         ];
     }
 }

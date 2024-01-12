@@ -10,6 +10,6 @@ class PublicPollScope implements Scope
 {
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->where('is_public', true);
+        $builder->where('visible_to_public', true);
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('question_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
             $table->morphs('answerable');
-            $table->uuid('user_identifier')->unique();
+            $table->uuid('user_identifier');
             $table->unique(['poll_id', 'question_id', 'user_id', 'user_identifier']);
             $table->timestamps();
         });

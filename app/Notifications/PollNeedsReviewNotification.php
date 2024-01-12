@@ -44,7 +44,7 @@ class PollNeedsReviewNotification extends Notification
         return (new MailMessage)
             ->line('Hallo Admin,')
             ->line('Eine Umfrage braucht eine Überprüfung.')
-            ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.all-polls.edit', ['record' => $this->poll->getKey()])))
+            ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.all-polls.view', ['record' => $this->poll->getKey()])))
             ->line('Danke');
     }
 
