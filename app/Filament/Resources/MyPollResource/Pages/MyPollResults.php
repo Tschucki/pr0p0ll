@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\MyPollResource\Pages;
 
 use App\Filament\Resources\MyPollResource;
-use App\Filament\Widgets\NeedsDataReviewWidget;
+use App\Services\PollResultService;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
+use Filament\Widgets\Widget;
+use Filament\Widgets\WidgetConfiguration;
 
 class MyPollResults extends Page
 {
@@ -17,6 +19,8 @@ class MyPollResults extends Page
 
     protected static ?string $title = 'Ergebnisse';
 
+    protected array $widgets = [];
+
     public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
@@ -25,10 +29,31 @@ class MyPollResults extends Page
         abort_unless(static::getResource()::canView($this->getRecord()), 403);
     }
 
-    protected function getHeaderWidgets(): array
+    public function getWidgetData(): array
     {
         return [
-            NeedsDataReviewWidget::make(),
+            'poll' => $this->record,
         ];
+    }
+
+    public function getColumns(): int
+    {
+        return 2;
+    }
+
+    /**
+     * @return array<class-string<Widget> | WidgetConfiguration>
+     */
+    public function getWidgets(): array
+    {
+        return (new PollResultService($this->record))->getAllWidgets();
+    }
+
+    /**
+     * @return array<class-string<Widget> | WidgetConfiguration>
+     */
+    public function getVisibleWidgets(): array
+    {
+        return $this->filterVisibleWidgets($this->getWidgets());
     }
 }
