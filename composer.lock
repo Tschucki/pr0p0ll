@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da189e10468dceba793e41aa0ef28254",
+    "content-hash": "9e3888ceb554171764350440cd8e79cc",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -7632,6 +7632,135 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.2.7"
             },
             "time": "2023-12-08T13:03:43+00:00"
+        },
+        {
+            "name": "tschucki/laravel-notification-channel-pr0gramm",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Tschucki/pr0gramm-notification-channel.git",
+                "reference": "1cce7f4edd715994219a978730ca1b784c80eb04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Tschucki/pr0gramm-notification-channel/zipball/1cce7f4edd715994219a978730ca1b784c80eb04",
+                "reference": "1cce7f4edd715994219a978730ca1b784c80eb04",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/notifications": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+                "illuminate/support": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+                "php": ">=8.1",
+                "tschucki/laravel-pr0gramm-api": "1.0.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.46",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\Pr0gramm\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Wagner",
+                    "email": "info@marcelwagner.dev",
+                    "homepage": "https://www.marcelwagner.dev/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel notification driver for Pr0gramm.",
+            "keywords": [
+                "channel",
+                "driver",
+                "laravel",
+                "notification",
+                "pr0gramm"
+            ],
+            "support": {
+                "issues": "https://github.com/Tschucki/pr0gramm-notification-channel/issues",
+                "source": "https://github.com/Tschucki/pr0gramm-notification-channel/tree/v0.0.1"
+            },
+            "time": "2024-01-14T15:20:01+00:00"
+        },
+        {
+            "name": "tschucki/laravel-pr0gramm-api",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Tschucki/laravel-pr0gramm-api.git",
+                "reference": "8e5d098c65ee3f847081f03e8e37fe8b0e541972"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Tschucki/laravel-pr0gramm-api/zipball/8e5d098c65ee3f847081f03e8e37fe8b0e541972",
+                "reference": "8e5d098c65ee3f847081f03e8e37fe8b0e541972",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.14.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tschucki\\Pr0grammApi\\Pr0grammApiServiceProvider"
+                    ],
+                    "aliases": {
+                        "Pr0grammApi": "Tschucki\\Pr0grammApi\\Facades\\Pr0grammApi"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tschucki\\Pr0grammApi\\": "src/",
+                    "Tschucki\\Pr0grammApi\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Wagner",
+                    "email": "info@marcelwagner.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Use Pr0gramm API",
+            "homepage": "https://github.com/tschucki/laravel-pr0gramm-api",
+            "keywords": [
+                "Tschucki",
+                "laravel",
+                "laravel-pr0gramm-api"
+            ],
+            "support": {
+                "issues": "https://github.com/Tschucki/laravel-pr0gramm-api/issues",
+                "source": "https://github.com/Tschucki/laravel-pr0gramm-api/tree/v1.0.4"
+            },
+            "time": "2024-01-13T21:06:43+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

@@ -15,6 +15,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "socialiteproviders/pr0gramm": "^5.0",
+        "tschucki/laravel-notification-channel-pr0gramm": "^0.0.1",
         "yepsua/filament-rating-field": "^0.3.0"
     },
     "require-dev": {

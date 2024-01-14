@@ -80,4 +80,9 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     {
         $query->where('admin', true);
     }
+
+    public function getPr0grammName(): string
+    {
+        return $this->name;
+    }
 }

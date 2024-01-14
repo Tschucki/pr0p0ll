@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\Pr0gramm\Pr0grammChannel;
 
 // TODO: Add ShouldQueue
 class PollNeedsReviewNotification extends Notification
@@ -32,7 +33,7 @@ class PollNeedsReviewNotification extends Notification
     {
         return [
             'mail',
-            // TODO: Add Pr0gramm Channel
+            Pr0grammChannel::class
         ];
     }
 
@@ -46,6 +47,11 @@ class PollNeedsReviewNotification extends Notification
             ->line('Eine Umfrage braucht eine Überprüfung.')
             ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.all-polls.view', ['record' => $this->poll->getKey()])))
             ->line('Danke');
+    }
+
+    public function toPr0gramm($notifiable): string
+    {
+        return 'Hallo, es würde eine neue Umfrage zur Überprüfung eingereicht. Bitte überprüfen.';
     }
 
     /**
