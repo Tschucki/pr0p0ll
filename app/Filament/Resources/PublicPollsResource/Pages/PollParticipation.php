@@ -17,6 +17,7 @@ use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Filament\Support\Exceptions\Halt;
 use Filament\Support\Facades\FilamentView;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yepsua\Filament\Forms\Components\Rating;
@@ -80,10 +81,10 @@ class PollParticipation extends Page
                 Notification::make('error')->danger()->title('Das ist ja komisch')->body('Du hast mehr beantwortet, als es Fragen gibt...')->send();
                 throw new Halt('Du hast mehr beantwortet, als es Fragen gibt...');
             }
-            DB::transaction(function () use ($tempData, $uniqueUserIdentifier) {
-                collect(array_unique($tempData, SORT_REGULAR))->filter(fn($answer) => $answer !== null)->each(function ($answer, $key) use ($uniqueUserIdentifier) {
-                    $question = Question::find($key);
 
+            DB::transaction(function () use ($tempData, $uniqueUserIdentifier) {
+                collect($tempData)->filter(fn($answer) => $answer !== null)->each(function ($answer, $key) use ($uniqueUserIdentifier) {
+                    $question = Question::find($key);
                     if (!$question) {
                         Notification::make('error')->danger()->title('Fehler beim Speichern')->body("Die Frage mit der ID ${key} konnte nicht gefunden werden.")->send();
                         DB::rollBack();
@@ -120,9 +121,9 @@ class PollParticipation extends Page
                 });
                 DB::commit();
             });
-            $this->getPoll()->participants()->attach(\Auth::id(), [
+            /*$this->getPoll()->participants()->attach(Auth::id(), [
                 'rating' => (int)$data['rating'],
-            ]);
+            ]);*/
             $this->callHook('afterSave');
         } catch (Halt $exception) {
             return;

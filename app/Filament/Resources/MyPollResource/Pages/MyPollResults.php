@@ -38,7 +38,7 @@ class MyPollResults extends Page
 
     public function getColumns(): int
     {
-        return 2;
+        return 1;
     }
 
     /**

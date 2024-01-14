@@ -75,7 +75,7 @@ class PollFormService
             QuestionType::SINGLE->value => Radio::make($question->getKey()),
             QuestionType::MULTIPLE->value => CheckboxList::make($question->getKey()),
             QuestionType::TEXT->value => Textarea::make($question->getKey())->hint('Nicht anonym - Max. 255 Zeichen')->maxLength(255),
-            QuestionType::TOGGLE->value => Toggle::make($question->getKey())->inline(false),
+            QuestionType::TOGGLE->value => Toggle::make($question->getKey())->default(false)->inline(false),
             QuestionType::DATE->value => DatePicker::make($question->getKey()),
             QuestionType::TIME->value => DateTimePicker::make($question->getKey())->seconds(false)->date(false)->time()->displayFormat('HH:mm'),
             QuestionType::DATETIME->value => DateTimePicker::make($question->getKey())->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
