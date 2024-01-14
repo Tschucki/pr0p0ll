@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PublicPollsResource\Pages;
 
 use App\Filament\Resources\PublicPollsResource;
+use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\Polls\PublicPoll;
 use App\Models\Question;
 use App\Services\PollFormService;
@@ -17,8 +18,8 @@ use Filament\Resources\Pages\Page;
 use Filament\Support\Exceptions\Halt;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Yepsua\Filament\Forms\Components\Rating;
-
 use function Filament\Support\is_app_url;
 
 /**
@@ -41,7 +42,7 @@ class PollParticipation extends Page
 
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
-        return 'An '.'"'.$this->record->title.'"'.' teilnehmen';
+        return 'An ' . '"' . $this->record->title . '"' . ' teilnehmen';
     }
 
     public function mount(int|string $record): void
@@ -63,8 +64,8 @@ class PollParticipation extends Page
 
             $data = $this->form->getState();
 
-            $uniqueUserIdentifier = \Str::uuid()->toString();
-            $tempData = array_unique($data);
+            $uniqueUserIdentifier = Str::uuid()->toString();
+            $tempData = $this->uniqueKeysArray($data);
             unset($tempData['rating']);
             $questionKeys = collect(array_keys($tempData));
             /**
@@ -75,36 +76,52 @@ class PollParticipation extends Page
 
             $areAllIdsInCurrentPoll = $questionKeys->diff($currentPollQuestions)->isEmpty();
 
-            if (! $areAllIdsInCurrentPoll) {
+            if (!$areAllIdsInCurrentPoll) {
                 Notification::make('error')->danger()->title('Das ist ja komisch')->body('Du hast mehr beantwortet, als es Fragen gibt...')->send();
                 throw new Halt('Du hast mehr beantwortet, als es Fragen gibt...');
             }
             DB::transaction(function () use ($tempData, $uniqueUserIdentifier) {
-                collect(array_unique($tempData))->each(function ($answer, $key) use ($uniqueUserIdentifier) {
+                collect(array_unique($tempData, SORT_REGULAR))->filter(fn($answer) => $answer !== null)->each(function ($answer, $key) use ($uniqueUserIdentifier) {
                     $question = Question::find($key);
 
-                    if (! $question) {
+                    if (!$question) {
                         Notification::make('error')->danger()->title('Fehler beim Speichern')->body("Die Frage mit der ID ${key} konnte nicht gefunden werden.")->send();
                         DB::rollBack();
                         throw new Halt("Die Frage mit der ID ${key} konnte nicht gefunden werden.");
                     }
 
-                    $answerType = $question->answerType()->create([
-                        'answer_value' => $answer,
-                    ]);
+                    // If answer is array and the answertype is MultipleChoiceAnswer then we need to create multiple answers
 
-                    $question->answers()->create([
-                        'answerable_id' => $answerType->id,
-                        'answerable_type' => get_class($answerType),
-                        'user_id' => null,
-                        'poll_id' => $this->getPoll()->getKey(),
-                        'user_identifier' => $uniqueUserIdentifier,
-                    ]);
+                    if (is_array($answer) && $question->answerType() instanceof MultipleChoiceAnswer) {
+                        collect($answer)->each(function ($answer) use ($question, $uniqueUserIdentifier) {
+                            $answerType = $question->answerType()->create([
+                                'answer_value' => $answer,
+                            ]);
+                            $question->answers()->create([
+                                'answerable_id' => $answerType->id,
+                                'answerable_type' => get_class($answerType),
+                                'user_id' => null,
+                                'poll_id' => $this->getPoll()->getKey(),
+                                'user_identifier' => $uniqueUserIdentifier,
+                            ]);
+                        });
+                    } else {
+                        $answerType = $question->answerType()->create([
+                            'answer_value' => $answer,
+                        ]);
+                        $question->answers()->create([
+                            'answerable_id' => $answerType->id,
+                            'answerable_type' => get_class($answerType),
+                            'user_id' => null,
+                            'poll_id' => $this->getPoll()->getKey(),
+                            'user_identifier' => $uniqueUserIdentifier,
+                        ]);
+                    }
                 });
                 DB::commit();
             });
             $this->getPoll()->participants()->attach(\Auth::id(), [
-                'rating' => (int) $data['rating'],
+                'rating' => (int)$data['rating'],
             ]);
             $this->callHook('afterSave');
         } catch (Halt $exception) {
@@ -185,5 +202,17 @@ class PollParticipation extends Page
         static::authorizeResourceAccess();
 
         abort_unless(static::getResource()::canView($this->getRecord()), 403);
+    }
+
+    private function uniqueKeysArray($array): array
+    {
+        $uniqueKeysArray = array_unique(array_keys($array));
+
+        $resultArray = [];
+        foreach ($uniqueKeysArray as $key) {
+            $resultArray[$key] = $array[$key];
+        }
+
+        return $resultArray;
     }
 }
