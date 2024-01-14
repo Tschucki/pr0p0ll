@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yepsua\Filament\Forms\Components\Rating;
+
 use function Filament\Support\is_app_url;
 
 /**
@@ -43,7 +44,7 @@ class PollParticipation extends Page
 
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
-        return 'An ' . '"' . $this->record->title . '"' . ' teilnehmen';
+        return 'An '.'"'.$this->record->title.'"'.' teilnehmen';
     }
 
     public function mount(int|string $record): void
@@ -77,15 +78,15 @@ class PollParticipation extends Page
 
             $areAllIdsInCurrentPoll = $questionKeys->diff($currentPollQuestions)->isEmpty();
 
-            if (!$areAllIdsInCurrentPoll) {
+            if (! $areAllIdsInCurrentPoll) {
                 Notification::make('error')->danger()->title('Das ist ja komisch')->body('Du hast mehr beantwortet, als es Fragen gibt...')->send();
                 throw new Halt('Du hast mehr beantwortet, als es Fragen gibt...');
             }
 
             DB::transaction(function () use ($tempData, $uniqueUserIdentifier) {
-                collect($tempData)->filter(fn($answer) => $answer !== null)->each(function ($answer, $key) use ($uniqueUserIdentifier) {
+                collect($tempData)->filter(fn ($answer) => $answer !== null)->each(function ($answer, $key) use ($uniqueUserIdentifier) {
                     $question = Question::find($key);
-                    if (!$question) {
+                    if (! $question) {
                         Notification::make('error')->danger()->title('Fehler beim Speichern')->body("Die Frage mit der ID ${key} konnte nicht gefunden werden.")->send();
                         DB::rollBack();
                         throw new Halt("Die Frage mit der ID ${key} konnte nicht gefunden werden.");

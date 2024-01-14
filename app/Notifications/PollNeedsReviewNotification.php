@@ -33,7 +33,7 @@ class PollNeedsReviewNotification extends Notification
     {
         return [
             'mail',
-            Pr0grammChannel::class
+            Pr0grammChannel::class,
         ];
     }
 

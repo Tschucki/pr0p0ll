@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Filament\Resources\MyPollResource\Widgets\AnswerChart;
-use App\Filament\Resources\MyPollResource\Widgets\BooleanAnswerChart;
-use App\Filament\Resources\MyPollResource\Widgets\SingleOptionAnswerChart;
 use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
@@ -35,6 +33,7 @@ class PollResultService
     private function createResultWidget(Question $question): ?WidgetConfiguration
     {
         $answerType = $question->answerType();
+
         return match (true) {
             $answerType instanceof SingleOptionAnswer, $answerType instanceof MultipleChoiceAnswer => $this->getBarChartWidget($question),
             $answerType instanceof BoolAnswer => $this->getBooleanChartWidget($question),
@@ -65,7 +64,7 @@ class PollResultService
                 ],
                 'description' => 'Test',
                 'labels' => ['Ja', 'Nein'],
-                'options' => $this->getChartOptions()
+                'options' => $this->getChartOptions(),
             ],
         ];
 
@@ -92,7 +91,7 @@ class PollResultService
                 ],
             ],
             'labels' => $options->toArray(),
-            'options' => $this->getChartOptions()
+            'options' => $this->getChartOptions(),
         ];
 
         return AnswerChart::make(['answerData' => $answerData]);
@@ -107,6 +106,7 @@ class PollResultService
             })->count();
             $optionsAnswerCounts[$option] = $optionAnswerCount;
         });
+
         return $optionsAnswerCounts;
     }
 
