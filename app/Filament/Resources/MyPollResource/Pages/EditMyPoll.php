@@ -26,7 +26,7 @@ class EditMyPoll extends EditRecord
         collect($questions)->filter(fn (array $question) => isset($question['id']))->each(function (array $question) {
             Question::where('id', $question['id'])->update([
                 'title' => $question['data']['title'],
-                'hint' => $question['data']['hint'],
+                'description' => $question['data']['description'],
                 'question_type_id' => $question['data']['question_type_id'],
                 'options' => collect($question['data']['options'])->filter(function ($option) {
                     return $option['title'] !== null;
@@ -43,7 +43,7 @@ class EditMyPoll extends EditRecord
             Question::create([
                 'poll_id' => $record->getKey(),
                 'title' => $question['data']['title'],
-                'hint' => $question['data']['hint'],
+                'description' => $question['data']['description'],
                 'question_type_id' => $question['data']['question_type_id'],
                 'options' => collect($question['data']['options'])->filter(function ($option) {
                     return $option['title'] !== null;

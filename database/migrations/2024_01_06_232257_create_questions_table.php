@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('question_type_id')->constrained('question_types')->cascadeOnDelete()->cascadeOnUpdate();
             $table->json('options')->nullable();
 
-            $table->text('hint')->nullable();
+            $table->text('description')->nullable();
             $table->integer('position')->default(1);
             $table->timestamps();
         });

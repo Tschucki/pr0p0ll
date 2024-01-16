@@ -79,7 +79,7 @@ class MyPollResource extends Resource
                                         Components\Hidden::make('question_type_id')->default($questionType->getKey()),
                                         Components\Hidden::make('uuid')->default(\Str::uuid()->toString()),
                                         TextInput::make('title')->label('Titel')->maxLength(255)->required()->live(),
-                                        Textarea::make('hint')->label('Hilfe für Nutzer')->nullable(),
+                                        Textarea::make('description')->label('Beschreibung')->nullable(),
                                         Components\Repeater::make('options')->label('Auswahlmöglichkeiten')->schema([
                                             TextInput::make('title')->required()->label('Titel')->maxLength(255),
                                             TextInput::make('helperText')->nullable()->label('Hilfetext')->maxLength(255),
@@ -137,7 +137,7 @@ class MyPollResource extends Resource
                 TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (MyPoll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
                 RepeatableEntry::make('questions')->label('Fragen')->schema([
                     TextEntry::make('title')->label('Frage'),
-                    TextEntry::make('hint')->visible(fn (Question $question) => $question->hint)->label('Hilfe für Nutzer'),
+                    TextEntry::make('description')->visible(fn (Question $question) => $question->description)->label('Beschreibung'),
                     TextEntry::make('questionType.title')->label('Typ'),
                 ])->columnSpanFull(),
                 /*Section::make('Statistiken')->schema([

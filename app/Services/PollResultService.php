@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Filament\Resources\MyPollResource\Widgets\AnswerChart;
+use App\Filament\Resources\MyPollResource\Widgets\ApexAnswerChart;
 use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
@@ -51,24 +51,27 @@ class PollResultService
         })->count();
 
         $answerData = [
-            'type' => 'pie',
             'heading' => $question->title,
-            'chartData' => [
-                'datasets' => [
-                    [
-                        'label' => 'Antworten',
-                        'data' => [$trueAnswersCount, $falseAnswerCounts],
-                        'backgroundColor' => '#ee4d2e',
-                        'borderColor' => '#fff',
+            'chartId' => 'chart-' . $question->id,
+            'chartOptions' => [
+                'chart' => [
+                    'type' => 'pie',
+                    'height' => 450,
+                ],
+                'series' => [$trueAnswersCount, $falseAnswerCounts],
+                'labels' => ['Ja', 'Nein'],
+                'legend' => [
+                    'labels' => [
+                        'colors' => '#f2f5f4',
+                        'fontWeight' => 600,
+                        'fontFamily' => 'Inter'
                     ],
                 ],
-                'description' => 'Test',
-                'labels' => ['Ja', 'Nein'],
-                'options' => $this->getChartOptions(),
-            ],
+                'colors' => ['#5cb85c', '#ee4d2e'],
+            ]
         ];
 
-        return AnswerChart::make(['answerData' => $answerData]);
+        return ApexAnswerChart::make(['answerData' => $answerData]);
     }
 
     private function getBarChartWidget(Question $question): WidgetConfiguration
@@ -78,67 +81,67 @@ class PollResultService
         });
 
         $answerData = [
-            'type' => 'bar',
             'heading' => $question->title,
-            'chartData' => [
-                'datasets' => [
+            'chartId' => 'chart-' . $question->id,
+            'chartOptions' => [
+
+                'chart' => [
+                    'type' => 'bar',
+                    'height' => 450,
+                    'toolbar' => [
+                        'show' => false,
+                    ],
+
+                ],
+                'series' => [
                     [
-                        'label' => 'Antworten',
-                        'data' => $this->getOptionsAnswerCounts($question, $options, get_class($question->answerType())),
-                        'backgroundColor' => '#ee4d2e',
-                        'borderColor' => '#ee4d2e',
+                        'name' => 'Antworten',
+                        'data' => $this->getOptionsAnswerCounts($question, $options, get_class($question->answerType()))->values()->toArray(),
                     ],
                 ],
-            ],
-            'labels' => $options->toArray(),
-            'options' => $this->getChartOptions(),
+                'grid' => [
+                    'yaxis' => [
+                        'lines' => [
+                            'show' => false,
+                        ],
+                    ]
+                ],
+                'xaxis' => [
+                    'categories' => $options->toArray(),
+                    'labels' => [
+                        'style' => [
+                            'colors' => '#f2f5f4',
+                            'fontWeight' => 600,
+                            'fontFamily' => 'Inter'
+                        ],
+                    ],
+                ],
+                'yaxis' => [
+                    'labels' => [
+                        'style' => [
+                            'colors' => '#f2f5f4',
+                            'fontWeight' => 600,
+                            'fontFamily' => 'Inter'
+                        ],
+                    ],
+                ],
+                'colors' => ['#ee4d2e'],
+            ]
         ];
 
-        return AnswerChart::make(['answerData' => $answerData]);
+        return ApexAnswerChart::make(['answerData' => $answerData]);
     }
 
-    private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): array
+    private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection
     {
         $optionsAnswerCounts = [];
         $options->each(function ($option) use ($question, &$optionsAnswerCounts, $answerType) {
-            $optionAnswerCount = $question->answers()->whereHasMorph('answerable', $answerType, function ($query) use ($option, &$optionsAnswerCounts) {
+            $optionAnswerCount = $question->answers()->whereHasMorph('answerable', $answerType, function ($query) use ($option) {
                 $query->where('answer_value', $option);
             })->count();
             $optionsAnswerCounts[$option] = $optionAnswerCount;
         });
 
-        return $optionsAnswerCounts;
-    }
-
-    private function getChartOptions(): array
-    {
-        return [
-            'plugins' => [
-                'labels' => [
-                    'precision' => 2,
-                ],
-            ],
-            'legend' => [
-                'labels' => [
-                    'color' => '#fff',
-
-                ],
-                'title' => 'Test',
-            ],
-            'scales' => [
-                'x' => [
-                    'grid' => [
-                        'display' => false,
-                    ],
-                ],
-                'y' => [
-                    'grid' => [
-                        'display' => true,
-                    ],
-                ],
-            ],
-            'maintainAspectRatio' => true,
-            'responsive' => true,
-        ];
+        return collect($optionsAnswerCounts);
     }
 }

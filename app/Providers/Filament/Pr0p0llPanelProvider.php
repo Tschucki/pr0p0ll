@@ -18,6 +18,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class Pr0p0llPanelProvider extends PanelProvider
 {
@@ -41,6 +42,7 @@ class Pr0p0llPanelProvider extends PanelProvider
             ->widgets([
                 NeedsDataReviewWidget::class,
             ])
+            ->plugins([FilamentApexChartsPlugin::make()])
             ->profile(UpdateUserData::class)
             ->middleware([
                 EncryptCookies::class,

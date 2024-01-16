@@ -61,7 +61,7 @@ abstract class Poll extends Model
                 'data' => [
                     'question_type_id' => $type->getKey(),
                     'title' => $question->title,
-                    'hint' => $question->hint,
+                    'description' => $question->description,
                     'options' => $question->options,
                 ],
             ];

@@ -33,7 +33,7 @@ class Question extends Model
 
     public function poll(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(MyPoll::class, 'poll_id');
+        return $this->belongsTo(MyPoll::class, 'poll_id', 'id');
     }
 
     public function hasOptions(): bool

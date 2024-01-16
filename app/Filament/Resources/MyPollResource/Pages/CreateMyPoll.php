@@ -28,7 +28,7 @@ class CreateMyPoll extends CreateRecord
         $questions = collect($questions)->map(function (array $question) {
             return [
                 'title' => $question['data']['title'],
-                'hint' => $question['data']['hint'],
+                'description' => $question['data']['description'],
                 'question_type_id' => $question['data']['question_type_id'],
                 'options' => collect($question['data']['options'])->filter(function ($option) {
                     return $option['title'] !== null;
@@ -44,7 +44,7 @@ class CreateMyPoll extends CreateRecord
         try {
             $validatedQuestions = \Illuminate\Support\Facades\Validator::make($questions->toArray(), [
                 '*.title' => 'required|string',
-                '*.hint' => 'nullable|string',
+                '*.description' => 'nullable|string',
                 '*.question_type_id' => 'required|exists:question_types,id',
                 '*.options' => 'array|present',
                 '*.options.*.title' => 'required',

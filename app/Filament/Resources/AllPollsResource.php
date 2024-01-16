@@ -64,7 +64,7 @@ class AllPollsResource extends Resource
                 TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (Poll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
                 RepeatableEntry::make('questions')->label('Fragen')->schema([
                     TextEntry::make('title')->label('Frage'),
-                    TextEntry::make('hint')->visible(fn (Question $question) => $question->hint)->label('Hilfe für Nutzer'),
+                    TextEntry::make('description')->visible(fn (Question $question) => $question->description)->label('Beschreibung'),
                     TextEntry::make('questionType.title')->label('Typ'),
                 ])->columnSpanFull(),
             ])->columns([

@@ -36,7 +36,7 @@ class PollFormService
                 'data' => [
                     'question_type_id' => $type->getKey(),
                     'title' => $question->title,
-                    'hint' => $question->hint,
+                    'description' => $question->description,
                     'options' => $question->options,
                 ],
             ];
@@ -56,7 +56,7 @@ class PollFormService
     private function createField(Question $question): Field
     {
         $component = $this->getComponent($question->questionType, $question);
-        $component = $component->helperText($question->hint)->label($question->title);
+        $component = $component->helperText($question->description)->label($question->title);
         if ($question->questionType->hasOptions()) {
             $component->options($this->getOptions($question))->descriptions($this->getOptionsDescriptions($question));
         }
