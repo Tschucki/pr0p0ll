@@ -4,6 +4,7 @@ namespace App\Filament\Resources\PublicPollsResource\Pages;
 
 use App\Filament\Resources\PublicPollsResource;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
+use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Polls\PublicPoll;
 use App\Models\Question;
 use App\Services\PollFormService;
@@ -108,13 +109,18 @@ class PollParticipation extends Page
                             ]);
                         });
                     } else {
+                        $user = null;
+                        if($question->answerType() instanceof TextAnswer) {
+                            $user = Auth::id();
+                        }
+
                         $answerType = $question->answerType()->create([
                             'answer_value' => $answer,
                         ]);
                         $question->answers()->create([
                             'answerable_id' => $answerType->id,
                             'answerable_type' => get_class($answerType),
-                            'user_id' => null,
+                            'user_id' => $user,
                             'poll_id' => $this->getPoll()->getKey(),
                             'user_identifier' => $uniqueUserIdentifier,
                         ]);

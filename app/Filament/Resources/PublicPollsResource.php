@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PublicPollsResource\Pages;
+use App\Models\Category;
 use App\Models\Polls\PublicPoll;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -39,11 +40,14 @@ class PublicPollsResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('description')->label('Beschreibung')->hidden()->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('category.title')->label('Kategorie')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->visible(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous)->searchable()->sortable(),
-                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->searchable()->boolean()->sortable()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
+                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->sortable()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
             ])
             ->filters([
-                //
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('category.title')->label('Kategorie')
             ])
             ->actions([
                 Tables\Actions\Action::make('participate')

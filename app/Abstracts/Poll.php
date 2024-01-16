@@ -3,9 +3,11 @@
 namespace App\Abstracts;
 
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 abstract class Poll extends Model
 {
@@ -57,7 +59,7 @@ abstract class Poll extends Model
 
             return [
                 'id' => $question->getKey(),
-                'type' => (string) ($type->getKey()),
+                'type' => (string)($type->getKey()),
                 'data' => [
                     'question_type_id' => $type->getKey(),
                     'title' => $question->title,
@@ -70,17 +72,25 @@ abstract class Poll extends Model
 
     public function isInReview(): bool
     {
-        return (bool) $this->in_review;
+        return (bool)$this->in_review;
     }
 
     public function isApproved(): bool
     {
-        return (bool) $this->approved;
+        return (bool)$this->approved;
     }
 
     public function isVisibleForPublic(): bool
     {
-        return $this->isApproved() && ! $this->isInReview() && $this->visible_to_public;
+        return $this->isApproved() && !$this->isInReview() && $this->visible_to_public;
+    }
+
+    public function resultsArePublic(): bool
+    {
+        if ($this->published_at !== null) {
+            return Carbon::make($this->published_at)?->add($this->close_after)->isPast();
+        }
+        return false;
     }
 
     public function approve(): void
@@ -113,5 +123,10 @@ abstract class Poll extends Model
             'published_at' => null,
             'admin_notes' => $reason,
         ]);
+    }
+
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
