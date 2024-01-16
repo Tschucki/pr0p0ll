@@ -15,6 +15,7 @@ enum Nationality: string implements HasLabel
     case DNK = 'denmark';
     case NLD = 'netherlands';
     case CZE = 'cz';
+    case OTHER = 'other';
 
     public function getLabel(): ?string
     {
@@ -28,6 +29,7 @@ enum Nationality: string implements HasLabel
             self::DNK => 'Dänemark',
             self::NLD => 'Niederlande',
             self::CZE => 'Tschechien',
+            self::OTHER => 'Anderes Land',
         };
     }
 }

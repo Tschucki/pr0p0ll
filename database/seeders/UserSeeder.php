@@ -23,5 +23,7 @@ class UserSeeder extends Seeder
             'password' => \Hash::make('password'),
             'pr0gramm_identifier' => 'admin',
         ]);
+
+        User::factory()->count(300)->create();
     }
 }

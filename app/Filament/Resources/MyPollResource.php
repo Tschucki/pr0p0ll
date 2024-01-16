@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ClosesAfter;
+use App\Enums\Gender;
+use App\Enums\Nationality;
 use App\Filament\Resources\MyPollResource\Pages\CreateMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\EditMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\ListMyPolls;
@@ -12,6 +14,7 @@ use App\Models\Category;
 use App\Models\Polls\MyPoll;
 use App\Models\Question;
 use App\Models\QuestionType;
+use App\Services\TargetGroupService;
 use Filament\Forms;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Builder\Block;
@@ -64,6 +67,27 @@ class MyPollResource extends Resource
                             'undo',
                         ])->label('Beschreibung')->required(),
                         Select::make('closes_after')->label('Ende der Umfrage')->hint('Nachdem die Umfrage genehmigt wurde')->options(ClosesAfter::class)->default('+3 weeks')->required()->helperText('Es wird dir nicht möglich sein, die Umfrage frühzeitig zu beenden.'),
+                    ]),
+                    Components\Tabs\Tab::make('Zielgruppe')->schema([
+                        Components\Fieldset::make('target_group_count')->label('Potentielle Teilnehmerzahl')
+                            ->schema([Components\Placeholder::make('participants_count')->label('')->content(function (Forms\Get $get) {
+                                return TargetGroupService::calculateTargetGroupFromBuilder($get('target_group')) . ' Teilnehmer';
+                            })]),
+                        Components\Placeholder::make('target_group_info1')->label('')->content("Hier kannst du die Zielgruppe definieren, die an der Umfrage teilnehmen darf.")->columnSpanFull(),
+                        Components\Builder::make('target_group')->label('Zielgruppen Builder')->blocks([
+                            Block::make('gender')->label('Geschlecht')->schema([
+                                Select::make('gender')->label('')->options(Gender::class)->native(false)
+                            ])->reactive()->maxItems(1)->reactive()->icon('icon-gender')->label('Geschlecht'),
+                            Block::make('min_age')->label('Mindestalter')->schema([
+                                TextInput::make('min_age')->label('')->type('number')->default(0)->minValue(0)->maxValue(99)->required()->default(0),
+                            ])->maxItems(1)->reactive()->icon('icon-crib')->label('Mindestalter'),
+                            Block::make('max_age')->label('Mindestalter')->schema([
+                                TextInput::make('max_age')->label('')->type('number')->default(0)->minValue(0)->maxValue(99)->required()->default(0),
+                            ])->maxItems(1)->reactive()->icon('icon-elderly-woman')->label('Höchstalter'),
+                            Block::make('nationality')->label('Nationalität')->schema([
+                                Select::make('nationality')->multiple()->label('')->options(Nationality::class)->native(false)
+                            ])->maxItems(1)->reactive()->icon('heroicon-o-flag')->label('Nationalität'),
+                        ])->blockNumbers(false)->reactive()->reorderable(false)
                     ]),
                     Components\Tabs\Tab::make('Fragen')->schema([
                         Forms\Components\Builder::make('questions')->afterStateHydrated(function (Components\Builder $component) use ($form) {

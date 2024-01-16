@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->dateTime('published_at')->nullable();
             $table->text('admin_notes')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete()->cascadeOnUpdate();
+            $table->json('target_group')->nullable();
             $table->timestamps();
         });
     }

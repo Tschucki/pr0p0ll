@@ -21,6 +21,7 @@ abstract class Poll extends Model
         'in_review' => 'boolean',
         'approved' => 'boolean',
         'not_anonymous' => 'boolean',
+        'target_group' => 'array',
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
