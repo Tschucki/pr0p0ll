@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Abstracts\Poll;
 use App\Models\Polls\PublicPoll;
 use Illuminate\Database\Eloquent\Model;
 

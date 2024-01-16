@@ -110,7 +110,7 @@ class PollParticipation extends Page
                         });
                     } else {
                         $user = null;
-                        if($question->answerType() instanceof TextAnswer) {
+                        if ($question->answerType() instanceof TextAnswer) {
                             $user = Auth::id();
                         }
 

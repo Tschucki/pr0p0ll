@@ -16,20 +16,20 @@ class TargetGroupService
         $maxAge = null;
         $region = [];
 
-        collect($builderData)->each(function (array $field) use(&$gender, &$nationality, &$minAge, &$maxAge, &$region) {
-            if($field['type'] === 'gender') {
+        collect($builderData)->each(function (array $field) use (&$gender, &$nationality, &$minAge, &$maxAge, &$region) {
+            if ($field['type'] === 'gender') {
                 $gender = $field['data']['gender'];
             }
-            if($field['type'] === 'nationality') {
+            if ($field['type'] === 'nationality') {
                 $nationality = $field['data']['nationality'];
             }
-            if($field['type'] === 'min_age') {
+            if ($field['type'] === 'min_age') {
                 $minAge = $field['data']['min_age'];
             }
-            if($field['type'] === 'max_age') {
+            if ($field['type'] === 'max_age') {
                 $maxAge = $field['data']['max_age'];
             }
-            if($field['type'] === 'region') {
+            if ($field['type'] === 'region') {
                 $region = $field['data']['region'];
             }
         });
@@ -38,10 +38,10 @@ class TargetGroupService
 
         $query
             ->when($gender, fn (Builder $query) => $query->where('gender', $gender))
-            ->when($nationality, fn(Builder $query) => $query->whereIn('nationality', $nationality))
-            ->when($minAge, fn(Builder $query) => $query->whereDate('birthday', '<=', Carbon::now()->subYears($minAge)))
-            ->when($maxAge, fn(Builder $query) => $query->whereDate('birthday', '>', Carbon::now()->subYears($maxAge)))
-            ->when($region, fn(Builder $query) => $query->whereIn('region', $region));
+            ->when($nationality, fn (Builder $query) => $query->whereIn('nationality', $nationality))
+            ->when($minAge, fn (Builder $query) => $query->whereDate('birthday', '<=', Carbon::now()->subYears($minAge)))
+            ->when($maxAge, fn (Builder $query) => $query->whereDate('birthday', '>', Carbon::now()->subYears($maxAge)))
+            ->when($region, fn (Builder $query) => $query->whereIn('region', $region));
 
         return $query->count();
     }

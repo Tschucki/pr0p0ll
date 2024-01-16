@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\MyPollResource\Widgets;
 
-use Illuminate\Support\Facades\Hash;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class ApexAnswerChart extends ApexChartWidget
@@ -17,6 +16,7 @@ class ApexAnswerChart extends ApexChartWidget
     {
         self::$heading = $this->answerData['heading'];
         self::$chartId = $this->answerData['chartId'];
+
         return $this->answerData['chartOptions'];
     }
 }

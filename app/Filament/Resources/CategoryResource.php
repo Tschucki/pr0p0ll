@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,8 +13,11 @@ use Filament\Tables\Table;
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
+
     protected static ?string $pluralLabel = 'Kategorien';
+
     protected static ?string $label = 'Kategorie';
+
     protected static ?string $navigationGroup = 'Administration';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

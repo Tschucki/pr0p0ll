@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PublicPollsResource\Pages;
-use App\Models\Category;
 use App\Models\Polls\PublicPoll;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -47,7 +46,7 @@ class PublicPollsResource extends Resource
             ->filters([
             ])
             ->groups([
-                Tables\Grouping\Group::make('category.title')->label('Kategorie')
+                Tables\Grouping\Group::make('category.title')->label('Kategorie'),
             ])
             ->actions([
                 Tables\Actions\Action::make('participate')

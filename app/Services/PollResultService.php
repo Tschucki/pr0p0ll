@@ -52,7 +52,7 @@ class PollResultService
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'chartOptions' => [
                 'chart' => [
                     'type' => 'pie',
@@ -64,11 +64,11 @@ class PollResultService
                     'labels' => [
                         'colors' => '#f2f5f4',
                         'fontWeight' => 600,
-                        'fontFamily' => 'Inter'
+                        'fontFamily' => 'Inter',
                     ],
                 ],
                 'colors' => ['#5cb85c', '#ee4d2e'],
-            ]
+            ],
         ];
 
         return ApexAnswerChart::make(['answerData' => $answerData]);
@@ -82,7 +82,7 @@ class PollResultService
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'chartOptions' => [
 
                 'chart' => [
@@ -104,7 +104,7 @@ class PollResultService
                         'lines' => [
                             'show' => false,
                         ],
-                    ]
+                    ],
                 ],
                 'xaxis' => [
                     'categories' => $options->toArray(),
@@ -112,7 +112,7 @@ class PollResultService
                         'style' => [
                             'colors' => '#f2f5f4',
                             'fontWeight' => 600,
-                            'fontFamily' => 'Inter'
+                            'fontFamily' => 'Inter',
                         ],
                     ],
                 ],
@@ -121,12 +121,12 @@ class PollResultService
                         'style' => [
                             'colors' => '#f2f5f4',
                             'fontWeight' => 600,
-                            'fontFamily' => 'Inter'
+                            'fontFamily' => 'Inter',
                         ],
                     ],
                 ],
                 'colors' => ['#ee4d2e'],
-            ]
+            ],
         ];
 
         return ApexAnswerChart::make(['answerData' => $answerData]);

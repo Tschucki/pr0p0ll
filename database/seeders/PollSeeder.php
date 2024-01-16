@@ -22,7 +22,6 @@ class PollSeeder extends Seeder
             return;
         }
 
-
         foreach (range(1, 1) as $poll) {
             $myPoll = MyPoll::create([
                 'title' => 'My Poll',
@@ -107,7 +106,7 @@ class PollSeeder extends Seeder
         foreach (range(1, 500) as $i) {
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
-                    'answer_value' => 'Option ' . random_int(1, 3),
+                    'answer_value' => 'Option '.random_int(1, 3),
                 ])->getKey(),
                 'answerable_type' => get_class($question->answerType()),
                 'user_id' => null,
@@ -124,7 +123,7 @@ class PollSeeder extends Seeder
         foreach (range(1, 500) as $i) {
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
-                    'answer_value' => 'Option ' . random_int(1, 3),
+                    'answer_value' => 'Option '.random_int(1, 3),
                 ])->getKey(),
                 'answerable_type' => get_class($question->answerType()),
                 'user_id' => null,
