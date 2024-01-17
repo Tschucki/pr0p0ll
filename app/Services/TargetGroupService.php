@@ -8,7 +8,34 @@ use Illuminate\Database\Eloquent\Builder;
 
 class TargetGroupService
 {
-    public static function calculateTargetGroupFromBuilder(array $builderData): int
+    public static function calculateTargetGroupFromBuilder(array $aBuilderData): int
+    {
+        $aTargetGroupData = self::builderDataToArray($aBuilderData);
+
+        return self::baseQuery($aTargetGroupData)->count();
+    }
+
+    public static function userIsWithinTargetGroup(array $aBuilderData, User $user): bool
+    {
+        $aTargetGroupData = self::builderDataToArray($aBuilderData);
+        return self::baseQuery($aTargetGroupData)->where('id', $user->getKey())->exists();
+    }
+
+    private static function baseQuery(array $aTargetGroupData): Builder
+    {
+        $query = User::query();
+
+        $query
+            ->when($aTargetGroupData['gender'], fn(Builder $query) => $query->where('gender', $aTargetGroupData['gender']))
+            ->when($aTargetGroupData['nationality'], fn(Builder $query) => $query->whereIn('nationality', $aTargetGroupData['nationality']))
+            ->when($aTargetGroupData['minAge'], fn(Builder $query) => $query->whereDate('birthday', '<=', Carbon::now()->subYears($aTargetGroupData['minAge'])))
+            ->when($aTargetGroupData['maxAge'], fn(Builder $query) => $query->whereDate('birthday', '>', Carbon::now()->subYears($aTargetGroupData['maxAge'])))
+            ->when($aTargetGroupData['region'], fn(Builder $query) => $query->whereIn('region', $aTargetGroupData['region']));
+
+        return $query;
+    }
+
+    private static function builderDataToArray(array $builderData): array
     {
         $gender = null;
         $nationality = [];
@@ -34,15 +61,12 @@ class TargetGroupService
             }
         });
 
-        $query = User::query();
-
-        $query
-            ->when($gender, fn (Builder $query) => $query->where('gender', $gender))
-            ->when($nationality, fn (Builder $query) => $query->whereIn('nationality', $nationality))
-            ->when($minAge, fn (Builder $query) => $query->whereDate('birthday', '<=', Carbon::now()->subYears($minAge)))
-            ->when($maxAge, fn (Builder $query) => $query->whereDate('birthday', '>', Carbon::now()->subYears($maxAge)))
-            ->when($region, fn (Builder $query) => $query->whereIn('region', $region));
-
-        return $query->count();
+        return [
+            'gender' => $gender,
+            'nationality' => $nationality,
+            'minAge' => $minAge,
+            'maxAge' => $maxAge,
+            'region' => $region,
+        ];
     }
 }

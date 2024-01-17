@@ -41,7 +41,8 @@ class PublicPollsResource extends Resource
                 Tables\Columns\TextColumn::make('description')->label('Beschreibung')->hidden()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('category.title')->label('Kategorie')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->visible(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous)->searchable()->sortable(),
-                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->sortable()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
+                Tables\Columns\IconColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user())),
+                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
             ])
             ->filters([
             ])
@@ -54,7 +55,7 @@ class PublicPollsResource extends Resource
                     ->button()
                     ->label('Teilnehmen')
                     ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
-                    ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
+                    ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || !$publicPoll->userIsWithinTargetGroup(\Auth::user())),
             ])
             ->bulkActions([])
             ->query(PublicPoll::query()

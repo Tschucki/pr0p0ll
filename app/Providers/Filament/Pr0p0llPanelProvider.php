@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Login;
 use App\Filament\Pages\UpdateUserData;
 use App\Filament\Widgets\NeedsDataReviewWidget;
+use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -43,6 +44,7 @@ class Pr0p0llPanelProvider extends PanelProvider
                 NeedsDataReviewWidget::class,
             ])
             ->plugins([FilamentApexChartsPlugin::make()])
+            ->topNavigation()
             ->profile(UpdateUserData::class)
             ->middleware([
                 EncryptCookies::class,
@@ -55,6 +57,7 @@ class Pr0p0llPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->defaultThemeMode(ThemeMode::Dark)
             ->authMiddleware([
                 Authenticate::class,
             ]);
