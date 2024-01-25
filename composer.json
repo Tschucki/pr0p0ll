@@ -11,11 +11,13 @@
         "php": "^8.1",
         "filament/filament": "^3.1",
         "guzzlehttp/guzzle": "^7.2",
+        "inertiajs/inertia-laravel": "^0.6.11",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "^3.1",
         "socialiteproviders/pr0gramm": "^5.0",
+        "tightenco/ziggy": "^1.8",
         "tschucki/laravel-notification-channel-pr0gramm": "^0.0.1",
         "yepsua/filament-rating-field": "^0.3.0"
     },

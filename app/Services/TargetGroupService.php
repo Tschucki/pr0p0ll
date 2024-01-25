@@ -18,6 +18,7 @@ class TargetGroupService
     public static function userIsWithinTargetGroup(array $aBuilderData, User $user): bool
     {
         $aTargetGroupData = self::builderDataToArray($aBuilderData);
+
         return self::baseQuery($aTargetGroupData)->where('id', $user->getKey())->exists();
     }
 
@@ -26,11 +27,11 @@ class TargetGroupService
         $query = User::query();
 
         $query
-            ->when($aTargetGroupData['gender'], fn(Builder $query) => $query->where('gender', $aTargetGroupData['gender']))
-            ->when($aTargetGroupData['nationality'], fn(Builder $query) => $query->whereIn('nationality', $aTargetGroupData['nationality']))
-            ->when($aTargetGroupData['minAge'], fn(Builder $query) => $query->whereDate('birthday', '<=', Carbon::now()->subYears($aTargetGroupData['minAge'])))
-            ->when($aTargetGroupData['maxAge'], fn(Builder $query) => $query->whereDate('birthday', '>', Carbon::now()->subYears($aTargetGroupData['maxAge'])))
-            ->when($aTargetGroupData['region'], fn(Builder $query) => $query->whereIn('region', $aTargetGroupData['region']));
+            ->when($aTargetGroupData['gender'], fn (Builder $query) => $query->where('gender', $aTargetGroupData['gender']))
+            ->when($aTargetGroupData['nationality'], fn (Builder $query) => $query->whereIn('nationality', $aTargetGroupData['nationality']))
+            ->when($aTargetGroupData['minAge'], fn (Builder $query) => $query->whereDate('birthday', '<=', Carbon::now()->subYears($aTargetGroupData['minAge'])))
+            ->when($aTargetGroupData['maxAge'], fn (Builder $query) => $query->whereDate('birthday', '>', Carbon::now()->subYears($aTargetGroupData['maxAge'])))
+            ->when($aTargetGroupData['region'], fn (Builder $query) => $query->whereIn('region', $aTargetGroupData['region']));
 
         return $query;
     }

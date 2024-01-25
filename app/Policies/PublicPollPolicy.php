@@ -17,12 +17,13 @@ class PublicPollPolicy
 
     public function view(User $user, PublicPoll $publicPoll): bool
     {
-        if($publicPoll->userParticipated($user)) {
+        if ($publicPoll->userParticipated($user)) {
             return false;
         }
-        if(!$publicPoll->userIsWithinTargetGroup($user)) {
+        if (! $publicPoll->userIsWithinTargetGroup($user)) {
             return false;
         }
+
         return $publicPoll->isVisibleForPublic();
     }
 

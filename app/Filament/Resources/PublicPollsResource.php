@@ -55,7 +55,7 @@ class PublicPollsResource extends Resource
                     ->button()
                     ->label('Teilnehmen')
                     ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
-                    ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || !$publicPoll->userIsWithinTargetGroup(\Auth::user())),
+                    ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user())),
             ])
             ->bulkActions([])
             ->query(PublicPoll::query()

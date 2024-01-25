@@ -7,9 +7,31 @@ export default {
         './app/Filament/**/*.php',
         './resources/views/filament/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+        "./resources/**/*.vue",
     ],
     theme: {
+        fontFamily: {
+            'sans': ['Mona Sans', 'system-ui'],
+            'serif': ['Mona Sans', 'Georgia',],
+        },
         extend: {
+            colors: {
+                'pr0gramm': {
+                    '50': '#fef4f2',
+                    '100': '#fee7e2',
+                    '200': '#fed2ca',
+                    '300': '#fcb3a5',
+                    '400': '#f98670',
+                    '500': '#ee4d2e',
+                    '600': '#dd4325',
+                    '700': '#ba351b',
+                    '800': '#9a2f1a',
+                    '900': '#7f2d1d',
+                    '950': '#45140a',
+                },
+            },
             typography: ({ theme }) => ({
                 pink: {
                     css: {

@@ -3,10 +3,7 @@
 use App\Http\Controllers\Pr0authController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    // TODO: Add Landing
-    return Redirect::route('filament.pr0p0ll.pages.dashboard');
-});
+Route::get('/', [\App\Http\Controllers\Frontend\FrontendController::class, 'landing'])->name('frontend.landing');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/oauth/callback', [Pr0authController::class, 'callback'])->name('oauth.callback');
