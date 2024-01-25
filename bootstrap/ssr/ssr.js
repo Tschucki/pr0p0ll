@@ -50,6 +50,7 @@ const _sfc_main$4 = {
       _push(`<header${ssrRenderAttrs(_attrs)}><div class="absolute left-0 right-0 top-2 z-40 pt-14">`);
       _push(ssrRenderComponent(Container, null, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
+          var _a, _b, _c, _d;
           if (_push2) {
             _push2(`<div class="flex items-center justify-between"${_scopeId}>`);
             _push2(ssrRenderComponent(unref(Link), {
@@ -74,7 +75,7 @@ const _sfc_main$4 = {
               _: 1
             }, _parent2, _scopeId));
             _push2(`<div class="flex items-center gap-x-8"${_scopeId}>`);
-            if (!_ctx.$page.props.auth.user.id) {
+            if (!((_a = _ctx.$page.props.auth.user) == null ? void 0 : _a.id)) {
               _push2(`<a href="/login"${_scopeId}>`);
               _push2(ssrRenderComponent(Button, null, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
@@ -92,7 +93,7 @@ const _sfc_main$4 = {
             } else {
               _push2(`<!---->`);
             }
-            if (_ctx.$page.props.auth.user.id) {
+            if ((_b = _ctx.$page.props.auth.user) == null ? void 0 : _b.id) {
               _push2(`<a href="/login"${_scopeId}>`);
               _push2(ssrRenderComponent(Button, null, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
@@ -130,7 +131,7 @@ const _sfc_main$4 = {
                   _: 1
                 }),
                 createVNode("div", { class: "flex items-center gap-x-8" }, [
-                  !_ctx.$page.props.auth.user.id ? (openBlock(), createBlock("a", {
+                  !((_c = _ctx.$page.props.auth.user) == null ? void 0 : _c.id) ? (openBlock(), createBlock("a", {
                     key: 0,
                     href: "/login"
                   }, [
@@ -141,7 +142,7 @@ const _sfc_main$4 = {
                       _: 1
                     })
                   ])) : createCommentVNode("", true),
-                  _ctx.$page.props.auth.user.id ? (openBlock(), createBlock("a", {
+                  ((_d = _ctx.$page.props.auth.user) == null ? void 0 : _d.id) ? (openBlock(), createBlock("a", {
                     key: 1,
                     href: "/login"
                   }, [

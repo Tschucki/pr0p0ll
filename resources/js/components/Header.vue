@@ -19,12 +19,12 @@ import pr0p0llImage from '../../assets/imgs/pr0p0ll.png';
             Pr0p0ll
           </Link>
           <div class="flex items-center gap-x-8">
-            <a href="/login" v-if="!$page.props.auth.user.id">
+            <a href="/login" v-if="!$page.props.auth.user?.id">
               <Button>
                 Login mit Pr0gramm
               </Button>
             </a>
-            <a href="/login" v-if="$page.props.auth.user.id">
+            <a href="/login" v-if="$page.props.auth.user?.id">
               <Button>
                 Zu den Umfragen
               </Button>
