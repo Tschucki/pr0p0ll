@@ -12,10 +12,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        if (config('app.env') === 'production') {
-            return;
-        }
-
         User::create([
             'name' => 'Admin',
             'email' => 'admin@locahost',
