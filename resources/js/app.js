@@ -2,6 +2,8 @@ import './bootstrap';
 import '../css/app.css';
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import { MotionPlugin } from '@vueuse/motion'
+
 
 
 createInertiaApp({
@@ -12,6 +14,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(MotionPlugin)
             .mount(el)
     },
 })

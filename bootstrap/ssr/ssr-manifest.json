@@ -1,8 +1,35 @@
 {
   "\u0000plugin-vue:export-helper": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/assets/imgs/pr0p0ll.png": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/Layouts/Layout.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
   ],
   "resources/js/Pages/Frontend/Landing.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/components/Button.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/components/Container.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/components/FeatureBlock.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/components/Footer.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/components/Header.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
   ],
   "resources/js/ssr.js": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "vendor/tightenco/ziggy/dist/index.m.js": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
   ]
 }

@@ -1,8 +1,15 @@
-<html lang="de">
+<html lang="de" class="bg-[#161618]">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <title>Pr0p0ll</title>
+    <meta property="og:title" content="pr0p0ll">
+    <meta property="og:site_name" content="pr0p0ll">
+    <meta property="og:url" content="https://pr0p0ll.com">
+    <meta property="og:description" content="die Umfrageplattform fürs pr0gramm">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://pr0p0ll.com/pr0p0ll.png">
+    <meta name="theme-color" content="#161618">
     @routes
     @vite('resources/js/app.js')
     @inertiaHead
