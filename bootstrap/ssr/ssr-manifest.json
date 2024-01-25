@@ -28,8 +28,5 @@
   ],
   "resources/js/ssr.js": [
     "/build/assets/pr0p0ll-fRda7U6F.png"
-  ],
-  "vendor/tightenco/ziggy/dist/index.m.js": [
-    "/build/assets/pr0p0ll-fRda7U6F.png"
   ]
 }

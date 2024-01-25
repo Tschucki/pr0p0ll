@@ -41,11 +41,6 @@ _sfc_main$5.setup = (props, ctx) => {
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
 const Button = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$2]]);
-(function() {
-  for (var t = [], r = 0; r < 256; ++r)
-    t.push("%" + ((r < 16 ? "0" : "") + r.toString(16)).toUpperCase());
-  return t;
-})();
 const pr0p0llImage = "/build/assets/pr0p0ll-fRda7U6F.png";
 const _sfc_main$4 = {
   __name: "Header",

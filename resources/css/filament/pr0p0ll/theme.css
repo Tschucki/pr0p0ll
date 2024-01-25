@@ -1,0 +1,23 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../../../fonts/Inter.ttf') format('truetype');
+    font-weight: 200 900;
+    font-stretch: 75% 125%;
+}
+
+
+.fi-sidebar, .fi-main, .fi-main-ctn {
+    @apply bg-[#161618] !important;
+}
+
+.fi-theme-switcher {
+    @apply hidden;
+}
+
+.fi-dropdown.fi-user-menu .fi-dropdown-list:nth-of-type(2) {
+    @apply hidden;
+}

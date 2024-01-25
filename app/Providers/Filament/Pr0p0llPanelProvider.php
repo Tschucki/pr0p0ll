@@ -9,6 +9,7 @@ use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -33,6 +34,7 @@ class Pr0p0llPanelProvider extends PanelProvider
             ->colors([
                 'primary' => '#ee4d2e',
             ])
+            ->viteTheme('resources/css/filament/pr0p0ll/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -44,8 +46,10 @@ class Pr0p0llPanelProvider extends PanelProvider
                 NeedsDataReviewWidget::class,
             ])
             ->plugins([FilamentApexChartsPlugin::make()])
-            ->topNavigation()
             ->profile(UpdateUserData::class)
+            ->userMenuItems([
+                MenuItem::make()->label('Startseite')->url('/')->icon('heroicon-o-home'),
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -57,6 +61,8 @@ class Pr0p0llPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->brandLogo(fn () => view('filament.admin.logo'))
+            ->brandLogoHeight('auto')
             ->defaultThemeMode(ThemeMode::Dark)
             ->authMiddleware([
                 Authenticate::class,
