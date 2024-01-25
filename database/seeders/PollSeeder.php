@@ -18,10 +18,6 @@ class PollSeeder extends Seeder
      */
     public function run(): void
     {
-        if (config('app.env') === 'production') {
-            return;
-        }
-
         foreach (range(1, 1) as $poll) {
             $myPoll = MyPoll::create([
                 'title' => 'My Poll',
