@@ -15,8 +15,11 @@ class TargetGroupService
         return self::baseQuery($aTargetGroupData)->count();
     }
 
-    public static function userIsWithinTargetGroup(array $aBuilderData, User $user): bool
+    public static function userIsWithinTargetGroup(array $aBuilderData = [], ?User $user): bool
     {
+        if (empty($aBuilderData) || $user === null) {
+            return true;
+        }
         $aTargetGroupData = self::builderDataToArray($aBuilderData);
 
         return self::baseQuery($aTargetGroupData)->where('id', $user->getKey())->exists();

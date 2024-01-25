@@ -133,7 +133,7 @@ abstract class Poll extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function userIsWithinTargetGroup(User $user)
+    public function userIsWithinTargetGroup(User $user): bool
     {
         return TargetGroupService::userIsWithinTargetGroup($this->target_group, $user);
     }
