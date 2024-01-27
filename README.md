@@ -1,66 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
+<br/>
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <a href="https://github.com/pr0p0ll/pr0p0ll">
+    <img src="resources/assets/imgs/pr0p0ll.png" alt="Logo" width="80" height="80">
+  </a>
+
+<h3 align="center">Pr0p0ll</h3>
+
+  <p align="center">
+    Pr0p0ll is a fresh take on the beloved Pr0p0ll platform tailored for <a href="https://pr0gramm.com">Pr0gramm</a> users, to create and participate in polls created by other users.
+    <br/>
+    <br/>
+    <a href="https://pr0p0ll.com">Visit Website</a>
+    .
+    <a href="https://github.com/pr0p0ll/pr0p0ll/issues">Report Bug</a>
+    .
+    <a href="https://github.com/pr0p0ll/pr0p0ll/issues">Request Feature</a>
+  </p>
 </p>
 
-## About Laravel
+[![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2F3936ac5a-a184-4514-83d2-65bcbc93581f%3Fdate%3D1%26commit%3D1&style=plastic)](https://forge.laravel.com/servers/754115/sites/2229042) ![Contributors](https://img.shields.io/github/contributors/pr0p0ll/pr0p0ll?color=dark-green) ![Issues](https://img.shields.io/github/issues/pr0p0ll/pr0p0ll) ![License](https://img.shields.io/github/license/pr0p0ll/pr0p0ll)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Table Of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* [About the Project](#about-the-project)
+* [Built With](#built-with)
+* * [Features](#features)
+* [Contributing](#contributing)
+* [License](#license)
+* [Authors](#authors)
+* [Acknowledgements](#acknowledgements)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## About The Project
 
-## Learning Laravel
+![Screen Shot](art/targetgroup-screenshot.png)
+![Screen Shot](art/participate-screenshot.png)
+![Screen Shot](art/results-screenshot.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Pr0p0ll ist eine Plattform für Pr0gramm-User, um Umfragen zu erstellen und an diesen teilzunehmen. Der Betreiber der alten Platform (Rundesballi) hat das Projekt an Tschucki übergeben und hat die Plattform neu entwickelt. Die neue Plattform ist mit Laravel 10 und Filament 3 entwickelt worden. Um Zugang zur Plattform zu erhalten loggt sich der Benutzer über O-Auth ein.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Form Builder
+Ermöglicht es dem Benutzer, Umfragen zu erstellen. Die Umfragen können mit verschiedenen Fragetypen erstellt werden.
+#### Zielgruppen definieren
+Der Benutzer kann definieren, wer an der Umfrage teilnehmen darf. Die Umfrage kann entweder öffentlich oder nur für bestimmte Benutzergruppen verfügbar sein.
 
-## Laravel Sponsors
+## Built With
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Pr0p0ll is built with the following:
+* Laravel 10
+* Filament 3
+* Laravel Socialite
+* Livewire
+* Vue
+* TailwindCSS
 
-### Premium Partners
+## Getting Started
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any
+contributions you make are **greatly appreciated**.
 
-## Code of Conduct
+* If you have suggestions for adding or removing projects, feel free
+  to [open an issue](https://github.com/pr0p0ll/pr0p0ll/issues/new) to discuss it, or directly create a pull request.
+* Create individual PR for each suggestion.
+* Please also read through the [Code Of Conduct](https://github.com/pr0p0ll/pr0p0ll/blob/main/CODE_OF_CONDUCT.md) before
+  posting your first idea as well.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Creating A Pull Request
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'I love Blussis'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Distributed under the MIT License. See [LICENSE](https://github.com/pr0p0ll/pr0p0ll/blob/main/LICENSE.md) for more
+information.
+
+## Authors
+
+* **[Tschucki](https://github.com/Tschucki)** - *Maintainer*
+
+## Acknowledgements
+
+* [Rundesballi](https://github.com/RundesBalli)
