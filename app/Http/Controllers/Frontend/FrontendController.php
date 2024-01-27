@@ -14,7 +14,7 @@ class FrontendController extends Controller
     {
         return Inertia::render('Frontend/Landing', [
             'userCount' => User::count(),
-            'pollCount' => Poll::count()
+            'pollCount' => Poll::count(),
         ]);
     }
 
@@ -24,7 +24,7 @@ class FrontendController extends Controller
         $sImprintMarkdown = Str::markdown(file_get_contents($sImprintPath));
 
         return Inertia::render('Frontend/Imprint', [
-            'imprint' => $sImprintMarkdown
+            'imprint' => $sImprintMarkdown,
         ]);
     }
 
@@ -34,7 +34,7 @@ class FrontendController extends Controller
         $sPrivacyMarkdown = Str::markdown(file_get_contents($sPrivacyPath));
 
         return Inertia::render('Frontend/Privacy', [
-            'privacy' => $sPrivacyMarkdown
+            'privacy' => $sPrivacyMarkdown,
         ]);
     }
 
@@ -44,7 +44,7 @@ class FrontendController extends Controller
         $sTermsMarkdown = Str::markdown(file_get_contents($sTermsPath));
 
         return Inertia::render('Frontend/Terms', [
-            'terms' => $sTermsMarkdown
+            'terms' => $sTermsMarkdown,
         ]);
     }
 }

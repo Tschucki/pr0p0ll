@@ -16,7 +16,9 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('login', function () {
         Auth::login(User::find(1));
+
         return Redirect::route('frontend.landing');
+
         return Redirect::route('filament.pr0p0ll.auth.login');
     })->name('login');
 });
