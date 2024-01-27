@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+
 use function Filament\Support\is_app_url;
 
 class UpdateUserData extends EditProfile
@@ -90,7 +91,6 @@ class UpdateUserData extends EditProfile
 
         return $record;
     }
-
 
     /**
      * @throws \Exception
