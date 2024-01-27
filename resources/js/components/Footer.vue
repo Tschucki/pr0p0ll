@@ -1,5 +1,6 @@
 <script setup>
 import pr0p0llImage from '../../assets/imgs/pr0p0ll.png';
+import {Link} from "@inertiajs/vue3";
 </script>
 
 <template>
@@ -15,12 +16,12 @@ import pr0p0llImage from '../../assets/imgs/pr0p0ll.png';
               <li>
                 <div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]">Rechtliches</div>
                 <ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80">
-                  <li class="mt-4"><a class="transition hover:text-[#f2f5f4]"
-                                      href="/work/family-fund">Impressum</a></li>
-                  <li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/work/unseal">Datenschutz</a>
+                  <li class="mt-4"><Link class="transition hover:text-[#f2f5f4]"
+                                      href="/impressum">Impressum</Link></li>
+                  <li class="mt-4"><Link  class="transition hover:text-[#f2f5f4]" href="/datenschutz">Datenschutz</Link>
                   </li>
                   <li class="mt-4"><a class="transition hover:text-[#f2f5f4]"
-                                      href="/work/phobia">Nutzungsbedingungen</a>
+                                      href="/nutzungsbedingungen">Nutzungsbedingungen</a>
                   </li>
                 </ul>
               </li>

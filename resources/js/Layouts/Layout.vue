@@ -1,10 +1,20 @@
 <script setup>
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
+import {Head as HeadComponent} from "@inertiajs/vue3";
+
+defineProps({
+  title: String,
+  description: String,
+})
 </script>
 
 <template>
   <div>
+    <HeadComponent>
+      <title>{{title}}</title>
+      <meta name="description" :content="description">
+    </HeadComponent>
     <Header/>
     <div class="relative flex flex-auto overflow-hidden bg-[#161618] pt-14">
       <div class="relative isolate flex w-full flex-col pt-9">
@@ -34,7 +44,7 @@ import Footer from "../components/Footer.vue";
           </defs>
         </svg>
         <main class="w-full flex-auto mb-6">
-          <slot />
+          <slot/>
         </main>
       </div>
     </div>

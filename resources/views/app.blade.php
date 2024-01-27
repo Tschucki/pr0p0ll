@@ -1,8 +1,7 @@
-<html lang="de" class="bg-[#161618]">
+<html lang="de" class="bg-[#161618] scroll-smooth">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-    <title>Pr0p0ll</title>
     <meta property="og:title" content="pr0p0ll">
     <meta property="og:site_name" content="pr0p0ll">
     <meta property="og:url" content="https://pr0p0ll.com">
