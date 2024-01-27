@@ -66,7 +66,7 @@ class MyPollResource extends Resource
                             'strike',
                             'table',
                             'undo',
-                        ])->label('Beschreibung')->required(),
+                        ])->label('Beschreibung')->nullable(),
                         Select::make('closes_after')->label('Ende der Umfrage')->hint('Nachdem die Umfrage genehmigt wurde')->options(ClosesAfter::class)->default('+3 weeks')->required()->helperText('Es wird dir nicht möglich sein, die Umfrage frühzeitig zu beenden.'),
                     ]),
                     Components\Tabs\Tab::make('Zielgruppe')->schema([

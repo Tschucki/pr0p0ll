@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('title');
             $table->fullText('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->fullText('description');
             $table->string('closes_after');
             $table->boolean('not_anonymous')->default(true);
