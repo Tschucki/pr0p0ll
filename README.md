@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/pr0p0ll/pr0p0ll">
-    <img src="resources/assets/imgs/pr0p0ll.png" alt="Logo" width="80" height="80">
+    <img src="resources/assets/imgs/pr0p0ll.png" alt="Logo" width="50" height="50">
   </a>
 
 <h3 align="center">Pr0p0ll</h3>
