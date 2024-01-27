@@ -14,4 +14,3 @@ jobs:
           preset: laravel
           verboseMode: true
           testMode: true
-          onlyDirty: true
