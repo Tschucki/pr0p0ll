@@ -8,7 +8,16 @@
   "resources/js/Layouts/Layout.vue": [
     "/build/assets/pr0p0ll-fRda7U6F.png"
   ],
+  "resources/js/Pages/Frontend/Imprint.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
   "resources/js/Pages/Frontend/Landing.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/Pages/Frontend/Privacy.vue": [
+    "/build/assets/pr0p0ll-fRda7U6F.png"
+  ],
+  "resources/js/Pages/Frontend/Terms.vue": [
     "/build/assets/pr0p0ll-fRda7U6F.png"
   ],
   "resources/js/components/Button.vue": [
