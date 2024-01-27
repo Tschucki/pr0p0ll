@@ -18,7 +18,7 @@
   </p>
 </p>
 
-[![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2F3936ac5a-a184-4514-83d2-65bcbc93581f%3Fdate%3D1%26commit%3D1&style=plastic)](https://forge.laravel.com/servers/754115/sites/2229042) ![Contributors](https://img.shields.io/github/contributors/pr0p0ll/pr0p0ll?color=dark-green) ![Issues](https://img.shields.io/github/issues/pr0p0ll/pr0p0ll) ![License](https://img.shields.io/github/license/pr0p0ll/pr0p0ll)
+[![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2F3936ac5a-a184-4514-83d2-65bcbc93581f%3Fdate%3D1%26commit%3D1&style=plastic)](https://forge.laravel.com) ![Contributors](https://img.shields.io/github/contributors/pr0p0ll/pr0p0ll?color=dark-green) ![Issues](https://img.shields.io/github/issues/pr0p0ll/pr0p0ll) ![License](https://img.shields.io/github/license/pr0p0ll/pr0p0ll)
 
 ## Table Of Contents
 
