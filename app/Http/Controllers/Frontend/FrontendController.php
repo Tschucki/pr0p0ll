@@ -13,8 +13,8 @@ class FrontendController extends Controller
     public function landing(): \Inertia\Response
     {
         return Inertia::render('Frontend/Landing', [
-            'userCount' => User::count(),
-            'pollCount' => Poll::count(),
+            'userCount' => \Number::abbreviate(User::count()),
+            'pollCount' => \Number::abbreviate(Poll::count()),
         ]);
     }
 
