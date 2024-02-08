@@ -63,7 +63,8 @@ class PublicPollsResource extends Resource
                 ->where('approved', true)
                 ->where('in_review', false)
                 ->withoutGlobalScope(SoftDeletingScope::class)
-            );
+            )
+            ->paginated([10, 25, 50]);
     }
 
     public static function getRelations(): array

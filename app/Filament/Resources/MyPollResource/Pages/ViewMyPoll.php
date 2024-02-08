@@ -5,6 +5,7 @@ namespace App\Filament\Resources\MyPollResource\Pages;
 use App\Filament\Actions\PollPreviewAction;
 use App\Filament\Actions\SubmitForReviewAction;
 use App\Filament\Resources\MyPollResource;
+use App\Filament\Resources\MyPollResource\Widgets\ParticipationCountWidget;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;

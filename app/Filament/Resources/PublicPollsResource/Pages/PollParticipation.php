@@ -90,7 +90,7 @@ class PollParticipation extends Page
                     if (! $question) {
                         Notification::make('error')->danger()->title('Fehler beim Speichern')->body("Die Frage mit der ID ${key} konnte nicht gefunden werden.")->send();
                         DB::rollBack();
-                        throw new Halt("Die Frage mit der ID ${key} konnte nicht gefunden werden.");
+                        throw new Halt("Die Frage mit der ID {$key} konnte nicht gefunden werden.");
                     }
 
                     // If answer is array and the answertype is MultipleChoiceAnswer then we need to create multiple answers
