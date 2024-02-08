@@ -6,8 +6,6 @@ use App\Enums\ClosesAfter;
 use App\Filament\Resources\AllPollsResource\Pages;
 use App\Models\Polls\MyPoll;
 use App\Models\Polls\Poll;
-use App\Models\Question;
-use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -61,13 +59,9 @@ class AllPollsResource extends Resource
         return $infolist->schema([
             Section::make($infolist->getRecord()->title)->schema([
                 TextEntry::make('description')->columnSpanFull()->label('Beschreibung')->markdown(),
-                TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn(MyPoll $poll) => !$poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn(MyPoll $poll) => $poll->not_anonymous ? 'Sein Name wird angezeigt' : 'Sein Name wird nicht angezeigt'),
-                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn(Poll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
-                RepeatableEntry::make('questions')->label('Fragen')->schema([
-                    TextEntry::make('title')->label('Frage'),
-                    TextEntry::make('description')->visible(fn(Question $question) => $question->description)->label('Beschreibung'),
-                    TextEntry::make('questionType.title')->label('Typ'),
-                ])->columnSpanFull(),
+                TextEntry::make('user.name')->label('Benutzer'),
+                TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn (MyPoll $poll) => ! $poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn (MyPoll $poll) => $poll->not_anonymous ? 'Sein Name wird angezeigt' : 'Sein Name wird nicht angezeigt'),
+                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (Poll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
             ])->columns([
                 'sm' => 1,
                 'md' => 2,

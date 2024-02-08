@@ -23,8 +23,7 @@ class UpdateUserData extends EditProfile
 
     public function getTitle(): string|Htmlable
     {
-        return 'Meine Daten';
-
+        return \Auth::user()->name;
     }
 
     /**

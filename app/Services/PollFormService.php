@@ -71,16 +71,18 @@ class PollFormService
     {
         $component = $questionType->component;
 
+        $questionKey = $question->getKey();
+
         return match ($component) {
-            QuestionType::SINGLE->value => Radio::make($question->getKey()),
-            QuestionType::MULTIPLE->value => CheckboxList::make($question->getKey()),
-            QuestionType::TEXT->value => Textarea::make($question->getKey())->hint('Nicht anonym - Max. 255 Zeichen')->maxLength(255),
-            QuestionType::TOGGLE->value => Toggle::make($question->getKey())->default(false)->inline(false),
-            QuestionType::DATE->value => DatePicker::make($question->getKey()),
-            QuestionType::TIME->value => DateTimePicker::make($question->getKey())->seconds(false)->date(false)->time()->displayFormat('HH:mm'),
-            QuestionType::DATETIME->value => DateTimePicker::make($question->getKey())->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
-            QuestionType::COLOR->value => ColorPicker::make($question->getKey()),
-            QuestionType::NUMBER->value => TextInput::make($question->getKey())->numeric(),
+            QuestionType::SINGLE->value => Radio::make($questionKey),
+            QuestionType::MULTIPLE->value => CheckboxList::make($questionKey),
+            QuestionType::TEXT->value => Textarea::make($questionKey)->hint('Nicht anonym - Max. 255 Zeichen')->maxLength(255),
+            QuestionType::TOGGLE->value => Toggle::make($questionKey)->default(false)->inline(false),
+            QuestionType::DATE->value => DatePicker::make($questionKey),
+            QuestionType::TIME->value => DateTimePicker::make($questionKey)->seconds(false)->date(false)->time()->displayFormat('HH:mm'),
+            QuestionType::DATETIME->value => DateTimePicker::make($questionKey)->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
+            QuestionType::COLOR->value => ColorPicker::make($questionKey),
+            QuestionType::NUMBER->value => TextInput::make($questionKey)->numeric(),
             default => throw new \InvalidArgumentException('Unknown question type'),
         };
     }

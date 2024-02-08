@@ -44,8 +44,7 @@ class PublicPollsResource extends Resource
                 Tables\Columns\IconColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user())),
                 Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
             ])
-            ->filters([
-            ])
+            ->filters([])
             ->groups([
                 Tables\Grouping\Group::make('category.title')->label('Kategorie'),
             ])
