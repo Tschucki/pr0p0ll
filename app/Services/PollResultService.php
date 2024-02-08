@@ -43,16 +43,30 @@ class PollResultService
 
     private function getBooleanChartWidget(Question $question): WidgetConfiguration
     {
-        $trueAnswersCount = $question->answers()->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
-            $query->where('answer_value', true);
-        })->count();
-        $falseAnswerCounts = $question->answers()->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
-            $query->where('answer_value', false);
-        })->count();
+        $cacheKeyTrueAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-true-answer-counts';
+        $cacheKeyFalseAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-false-answer-counts';
+        $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
+
+        if (\Cache::has($cacheKeyTrueAnswers)) {
+            $trueAnswersCount = \Cache::get($cacheKeyTrueAnswers);
+        } else {
+            $trueAnswersCount = $question->answers()->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
+                $query->where('answer_value', true);
+            })->count();
+            \Cache::add($cacheKeyTrueAnswers, $trueAnswersCount, $cacheTime);
+        }
+        if (\Cache::has($cacheKeyFalseAnswers)) {
+            $falseAnswerCounts = \Cache::get($cacheKeyFalseAnswers);
+        } else {
+            $falseAnswerCounts = $question->answers()->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
+                $query->where('answer_value', false);
+            })->count();
+            \Cache::add($cacheKeyFalseAnswers, $falseAnswerCounts, $cacheTime);
+        }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
             'chartOptions' => [
                 'chart' => [
                     'type' => 'pie',
@@ -82,7 +96,7 @@ class PollResultService
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
             'chartOptions' => [
 
                 'chart' => [
@@ -134,6 +148,13 @@ class PollResultService
 
     private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection
     {
+        $cacheKey = 'poll-' . $question->poll_id . $question->id . '-options-answer-counts';
+        $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
+
+        if (\Cache::has($cacheKey)) {
+            return \Cache::get($cacheKey);
+        }
+
         $optionsAnswerCounts = [];
         $options->each(function ($option) use ($question, &$optionsAnswerCounts, $answerType) {
             $optionAnswerCount = $question->answers()->whereHasMorph('answerable', $answerType, function ($query) use ($option) {
@@ -141,6 +162,8 @@ class PollResultService
             })->count();
             $optionsAnswerCounts[$option] = $optionAnswerCount;
         });
+
+        \Cache::add($cacheKey, collect($optionsAnswerCounts), $cacheTime);
 
         return collect($optionsAnswerCounts);
     }
