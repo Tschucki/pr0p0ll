@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\MyPollResource\Pages;
 
 use App\Filament\Resources\MyPollResource;
+use App\Models\Polls\MyPoll;
 use App\Services\PollResultService;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Filament\Widgets\Widget;
@@ -27,6 +29,15 @@ class MyPollResults extends Page
         static::authorizeResourceAccess();
 
         abort_unless(static::getResource()::canView($this->getRecord()), 403);
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('create_post')->label('Pr0-Post erstellen')->button()->url(route('filament.pr0p0ll.resources.my-polls.pr0post', [
+                'record' => $this->getRecord(),
+            ])),
+        ];
     }
 
     public function getWidgetData(): array

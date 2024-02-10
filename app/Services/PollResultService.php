@@ -43,8 +43,8 @@ class PollResultService
 
     private function getBooleanChartWidget(Question $question): WidgetConfiguration
     {
-        $cacheKeyTrueAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-true-answer-counts';
-        $cacheKeyFalseAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-false-answer-counts';
+        $cacheKeyTrueAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-true-answer-counts';
+        $cacheKeyFalseAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-false-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKeyTrueAnswers)) {
@@ -64,10 +64,27 @@ class PollResultService
             \Cache::add($cacheKeyFalseAnswers, $falseAnswerCounts, $cacheTime);
         }
 
+        $questionAnswerCount = $question->answers->count();
+        $descriptionText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        if ($question->questionType->component === 'checkbox-list') {
+            $descriptionText .= ' (Mehrfachauswahl möglich)';
+        }
+
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
+            'questionId' => $question->getKey(),
             'chartOptions' => [
+                'title' => [
+                    'text' => $descriptionText,
+                    'margin' => 0,
+                    'style' => [
+                        'fontSize' => '14px',
+                        'fontWeight' => 600,
+                        'fontFamily' => 'Inter',
+                        'color' => '#f2f5f4',
+                    ],
+                ],
                 'chart' => [
                     'type' => 'pie',
                     'height' => 450,
@@ -94,11 +111,20 @@ class PollResultService
             return $option['title'];
         });
 
+        $questionAnswerCount = $question->answers->count();
+        $descriptionText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        if ($question->questionType->component === 'checkbox-list') {
+            $descriptionText .= ' (Mehrfachauswahl möglich)';
+        }
+
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
+            'questionId' => $question->getKey(),
             'chartOptions' => [
-
+                'title' => [
+                    'text' => $descriptionText,
+                ],
                 'chart' => [
                     'type' => 'bar',
                     'height' => 450,
@@ -148,7 +174,7 @@ class PollResultService
 
     private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection
     {
-        $cacheKey = 'poll-'.$question->poll_id.$question->id.'-options-answer-counts';
+        $cacheKey = 'poll-' . $question->poll_id . $question->id . '-options-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKey)) {

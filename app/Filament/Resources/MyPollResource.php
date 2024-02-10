@@ -9,6 +9,7 @@ use App\Filament\Resources\MyPollResource\Pages\CreateMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\EditMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\ListMyPolls;
 use App\Filament\Resources\MyPollResource\Pages\MyPollResults;
+use App\Filament\Resources\MyPollResource\Pages\Pr0PostCreator;
 use App\Filament\Resources\MyPollResource\Pages\ViewMyPoll;
 use App\Models\Category;
 use App\Models\Polls\MyPoll;
@@ -198,6 +199,7 @@ class MyPollResource extends Resource
             'view' => ViewMyPoll::route('/{record}'),
             'results' => MyPollResults::route('/{record}/auswertung'),
             'edit' => EditMyPoll::route('/{record}/edit'),
+            'pr0post' => Pr0PostCreator::route('/{record}/pr0post'),
         ];
     }
 }
