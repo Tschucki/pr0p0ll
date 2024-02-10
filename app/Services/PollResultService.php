@@ -43,8 +43,8 @@ class PollResultService
 
     private function getBooleanChartWidget(Question $question): WidgetConfiguration
     {
-        $cacheKeyTrueAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-true-answer-counts';
-        $cacheKeyFalseAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-false-answer-counts';
+        $cacheKeyTrueAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-true-answer-counts';
+        $cacheKeyFalseAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-false-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKeyTrueAnswers)) {
@@ -65,14 +65,14 @@ class PollResultService
         }
 
         $questionAnswerCount = $question->answers->count();
-        $descriptionText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        $descriptionText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $descriptionText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'chartOptions' => [
                 'title' => [
@@ -112,14 +112,14 @@ class PollResultService
         });
 
         $questionAnswerCount = $question->answers->count();
-        $descriptionText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        $descriptionText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $descriptionText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'chartOptions' => [
                 'title' => [
@@ -174,7 +174,7 @@ class PollResultService
 
     private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection
     {
-        $cacheKey = 'poll-' . $question->poll_id . $question->id . '-options-answer-counts';
+        $cacheKey = 'poll-'.$question->poll_id.$question->id.'-options-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKey)) {

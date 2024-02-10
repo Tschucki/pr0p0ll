@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\MyPollResource\Pages;
 
 use App\Filament\Resources\MyPollResource;
-use App\Models\Polls\MyPoll;
 use App\Services\PollResultService;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
