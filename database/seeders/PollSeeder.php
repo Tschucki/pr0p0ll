@@ -39,7 +39,7 @@ class PollSeeder extends Seeder
 
     private function createQuestionsForPoll(MyPoll $myPoll): void
     {
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 2) as $index) {
             $this->createSingleOptionQuestionForPoll($myPoll);
             $this->createBoolQuestionForPoll($myPoll);
             $this->createMultipleOptionQuestionForPoll($myPoll);

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MyPollResource\Pages;
 
+use App\Abstracts\Poll;
 use App\Filament\Resources\MyPollResource;
 use App\Models\Question;
 use App\Services\PollResultService;
@@ -11,6 +12,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ViewField;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
@@ -28,6 +30,8 @@ class Pr0PostCreator extends Page
 
     public ?array $data = [];
 
+    public int $participants = 0;
+
     public function getTitle(): string
     {
         return static::$title;
@@ -36,6 +40,7 @@ class Pr0PostCreator extends Page
     public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
+        $this->participants = $this->record->participants()->count();
         $this->authorizeAccess();
         $this->fillForm();
     }
@@ -73,6 +78,9 @@ class Pr0PostCreator extends Page
                     ->schema([
                         TextInput::make('title')->label('Titel')->required(),
                         Textarea::make('description')->label('Beschreibung')->nullable(),
+                        ...collect($this->record->questions)->map(function (Question $question) {
+                            return Toggle::make('display_'. $question->getKey())->label($question->title)->inline();
+                        })->toArray(),
                     ])->columnSpan(1),
                 Grid::make()
                     ->schema([
@@ -103,6 +111,7 @@ class Pr0PostCreator extends Page
     {
         $this->data = [
             'title' => $this->record->title,
+            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'. $question->getKey() => true])->toArray(),
         ];
         $this->form->fill($this->data);
     }
