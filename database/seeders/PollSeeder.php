@@ -99,7 +99,7 @@ class PollSeeder extends Seeder
     {
         $uuid = Str::uuid()->toString();
 
-        foreach (range(1, 500) as $i) {
+        foreach (range(1, 10) as $i) {
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
                     'answer_value' => 'Option '.random_int(1, 3),
@@ -116,7 +116,7 @@ class PollSeeder extends Seeder
     {
         $uuid = Str::uuid()->toString();
 
-        foreach (range(1, 500) as $i) {
+        foreach (range(1, 10) as $i) {
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
                     'answer_value' => 'Option '.random_int(1, 3),
@@ -133,7 +133,7 @@ class PollSeeder extends Seeder
     {
         $uuid = Str::uuid()->toString();
 
-        foreach (range(1, 500) as $i) {
+        foreach (range(1, 10) as $i) {
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
                     'answer_value' => random_int(0, 1) === 1,

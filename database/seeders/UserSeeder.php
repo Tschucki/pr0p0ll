@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@locahost',
             'password' => \Hash::make('password'),
             'pr0gramm_identifier' => 'admin',
+            'admin' => true,
         ]);
 
         User::factory()->count(300)->create();
