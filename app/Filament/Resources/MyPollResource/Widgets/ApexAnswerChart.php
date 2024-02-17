@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\MyPollResource\Widgets;
 
-use App\Models\Question;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class ApexAnswerChart extends ApexChartWidget

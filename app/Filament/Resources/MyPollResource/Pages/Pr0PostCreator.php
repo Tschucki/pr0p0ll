@@ -50,7 +50,7 @@ class Pr0PostCreator extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('download')->label('Herunterladen')
+            Action::make('download')->label('Herunterladen'),
         ];
     }
 
@@ -95,6 +95,7 @@ class Pr0PostCreator extends Page
         if ($question) {
             return $question->answers()->count();
         }
+
         return 'Unbekannt';
     }
 
