@@ -17,3 +17,10 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('login', LoginRedirectController::class)->name('login');
 });
+
+
+Route::get('email-test', function () {
+    $user = App\Models\User::first();
+    $user->notify(new App\Notifications\PollNeedsReviewNotification(App\Models\Polls\MyPoll::first()));
+    return 'Email sent';
+})->name('email-test');

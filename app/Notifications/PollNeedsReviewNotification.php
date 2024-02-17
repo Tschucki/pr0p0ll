@@ -43,10 +43,11 @@ class PollNeedsReviewNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('Hallo Admin,')
+            ->greeting('Hallo Admin,')
             ->line('Eine Umfrage braucht eine Überprüfung.')
-            ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.all-polls.view', ['record' => $this->poll->getKey()])))
-            ->line('Danke');
+            ->line('Titel: ' . $this->poll->title)
+            ->line('Erstellt von: ' . $this->poll->user->name)
+            ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.all-polls.view', ['record' => $this->poll->getKey()])));
     }
 
     public function toPr0gramm($notifiable): string
