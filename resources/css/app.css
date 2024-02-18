@@ -9,3 +9,11 @@
     font-weight: 200 900;
     font-stretch: 75% 125%;
 }
+
+.filament-apex-charts-header {
+    display: flex;
+    justify-content: center;
+}
+.filament-apex-charts-heading {
+    @apply text-2xl;
+}

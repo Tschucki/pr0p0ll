@@ -14,10 +14,15 @@ use Illuminate\Support\Collection;
 class PollResultService
 {
     private MyPoll $poll;
+    /**
+     * @var mixed|string
+     */
+    private string $color;
 
-    public function __construct(MyPoll $poll)
+    public function __construct(MyPoll $poll, string $color = '#ee4d2e')
     {
         $this->poll = $poll;
+        $this->color = $color;
     }
 
     public function getAllWidgets(): array
@@ -43,8 +48,8 @@ class PollResultService
 
     private function getBooleanChartWidget(Question $question): WidgetConfiguration
     {
-        $cacheKeyTrueAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-true-answer-counts';
-        $cacheKeyFalseAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-false-answer-counts';
+        $cacheKeyTrueAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-true-answer-counts';
+        $cacheKeyFalseAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-false-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKeyTrueAnswers)) {
@@ -65,27 +70,20 @@ class PollResultService
         }
 
         $questionAnswerCount = $question->answers->count();
-        $descriptionText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
+        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
-            $descriptionText .= ' (Mehrfachauswahl möglich)';
+            $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
             'questionId' => $question->getKey(),
+            'poll' => $question->poll,
+            'footerText' => $footerText,
             'chartOptions' => [
-                'title' => [
-                    'text' => $descriptionText,
-                    'margin' => 0,
-                    'style' => [
-                        'fontSize' => '14px',
-                        'fontWeight' => 600,
-                        'fontFamily' => 'Inter',
-                        'color' => '#f2f5f4',
-                    ],
-                ],
                 'chart' => [
+                    'fontFamily' => 'var(--font-family),ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
                     'type' => 'pie',
                     'height' => 450,
                 ],
@@ -95,10 +93,10 @@ class PollResultService
                     'labels' => [
                         'colors' => '#f2f5f4',
                         'fontWeight' => 600,
-                        'fontFamily' => 'Inter',
+                        'fontFamily' => 'var(--font-family),ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
                     ],
                 ],
-                'colors' => ['#5cb85c', '#ee4d2e'],
+                'colors' => ['#5cb85c', $this->color],
             ],
         ];
 
@@ -112,20 +110,20 @@ class PollResultService
         });
 
         $questionAnswerCount = $question->answers->count();
-        $descriptionText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
+        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
-            $descriptionText .= ' (Mehrfachauswahl möglich)';
+            $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
             'questionId' => $question->getKey(),
+            'poll' => $question->poll,
+            'footerText' => $footerText,
             'chartOptions' => [
-                'title' => [
-                    'text' => $descriptionText,
-                ],
                 'chart' => [
+                    'fontFamily' => 'var(--font-family),ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
                     'type' => 'bar',
                     'height' => 450,
                     'toolbar' => [
@@ -152,7 +150,7 @@ class PollResultService
                         'style' => [
                             'colors' => '#f2f5f4',
                             'fontWeight' => 600,
-                            'fontFamily' => 'Inter',
+                            'fontFamily' => 'var(--font-family),ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
                         ],
                     ],
                 ],
@@ -161,11 +159,11 @@ class PollResultService
                         'style' => [
                             'colors' => '#f2f5f4',
                             'fontWeight' => 600,
-                            'fontFamily' => 'Inter',
+                            'fontFamily' => 'var(--font-family),ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
                         ],
                     ],
                 ],
-                'colors' => ['#ee4d2e'],
+                'colors' => [$this->color],
             ],
         ];
 
@@ -174,7 +172,7 @@ class PollResultService
 
     private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection
     {
-        $cacheKey = 'poll-'.$question->poll_id.$question->id.'-options-answer-counts';
+        $cacheKey = 'poll-' . $question->poll_id . $question->id . '-options-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKey)) {

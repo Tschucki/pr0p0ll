@@ -4,7 +4,7 @@
     "src": "resources/assets/imgs/pr0p0ll.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-bmc3KlFC.css",
+    "file": "assets/app-8tRoatmG.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -27,9 +27,9 @@
       "assets/Mona-Sans.var-8VeH-Hlu.woff2"
     ],
     "css": [
-      "assets/app-bmc3KlFC.css"
+      "assets/app-8tRoatmG.css"
     ],
-    "file": "assets/app-Td-uzWd8.js",
+    "file": "assets/app-jIBYYir_.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
