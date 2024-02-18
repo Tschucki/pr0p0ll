@@ -4,12 +4,12 @@
     "src": "resources/assets/imgs/pr0p0ll.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-baQ5oFzw.css",
+    "file": "assets/app-bmc3KlFC.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/css/filament/pr0p0ll/theme.css": {
-    "file": "assets/theme-la1uKwb7.css",
+    "file": "assets/theme-E3tdkcJX.css",
     "isEntry": true,
     "src": "resources/css/filament/pr0p0ll/theme.css"
   },
@@ -27,9 +27,9 @@
       "assets/Mona-Sans.var-8VeH-Hlu.woff2"
     ],
     "css": [
-      "assets/app-baQ5oFzw.css"
+      "assets/app-bmc3KlFC.css"
     ],
-    "file": "assets/app-xGI6HDuF.js",
+    "file": "assets/app-Td-uzWd8.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
