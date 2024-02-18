@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\MyPollResource\Pages;
 
-use App\Abstracts\Poll;
 use App\Filament\Resources\MyPollResource;
 use App\Models\Question;
 use App\Services\PollResultService;
@@ -79,7 +78,7 @@ class Pr0PostCreator extends Page
                         TextInput::make('title')->label('Titel')->required(),
                         Textarea::make('description')->label('Beschreibung')->nullable(),
                         ...collect($this->record->questions)->map(function (Question $question) {
-                            return Toggle::make('display_'. $question->getKey())->label($question->title)->inline();
+                            return Toggle::make('display_'.$question->getKey())->label($question->title)->inline();
                         })->toArray(),
                     ])->columnSpan(1),
                 Grid::make()
@@ -111,7 +110,7 @@ class Pr0PostCreator extends Page
     {
         $this->data = [
             'title' => $this->record->title,
-            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'. $question->getKey() => true])->toArray(),
+            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'.$question->getKey() => true])->toArray(),
         ];
         $this->form->fill($this->data);
     }
