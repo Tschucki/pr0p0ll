@@ -15,7 +15,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ViewField;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
@@ -59,8 +58,8 @@ class Pr0PostCreator extends Page
     {
         return [
             Action::make('download')->label('Herunterladen')->extraAttributes([
-                'onclick' => new HtmlString("downloadImage()"),
-            ])->action(fn() => Notification::make('converting_started')->warning()->title('Post wird erstellt')->body('Dein Post wird erstellt. Dies kann einige Sekunden dauern.')->send()),
+                'onclick' => new HtmlString('downloadImage()'),
+            ])->action(fn () => Notification::make('converting_started')->warning()->title('Post wird erstellt')->body('Dein Post wird erstellt. Dies kann einige Sekunden dauern.')->send()),
         ];
     }
 
@@ -105,8 +104,8 @@ class Pr0PostCreator extends Page
                         Textarea::make('description')->label('Beschreibung')->nullable(),
                         ...collect($this->record->questions)->map(function (Question $question) {
                             return Section::make($question->title)->schema([
-                                Toggle::make('display_' . $question->getKey())->label('Anzeigen')->inline(),
-                                Textarea::make('description_' . $question->getKey())->label('Beschreibung')->nullable(),
+                                Toggle::make('display_'.$question->getKey())->label('Anzeigen')->inline(),
+                                Textarea::make('description_'.$question->getKey())->label('Beschreibung')->nullable(),
                             ]);
                         })->toArray(),
                     ])->columnSpan(1),
@@ -140,9 +139,9 @@ class Pr0PostCreator extends Page
         $this->data = [
             'color' => '#ee4d2e',
             'title' => $this->record->title,
-            ...collect($this->record->questions)->mapWithKeys(fn(Question $question) => ['question_title_' . $question->getKey() => $question->title])->toArray(),
-            ...collect($this->record->questions)->mapWithKeys(fn(Question $question) => ['display_' . $question->getKey() => true])->toArray(),
-            ...collect($this->record->questions)->mapWithKeys(fn(Question $question) => ['description_' . $question->getKey() => $question->description])->toArray(),
+            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['question_title_'.$question->getKey() => $question->title])->toArray(),
+            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'.$question->getKey() => true])->toArray(),
+            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['description_'.$question->getKey() => $question->description])->toArray(),
         ];
         $this->form->fill($this->data);
     }

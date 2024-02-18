@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 class PollResultService
 {
     private MyPoll $poll;
+
     /**
      * @var mixed|string
      */
@@ -48,8 +49,8 @@ class PollResultService
 
     private function getBooleanChartWidget(Question $question): WidgetConfiguration
     {
-        $cacheKeyTrueAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-true-answer-counts';
-        $cacheKeyFalseAnswers = 'poll-' . $question->poll_id . $question->id . '-bool-false-answer-counts';
+        $cacheKeyTrueAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-true-answer-counts';
+        $cacheKeyFalseAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-false-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKeyTrueAnswers)) {
@@ -70,14 +71,14 @@ class PollResultService
         }
 
         $questionAnswerCount = $question->answers->count();
-        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        $footerText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
             'footerText' => $footerText,
@@ -110,14 +111,14 @@ class PollResultService
         });
 
         $questionAnswerCount = $question->answers->count();
-        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        $footerText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
             'footerText' => $footerText,
@@ -172,7 +173,7 @@ class PollResultService
 
     private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection
     {
-        $cacheKey = 'poll-' . $question->poll_id . $question->id . '-options-answer-counts';
+        $cacheKey = 'poll-'.$question->poll_id.$question->id.'-options-answer-counts';
         $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
 
         if (\Cache::has($cacheKey)) {

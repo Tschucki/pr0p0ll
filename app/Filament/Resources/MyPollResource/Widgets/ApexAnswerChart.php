@@ -12,6 +12,7 @@ class ApexAnswerChart extends ApexChartWidget
     protected static ?string $heading;
 
     public array $answerData;
+
     public ?string $subHeading = null;
 
     public ?string $color = '#ee4d2e';
@@ -50,7 +51,6 @@ class ApexAnswerChart extends ApexChartWidget
     JS
             );
         }
-
 
         return RawJs::make(<<<'JS'
     {
