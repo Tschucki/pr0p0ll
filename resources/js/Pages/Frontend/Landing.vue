@@ -30,7 +30,7 @@ export default {
            :enter="{ opacity: 1, y: 0, scale: 1 }"
            :delay="150">
         <h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl">
-          Pr0p0ll ist endlich zurück!
+          Coming Soon!
         </h1>
         <p class="mt-6 text-xl text-[#f2f5f4]/80">
           Ein Reboot der alten Pr0p0ll-Plattform für <a href="https://pr0gramm.com">Pr0gramm</a>-Nutzer, um Umfragen

@@ -49,7 +49,7 @@ import {Link} from "@inertiajs/vue3";
               einen Stern auf Github da</h2>
               <p class="mt-4 text-sm text-[#f2f5f4]/80">Zeige, dass dir das Projekt gefällt und gib dem Repo einen
                 Stern</p>
-              <a target="_blank" href="https://github.com/pr0p0ll/pr0p0ll"
+              <a target="_blank" href="https://github.com/Tschucki/pr0p0ll"
                  class="flex aspect-video h-12 gap-4 w-full mt-6 items-center justify-center rounded-xl bg-pr0gramm-500 text-white hover:bg-pr0gramm-500/80 transition hover:bg-neutral-800 font-semibold">
                 <span class="tracking-wide">Liebe teilen</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
