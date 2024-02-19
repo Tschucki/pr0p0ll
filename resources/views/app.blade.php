@@ -9,6 +9,7 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://pr0p0ll.com/pr0p0ll.png">
     <meta name="theme-color" content="#161618">
+    <script defer data-domain="pr0p0ll.com" src="https://plausible.marcelwagner.dev/js/script.js"></script>
     @routes
     @vite('resources/js/app.js')
     @inertiaHead
