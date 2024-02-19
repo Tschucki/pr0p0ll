@@ -39,6 +39,8 @@ import {Link} from "@inertiajs/vue3";
                   <li class="mt-4">
                     <a class="transition hover:text-[#f2f5f4]"
                        href="https://pr0gramm.com/inbox/messages/PimmelmannJones">PimmelmannJones (Pr0gramm)</a>
+                    <a class="transition hover:text-[#f2f5f4]"
+                       href="mailto:info@pr0p0ll.com">E-Mail</a>
                   </li>
                 </ul>
               </li>
@@ -46,7 +48,7 @@ import {Link} from "@inertiajs/vue3";
           </nav>
           <div class="flex lg:justify-end">
             <form class="max-w-sm"><h2 class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]">Lass
-              einen Stern auf Github da</h2>
+              einen Stern auf GitHub da</h2>
               <p class="mt-4 text-sm text-[#f2f5f4]/80">Zeige, dass dir das Projekt gefällt und gib dem Repo einen
                 Stern</p>
               <a target="_blank" href="https://github.com/Tschucki/pr0p0ll"

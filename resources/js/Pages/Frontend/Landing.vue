@@ -35,7 +35,7 @@ export default {
         <p class="mt-6 text-xl text-[#f2f5f4]/80">
           Ein Reboot der alten Pr0p0ll-Plattform für <a href="https://pr0gramm.com">Pr0gramm</a>-Nutzer, um Umfragen
           zu erstellen und zu beantworten. Das Projekt ist komplett Open-Source und ist auf <a
-            href="https://github.com/pr0p0ll/pr0p0ll" target="_blank">Github</a> einsehbar
+            href="https://github.com/tschucki/pr0p0ll" target="_blank">GitHub</a> einsehbar
         </p>
       </div>
     </div>
