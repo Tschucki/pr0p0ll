@@ -16,9 +16,13 @@ import {Link} from "@inertiajs/vue3";
               <li>
                 <div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]">Rechtliches</div>
                 <ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80">
-                  <li class="mt-4"><Link class="transition hover:text-[#f2f5f4]"
-                                      href="/impressum">Impressum</Link></li>
-                  <li class="mt-4"><Link  class="transition hover:text-[#f2f5f4]" href="/datenschutz">Datenschutz</Link>
+                  <li class="mt-4">
+                    <Link class="transition hover:text-[#f2f5f4]"
+                          href="/impressum">Impressum
+                    </Link>
+                  </li>
+                  <li class="mt-4">
+                    <Link class="transition hover:text-[#f2f5f4]" href="/datenschutz">Datenschutz</Link>
                   </li>
                   <li class="mt-4"><a class="transition hover:text-[#f2f5f4]"
                                       href="/nutzungsbedingungen">Nutzungsbedingungen</a>
@@ -39,8 +43,9 @@ import {Link} from "@inertiajs/vue3";
                   <li class="mt-4">
                     <a class="transition hover:text-[#f2f5f4]"
                        href="https://pr0gramm.com/inbox/messages/PimmelmannJones">PimmelmannJones (Pr0gramm)</a>
-                    <a class="transition hover:text-[#f2f5f4]"
-                       href="mailto:info@pr0p0ll.com">E-Mail</a>
+                  </li>
+                  <li class="mt-4">
+                    <a class="transition hover:text-[#f2f5f4]" href="mailto:info@pr0p0ll.com">E-Mail</a>
                   </li>
                 </ul>
               </li>
