@@ -2,11 +2,8 @@ name: "JavaScript Code Linting"
 
 on:
   push:
-    paths:
-      - 'resources'
-  pull_request:
-    paths:
-      - 'resources'
+    branches:
+      - '*'
 
 jobs:
   lint-prettier:
