@@ -5,6 +5,7 @@ parameters:
         - app
         - database
         - routes
-    level: 9
+    level: 6
     ignoreErrors:
     excludePaths:
+    checkGenericClassInNonGenericObjectType: false
