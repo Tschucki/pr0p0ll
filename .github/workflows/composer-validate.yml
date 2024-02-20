@@ -3,7 +3,7 @@ name: Composer Validate
 on:
   push:
     branches:
-      - *
+      - '*'
 
 jobs:
   composer_validate:
