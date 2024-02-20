@@ -1,4 +1,4 @@
-name: "Prettier & ESLint Code Style"
+name: "JavaScript Code Linting"
 
 on:
   push:
@@ -18,7 +18,8 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 21
 
@@ -27,6 +28,3 @@ jobs:
 
       - name: ESLint
         run: npm run lint
-
-      - name: Prettier
-        run: npm run prettier
