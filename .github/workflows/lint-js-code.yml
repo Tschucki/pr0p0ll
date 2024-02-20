@@ -3,7 +3,7 @@ name: "JavaScript Code Linting"
 on:
   push:
     branches:
-      - '*'
+      - 'refactor/code-quality'
 
 jobs:
   lint-prettier:

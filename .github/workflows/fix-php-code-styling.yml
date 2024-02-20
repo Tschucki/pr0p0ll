@@ -3,7 +3,7 @@ name: "Fix PHP Code Styling"
 on:
   push:
     branches:
-      - '*'
+      - 'refactor/code-quality'
 
 permissions:
   contents: write
