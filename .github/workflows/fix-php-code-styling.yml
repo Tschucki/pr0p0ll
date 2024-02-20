@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: 21
 
+      - name: Install Dependencies
+        run: npm install
+
       - name: Run Prettier
         run: npm run prettier
 
