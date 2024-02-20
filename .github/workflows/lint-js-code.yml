@@ -6,7 +6,7 @@ on:
       - 'refactor/code-quality'
 
 jobs:
-  lint-prettier:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
