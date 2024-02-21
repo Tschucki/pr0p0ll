@@ -17,9 +17,6 @@ class PollResultService
 {
     private MyPoll $poll;
 
-    /**
-     * @var mixed|string
-     */
     private string $color;
 
     public function __construct(MyPoll $poll, string $color = '#ee4d2e')

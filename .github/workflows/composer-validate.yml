@@ -19,7 +19,6 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_extensions: intl zip
-          version: 2.x
 
       - name: Validate Composer files
         run: composer validate
