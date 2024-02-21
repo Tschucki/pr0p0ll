@@ -12,9 +12,9 @@
     <br/>
     <a href="https://pr0p0ll.com">Visit Website</a>
     .
-    <a href="https://github.com/pr0p0ll/pr0p0ll/issues">Report Bug</a>
+    <a href="https://github.com/Tschucki/pr0p0ll/issues">Report Bug</a>
     .
-    <a href="https://github.com/pr0p0ll/pr0p0ll/issues">Request Feature</a>
+    <a href="https://github.com/Tschucki/pr0p0ll/issues">Request Feature</a>
   </p>
 </p>
 
@@ -32,11 +32,7 @@
 
 ## About The Project
 
-![Screen Shot](art/targetgroup-screenshot.png)
-![Screen Shot](art/participate-screenshot.png)
-![Screen Shot](art/results-screenshot.png)
-
-Pr0p0ll ist eine Plattform für Pr0gramm-User, um Umfragen zu erstellen und an diesen teilzunehmen. Der Betreiber der alten Platform (Rundesballi) hat das Projekt an Tschucki übergeben und hat die Plattform neu entwickelt. Die neue Plattform ist mit Laravel 10 und Filament 3 entwickelt worden. Um Zugang zur Plattform zu erhalten loggt sich der Benutzer über O-Auth ein.
+Pr0p0ll ist eine Plattform für Pr0gramm-User, um Umfragen zu erstellen und an diesen teilzunehmen. Der Betreiber der alten Platform (RundesBalli) hat das Projekt an Tschucki übergeben und hat die Plattform neu entwickelt. Die neue Plattform ist mit Laravel 10 und Filament 3 entwickelt worden. Um Zugang zur Plattform zu erhalten loggt sich der Benutzer über O-Auth ein.
 
 ### Features
 
@@ -55,20 +51,15 @@ Pr0p0ll is built with the following:
 * Vue
 * TailwindCSS
 
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any
 contributions you make are **greatly appreciated**.
 
 * If you have suggestions for adding or removing projects, feel free
-  to [open an issue](https://github.com/pr0p0ll/pr0p0ll/issues/new) to discuss it, or directly create a pull request.
+  to [open an issue](https://github.com/Tschucki/pr0p0ll/issues/new) to discuss it, or directly create a pull request.
 * Create individual PR for each suggestion.
-* Please also read through the [Code Of Conduct](https://github.com/pr0p0ll/pr0p0ll/blob/main/CODE_OF_CONDUCT.md) before
+* Please also read through the [Code Of Conduct](https://github.com/Tschucki/pr0p0ll/blob/main/.github/CODE_OF_CONDUCT.md) before
   posting your first idea as well.
 
 ### Creating A Pull Request
@@ -81,7 +72,7 @@ contributions you make are **greatly appreciated**.
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/pr0p0ll/pr0p0ll/blob/main/LICENSE.md) for more
+Distributed under the MIT License. See [LICENSE](https://github.com/Tschucki/pr0p0ll/blob/main/LICENSE.md) for more
 information.
 
 ## Authors
@@ -90,4 +81,4 @@ information.
 
 ## Acknowledgements
 
-* [Rundesballi](https://github.com/RundesBalli)
+* [RundesBalli](https://github.com/RundesBalli)
