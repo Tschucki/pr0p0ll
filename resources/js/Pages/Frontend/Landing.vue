@@ -165,8 +165,8 @@ export default {
           :initial="{ opacity: 0, x: 24 }"
           :visible-once="{ opacity: 1, x: 0 }"
           :delay="200">
-          <template #image> UI/UX</template>
-          <template #feature> Form-Builder</template>
+          <template #image>UI/UX</template>
+          <template #feature>Form-Builder</template>
           <template #description>
             Der Form-Builder ermöglicht es euch, Umfragen mit verschiedenen
             Fragetypen und Antworttypen zusammenzustellen.<br /><br />So könnt
@@ -178,8 +178,8 @@ export default {
           :initial="{ opacity: 0, x: 24 }"
           :visible-once="{ opacity: 1, x: 0 }"
           :delay="300">
-          <template #image> UI/UX</template>
-          <template #feature> Zielgruppen definieren</template>
+          <template #image>UI/UX</template>
+          <template #feature>Zielgruppen definieren</template>
           <template #description>
             Ihr könnt eure Umfragen nun auch für noch spezifischere Zielgruppen
             freigeben. Ihr könnt das Geschlecht, das Alter und die Region des
@@ -193,8 +193,8 @@ export default {
           :initial="{ opacity: 0, x: 24 }"
           :visible-once="{ opacity: 1, x: 0 }"
           :delay="400">
-          <template #image> UX</template>
-          <template #feature> O-Auth</template>
+          <template #image>UX</template>
+          <template #feature>O-Auth</template>
           <template #description>
             Ihr könnt euch nun direkt mit eurem Pr0gramm-Account auf Pr0p0ll
             anmelden. Ihr braucht euch also kein neues Konto bei Pr0p0ll
@@ -206,8 +206,8 @@ export default {
           :initial="{ opacity: 0, x: 24 }"
           :visible-once="{ opacity: 1, x: 0 }"
           :delay="450">
-          <template #image> UX</template>
-          <template #feature> Benachrichtigungssystem</template>
+          <template #image>UX</template>
+          <template #feature>Benachrichtigungen</template>
           <template #description>
             Alle Nutzer haben die Möglichkeit Benachrichtigungen für relevante
             Ereignisse zu aktivieren. So werdet ihr über neue Umfragen,
@@ -220,8 +220,8 @@ export default {
           :initial="{ opacity: 0, x: 24 }"
           :visible-once="{ opacity: 1, x: 0 }"
           :delay="500">
-          <template #image> Nice-To-Haves</template>
-          <template #feature> Bewertung von Umfragen</template>
+          <template #image>Nice-To-Haves</template>
+          <template #feature>Bewertung von Umfragen</template>
           <template #description>
             Am Ende einer Umfrage könnt ihr diese bewerten. So können andere
             Nutzer sehen, wie gut eure Umfrage war und ihr könnt sehen, wie gut
@@ -233,8 +233,8 @@ export default {
           :initial="{ opacity: 0, x: 24 }"
           :visible-once="{ opacity: 1, x: 0 }"
           :delay="550">
-          <template #image> Mehr</template>
-          <template #feature> Alle Features</template>
+          <template #image>Mehr</template>
+          <template #feature>Alle Features</template>
           <template #description>
             Hier findet ihr eine Liste aller Features, die das neue Pr0p0ll
             mitbringt.
