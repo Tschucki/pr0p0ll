@@ -2,8 +2,11 @@ name: "JavaScript Code Linting"
 
 on:
   push:
-    branches:
-      - 'refactor/code-quality'
+    paths:
+      - 'resources'
+  pull_request:
+    paths:
+      - 'resources'
 
 jobs:
   lint:

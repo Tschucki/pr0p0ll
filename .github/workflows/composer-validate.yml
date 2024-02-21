@@ -2,8 +2,13 @@ name: Composer Validate
 
 on:
   push:
-    branches:
-      - 'refactor/code-quality'
+    paths:
+      - 'composer.json'
+      - 'composer-lock.json'
+  pull_request:
+    paths:
+      - 'composer.json'
+      - 'composer-lock.json'
 
 jobs:
   composer_validate:

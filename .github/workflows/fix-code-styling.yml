@@ -2,8 +2,13 @@ name: "Fix Code Styling"
 
 on:
   push:
-    branches:
-      - 'refactor/code-quality'
+    paths:
+      - '**.php'
+      - 'resources'
+  pull_request:
+    paths:
+      - '**.php'
+      - 'resources'
 
 permissions:
   contents: write
