@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 
 class Pr0authController extends Controller
 {
-    public function callback(): \Illuminate\Http\RedirectResponse
+    public function callback(): RedirectResponse
     {
-        $user = Socialite::driver('pr0gramm')->user();
+        $driver = Socialite::driver('pr0gramm');
+        $user = $driver->user();
 
         /* $user->user => [
             "name" => string,
@@ -37,7 +41,7 @@ class Pr0authController extends Controller
         return Redirect::route('filament.pr0p0ll.pages.dashboard');
     }
 
-    public function start()
+    public function start(): RedirectResponse
     {
         if (\Auth::check() === false) {
             return Socialite::driver('pr0gramm')->redirect();

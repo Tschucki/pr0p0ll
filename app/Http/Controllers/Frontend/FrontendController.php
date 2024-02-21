@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
@@ -7,10 +9,11 @@ use App\Models\Polls\Poll;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class FrontendController extends Controller
 {
-    public function landing(): \Inertia\Response
+    public function landing(): Response
     {
         return Inertia::render('Frontend/Landing', [
             'userCount' => \Number::abbreviate(User::count()),
@@ -18,7 +21,7 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function imprint(): \Inertia\Response
+    public function imprint(): Response
     {
         $sImprintPath = resource_path('markdown/imprint.md');
         $sImprintMarkdown = Str::markdown(file_get_contents($sImprintPath));
@@ -28,7 +31,7 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function privacy(): \Inertia\Response
+    public function privacy(): Response
     {
         $sPrivacyPath = resource_path('markdown/privacy.md');
         $sPrivacyMarkdown = Str::markdown(file_get_contents($sPrivacyPath));
@@ -38,7 +41,7 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function terms(): \Inertia\Response
+    public function terms(): Response
     {
         $sTermsPath = resource_path('markdown/terms.md');
         $sTermsMarkdown = Str::markdown(file_get_contents($sTermsPath));

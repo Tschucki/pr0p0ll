@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\QuestionType;
@@ -112,7 +114,7 @@ class PollSeeder extends Seeder
         }
     }
 
-    private function createMultipleOptionAnswersForQuestion(Question $question, MyPoll $myPoll)
+    private function createMultipleOptionAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
         $uuid = Str::uuid()->toString();
 
@@ -129,7 +131,7 @@ class PollSeeder extends Seeder
         }
     }
 
-    private function createBoolAnswersForQuestion(Question $question, MyPoll $myPoll)
+    private function createBoolAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
         $uuid = Str::uuid()->toString();
 

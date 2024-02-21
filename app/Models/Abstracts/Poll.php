@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Abstracts;
+declare(strict_types=1);
+
+namespace App\Models\Abstracts;
 
 use App\Models\Answer;
 use App\Models\Category;
@@ -8,6 +10,9 @@ use App\Models\Question;
 use App\Models\User;
 use App\Services\TargetGroupService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 abstract class Poll extends Model
@@ -25,17 +30,17 @@ abstract class Poll extends Model
         'target_group' => 'array',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function questions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function questions(): HasMany
     {
         return $this->hasMany(Question::class, 'poll_id');
     }
 
-    public function answers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function answers(): HasMany
     {
         return $this->hasMany(Answer::class, 'poll_id');
     }
@@ -45,7 +50,7 @@ abstract class Poll extends Model
         return $this->participants()->where('participant_id', $user->getKey())->exists();
     }
 
-    public function participants(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function participants(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'participants_2_polls', 'poll_id', 'participant_id')
             ->withTimestamps()
@@ -128,7 +133,7 @@ abstract class Poll extends Model
         ]);
     }
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }

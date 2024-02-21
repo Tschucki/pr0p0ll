@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\User;
@@ -39,7 +41,7 @@ class TargetGroupService
         return $query;
     }
 
-    private static function builderDataToArray(array $builderData): array
+    private static function builderDataToArray(array $aBuilderData): array
     {
         $gender = null;
         $nationality = [];
@@ -47,7 +49,7 @@ class TargetGroupService
         $maxAge = null;
         $region = [];
 
-        collect($builderData)->each(function (array $field) use (&$gender, &$nationality, &$minAge, &$maxAge, &$region) {
+        collect($aBuilderData)->each(function (array $field) use (&$gender, &$nationality, &$minAge, &$maxAge, &$region) {
             if ($field['type'] === 'gender') {
                 $gender = $field['data']['gender'];
             }

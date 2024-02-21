@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Actions;
 
-use App\Abstracts\Poll;
+use App\Models\Abstracts\Poll;
 use App\Services\PollFormService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;

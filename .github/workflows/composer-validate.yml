@@ -1,0 +1,29 @@
+name: Composer Validate
+
+on:
+  push:
+    paths:
+      - 'composer.json'
+      - 'composer-lock.json'
+  pull_request:
+    paths:
+      - 'composer.json'
+      - 'composer-lock.json'
+
+jobs:
+  composer_validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install Composer
+        uses: php-actions/composer@v6
+        with:
+          php_extensions: intl zip
+
+      - name: Validate Composer files
+        run: composer validate

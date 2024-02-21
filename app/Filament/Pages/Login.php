@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
@@ -58,7 +60,7 @@ class Login extends \Filament\Pages\Auth\Login
                 ->danger()
                 ->send();
 
-            return null;
+            return;
         }
 
         return \Redirect::route('oauth.start');

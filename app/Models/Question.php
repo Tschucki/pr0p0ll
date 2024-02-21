@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use App\Abstracts\AnswerType;
+use App\Models\Abstracts\AnswerType;
 use App\Models\Polls\MyPoll;
 use Illuminate\Database\Eloquent\Model;
 

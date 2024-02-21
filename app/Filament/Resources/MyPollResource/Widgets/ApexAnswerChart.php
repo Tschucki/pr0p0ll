@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\MyPollResource\Widgets;
 
 use Filament\Support\RawJs;
@@ -36,7 +38,8 @@ class ApexAnswerChart extends ApexChartWidget
     protected function extraJsOptions(): ?RawJs
     {
         if ($this->answerData['chartOptions']['chart']['type'] === 'pie') {
-            return RawJs::make(<<<'JS'
+            return RawJs::make(
+                <<<'JS'
     {
         dataLabels: {
             enabled: true,
@@ -52,7 +55,8 @@ class ApexAnswerChart extends ApexChartWidget
             );
         }
 
-        return RawJs::make(<<<'JS'
+        return RawJs::make(
+            <<<'JS'
     {
         dataLabels: {
             enabled: true,

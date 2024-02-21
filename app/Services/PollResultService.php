@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Filament\Resources\MyPollResource\Widgets\ApexAnswerChart;
@@ -15,9 +17,6 @@ class PollResultService
 {
     private MyPoll $poll;
 
-    /**
-     * @var mixed|string
-     */
     private string $color;
 
     public function __construct(MyPoll $poll, string $color = '#ee4d2e')

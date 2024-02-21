@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Enums\ClosesAfter;
@@ -110,7 +112,7 @@ class MyPollResource extends Resource
                         })->label('')->required()
                             ->blocks(function () {
                                 return QuestionType::active()->get()->map(function (QuestionType $questionType) {
-                                    return Block::make($questionType->getKey())->label($questionType->title)->schema([
+                                    return Block::make((string) $questionType->getKey())->label($questionType->title)->schema([
                                         Components\Hidden::make('question_type_id')->default($questionType->getKey()),
                                         Components\Hidden::make('uuid')->default(\Str::uuid()->toString()),
                                         TextInput::make('title')->label('Titel')->maxLength(255)->required()->live(),
@@ -118,7 +120,7 @@ class MyPollResource extends Resource
                                         Components\Repeater::make('options')->label('Auswahlmöglichkeiten')->schema([
                                             TextInput::make('title')->required()->label('Titel')->maxLength(255),
                                             TextInput::make('helperText')->nullable()->label('Hilfetext')->maxLength(255),
-                                        ])->required()->visible(fn () => $questionType->hasOptions()),
+                                        ])->reorderable(false)->required()->visible(fn () => $questionType->hasOptions()),
                                     ])->reactive()->icon($questionType->icon)->label(function (?array $state) use ($questionType): string {
                                         if ($state === null) {
                                             return $questionType->title;
@@ -127,7 +129,7 @@ class MyPollResource extends Resource
                                         return $state['title'] ? $state['title'].' - '.$questionType->title : $questionType->title;
                                     });
                                 })->toArray();
-                            })->collapsible()->collapsed(fn (MyPoll $poll) => $poll)->reactive()->live()->blockNumbers(false),
+                            })->reorderable(false)->collapsible()->collapsed(fn (MyPoll $poll) => $poll)->reactive()->live()->blockNumbers(false),
                     ]),
                 ])->columnSpanFull(),
             ]);

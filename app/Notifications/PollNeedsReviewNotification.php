@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
-use App\Abstracts\Poll as AbstractPoll;
+use App\Models\Abstracts\Poll as AbstractPoll;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Pr0gramm\Pr0grammChannel;

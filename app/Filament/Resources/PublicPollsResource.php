@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PublicPollsResource\Pages;
@@ -57,11 +59,12 @@ class PublicPollsResource extends Resource
                     ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user())),
             ])
             ->bulkActions([])
-            ->query(PublicPoll::query()
-                ->where('visible_to_public', true)
-                ->where('approved', true)
-                ->where('in_review', false)
-                ->withoutGlobalScope(SoftDeletingScope::class)
+            ->query(
+                PublicPoll::query()
+                    ->where('visible_to_public', true)
+                    ->where('approved', true)
+                    ->where('in_review', false)
+                    ->withoutGlobalScope(SoftDeletingScope::class)
             )
             ->paginated([10, 25, 50]);
     }

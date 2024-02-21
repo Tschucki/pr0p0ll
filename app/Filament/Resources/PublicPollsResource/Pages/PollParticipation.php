@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\PublicPollsResource\Pages;
 
 use App\Filament\Resources\PublicPollsResource;
@@ -88,7 +90,7 @@ class PollParticipation extends Page
                 collect($tempData)->filter(fn ($answer) => $answer !== null)->each(function ($answer, $key) use ($uniqueUserIdentifier) {
                     $question = Question::find($key);
                     if (! $question) {
-                        Notification::make('error')->danger()->title('Fehler beim Speichern')->body("Die Frage mit der ID ${key} konnte nicht gefunden werden.")->send();
+                        Notification::make('error')->danger()->title('Fehler beim Speichern')->body("Die Frage mit der ID {$key} konnte nicht gefunden werden.")->send();
                         DB::rollBack();
                         throw new Halt("Die Frage mit der ID {$key} konnte nicht gefunden werden.");
                     }

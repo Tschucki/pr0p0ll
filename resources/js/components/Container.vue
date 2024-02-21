@@ -1,7 +1,7 @@
 <script>
 export default {
-  name: "Container"
-}
+  name: 'Container',
+};
 </script>
 
 <template>
@@ -12,6 +12,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

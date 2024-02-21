@@ -1,0 +1,30 @@
+name: "JavaScript Code Linting"
+
+on:
+  push:
+    paths:
+      - 'resources'
+  pull_request:
+    paths:
+      - 'resources'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: ESLint
+        run: npm run lint

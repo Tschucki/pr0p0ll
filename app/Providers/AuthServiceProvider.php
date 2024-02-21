@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
@@ -19,7 +21,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
         MyPoll::class => MyPollPolicy::class,
         PublicPoll::class => PublicPollPolicy::class,
         Poll::class => PollPolicy::class,
