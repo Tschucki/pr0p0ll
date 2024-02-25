@@ -10,8 +10,8 @@ use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\Polls\MyPoll;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class PollSeeder extends Seeder
 {
@@ -99,43 +99,54 @@ class PollSeeder extends Seeder
 
     private function createSingleOptionAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
-        $uuid = Str::uuid()->toString();
+
 
         foreach (range(1, 10) as $i) {
+            $user = User::inRandomOrder()->first();
+            $anonymousUser = $user->createAnonymousUser();
+            $anonymousUserId = $anonymousUser->getKey();
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
-                    'answer_value' => 'Option '.random_int(1, 3),
+                    'answer_value' => 'Option ' . random_int(1, 3),
                 ])->getKey(),
                 'answerable_type' => get_class($question->answerType()),
                 'user_id' => null,
                 'poll_id' => $myPoll->getKey(),
-                'user_identifier' => $uuid,
+                'anonymous_user_id' => $anonymousUserId,
             ]);
         }
+        $myPoll->participants()->attach($user->getKey());
     }
 
     private function createMultipleOptionAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
-        $uuid = Str::uuid()->toString();
+
 
         foreach (range(1, 10) as $i) {
+            $user = User::inRandomOrder()->first();
+            $anonymousUser = $user->createAnonymousUser();
+            $anonymousUserId = $anonymousUser->getKey();
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
-                    'answer_value' => 'Option '.random_int(1, 3),
+                    'answer_value' => 'Option ' . random_int(1, 3),
                 ])->getKey(),
                 'answerable_type' => get_class($question->answerType()),
                 'user_id' => null,
                 'poll_id' => $myPoll->getKey(),
-                'user_identifier' => $uuid,
+                'anonymous_user_id' => $anonymousUserId,
             ]);
         }
+        $myPoll->participants()->attach($user->getKey());
     }
 
     private function createBoolAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
-        $uuid = Str::uuid()->toString();
+
 
         foreach (range(1, 10) as $i) {
+            $user = User::inRandomOrder()->first();
+            $anonymousUser = $user->createAnonymousUser();
+            $anonymousUserId = $anonymousUser->getKey();
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
                     'answer_value' => random_int(0, 1) === 1,
@@ -143,8 +154,9 @@ class PollSeeder extends Seeder
                 'answerable_type' => get_class($question->answerType()),
                 'user_id' => null,
                 'poll_id' => $myPoll->getKey(),
-                'user_identifier' => $uuid,
+                'anonymous_user_id' => $anonymousUserId,
             ]);
         }
+        $myPoll->participants()->attach($user->getKey());
     }
 }

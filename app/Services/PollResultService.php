@@ -10,6 +10,7 @@ use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\Polls\MyPoll;
 use App\Models\Question;
+use Filament\Notifications\Notification;
 use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Support\Collection;
 
@@ -19,10 +20,13 @@ class PollResultService
 
     private string $color;
 
-    public function __construct(MyPoll $poll, string $color = '#ee4d2e')
+    private array $filters;
+
+    public function __construct(MyPoll $poll, string $color = '#ee4d2e', $filters = [])
     {
         $this->poll = $poll;
         $this->color = $color;
+        $this->filters = $filters;
     }
 
     public function getAllWidgets(): array
@@ -48,26 +52,12 @@ class PollResultService
 
     private function getBooleanChartWidget(Question $question): WidgetConfiguration
     {
-        $cacheKeyTrueAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-true-answer-counts';
-        $cacheKeyFalseAnswers = 'poll-'.$question->poll_id.$question->id.'-bool-false-answer-counts';
-        $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
-
-        if (\Cache::has($cacheKeyTrueAnswers)) {
-            $trueAnswersCount = \Cache::get($cacheKeyTrueAnswers);
-        } else {
-            $trueAnswersCount = $question->answers()->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
-                $query->where('answer_value', true);
-            })->count();
-            \Cache::add($cacheKeyTrueAnswers, $trueAnswersCount, $cacheTime);
-        }
-        if (\Cache::has($cacheKeyFalseAnswers)) {
-            $falseAnswerCounts = \Cache::get($cacheKeyFalseAnswers);
-        } else {
-            $falseAnswerCounts = $question->answers()->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
-                $query->where('answer_value', false);
-            })->count();
-            \Cache::add($cacheKeyFalseAnswers, $falseAnswerCounts, $cacheTime);
-        }
+        $trueAnswersCount = $question->answers()->filter($this->filters)->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
+            $query->where('answer_value', true);
+        })->count();
+        $falseAnswerCounts = $question->answers()->filter($this->filters)->whereHasMorph('answerable', BoolAnswer::class, function ($query) {
+            $query->where('answer_value', false);
+        })->count();
 
         $questionAnswerCount = $question->answers->count();
         $footerText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
@@ -76,7 +66,7 @@ class PollResultService
         }
 
         $answerData = [
-            'heading' => $question->title,
+            'heading' => (string)now()->getTimestamp(),
             'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
@@ -116,7 +106,7 @@ class PollResultService
         }
 
         $answerData = [
-            'heading' => $question->title,
+            'heading' => (string)now()->getTimestamp(),
             'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
@@ -172,22 +162,13 @@ class PollResultService
 
     private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection
     {
-        $cacheKey = 'poll-'.$question->poll_id.$question->id.'-options-answer-counts';
-        $cacheTime = $question->poll->resultsArePublic() ? now()->addDay() : now()->addMinutes(5);
-
-        if (\Cache::has($cacheKey)) {
-            return \Cache::get($cacheKey);
-        }
-
         $optionsAnswerCounts = [];
         $options->each(function ($option) use ($question, &$optionsAnswerCounts, $answerType) {
-            $optionAnswerCount = $question->answers()->whereHasMorph('answerable', $answerType, function ($query) use ($option) {
+            $optionAnswerCount = $question->answers()->filter($this->filters)->whereHasMorph('answerable', $answerType, function ($query) use ($option) {
                 $query->where('answer_value', $option);
             })->count();
             $optionsAnswerCounts[$option] = $optionAnswerCount;
         });
-
-        \Cache::add($cacheKey, collect($optionsAnswerCounts), $cacheTime);
 
         return collect($optionsAnswerCounts);
     }

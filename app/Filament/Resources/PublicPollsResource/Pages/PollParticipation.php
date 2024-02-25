@@ -22,9 +22,7 @@ use Filament\Support\Exceptions\Halt;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Yepsua\Filament\Forms\Components\Rating;
-
 use function Filament\Support\is_app_url;
 
 /**
@@ -47,7 +45,7 @@ class PollParticipation extends Page
 
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
-        return 'An '.'"'.$this->record->title.'"'.' teilnehmen';
+        return 'An ' . '"' . $this->record->title . '"' . ' teilnehmen';
     }
 
     public function mount(int|string $record): void
@@ -69,7 +67,13 @@ class PollParticipation extends Page
 
             $data = $this->form->getState();
 
-            $uniqueUserIdentifier = Str::uuid()->toString();
+            $anonymousUser = Auth::user()?->createAnonymousUser();
+
+            if (!$anonymousUser) {
+                Notification::make('error')->danger()->title('Fehler beim Speichern')->body('Es konnte kein anonymer User angelegt werden.')->send();
+                throw new Halt('Es konnte kein anonymer User angelegt werden.');
+            }
+
             $tempData = $this->uniqueKeysArray($data);
             unset($tempData['rating']);
             $questionKeys = collect(array_keys($tempData));
@@ -81,15 +85,15 @@ class PollParticipation extends Page
 
             $areAllIdsInCurrentPoll = $questionKeys->diff($currentPollQuestions)->isEmpty();
 
-            if (! $areAllIdsInCurrentPoll) {
+            if (!$areAllIdsInCurrentPoll) {
                 Notification::make('error')->danger()->title('Das ist ja komisch')->body('Du hast mehr beantwortet, als es Fragen gibt...')->send();
                 throw new Halt('Du hast mehr beantwortet, als es Fragen gibt...');
             }
 
-            DB::transaction(function () use ($tempData, $uniqueUserIdentifier) {
-                collect($tempData)->filter(fn ($answer) => $answer !== null)->each(function ($answer, $key) use ($uniqueUserIdentifier) {
+            DB::transaction(function () use ($tempData, $anonymousUser) {
+                collect($tempData)->filter(fn($answer) => $answer !== null)->each(function ($answer, $key) use ($anonymousUser) {
                     $question = Question::find($key);
-                    if (! $question) {
+                    if (!$question) {
                         Notification::make('error')->danger()->title('Fehler beim Speichern')->body("Die Frage mit der ID {$key} konnte nicht gefunden werden.")->send();
                         DB::rollBack();
                         throw new Halt("Die Frage mit der ID {$key} konnte nicht gefunden werden.");
@@ -98,7 +102,7 @@ class PollParticipation extends Page
                     // If answer is array and the answertype is MultipleChoiceAnswer then we need to create multiple answers
 
                     if (is_array($answer) && $question->answerType() instanceof MultipleChoiceAnswer) {
-                        collect($answer)->each(function ($answer) use ($question, $uniqueUserIdentifier) {
+                        collect($answer)->each(function ($answer) use ($question, $anonymousUser) {
                             $answerType = $question->answerType()->create([
                                 'answer_value' => $answer,
                             ]);
@@ -107,7 +111,7 @@ class PollParticipation extends Page
                                 'answerable_type' => get_class($answerType),
                                 'user_id' => null,
                                 'poll_id' => $this->getPoll()->getKey(),
-                                'user_identifier' => $uniqueUserIdentifier,
+                                'anonymous_user_id' => $anonymousUser->getKey(),
                             ]);
                         });
                     } else {
@@ -124,7 +128,7 @@ class PollParticipation extends Page
                             'answerable_type' => get_class($answerType),
                             'user_id' => $user,
                             'poll_id' => $this->getPoll()->getKey(),
-                            'user_identifier' => $uniqueUserIdentifier,
+                            'anonymous_user_id' => $anonymousUser->getKey(),
                         ]);
                     }
                 });

@@ -11,7 +11,7 @@ class ApexAnswerChart extends ApexChartWidget
 {
     protected static ?string $chartId = 'apexAnswerChart';
 
-    protected static ?string $heading;
+    protected static ?string $heading = '';
 
     public array $answerData;
 
