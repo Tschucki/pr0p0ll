@@ -167,7 +167,7 @@ class MyPollResource extends Resource
     {
         return $infolist->schema([
             Section::make('Nachricht von Admin')->schema([
-                TextEntry::make('admin_notes')->label(false),
+                TextEntry::make('admin_notes')->label(''),
             ])->visible(fn (MyPoll $myPoll) => $myPoll->admin_notes),
             Section::make($infolist->getRecord()->title)->schema([
                 TextEntry::make('description')->columnSpanFull()->label('Beschreibung')->markdown(),

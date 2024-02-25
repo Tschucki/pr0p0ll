@@ -76,15 +76,15 @@ class PollFormService
         $questionKey = $question->getKey();
 
         return match ($component) {
-            QuestionType::SINGLE->value => Radio::make($questionKey),
-            QuestionType::MULTIPLE->value => CheckboxList::make($questionKey),
-            QuestionType::TEXT->value => Textarea::make($questionKey)->hint('Nicht anonym - Max. 255 Zeichen')->maxLength(255),
-            QuestionType::TOGGLE->value => Toggle::make($questionKey)->default(false)->inline(false),
-            QuestionType::DATE->value => DatePicker::make($questionKey),
-            QuestionType::TIME->value => DateTimePicker::make($questionKey)->seconds(false)->date(false)->time()->displayFormat('HH:mm'),
-            QuestionType::DATETIME->value => DateTimePicker::make($questionKey)->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
-            QuestionType::COLOR->value => ColorPicker::make($questionKey),
-            QuestionType::NUMBER->value => TextInput::make($questionKey)->numeric(),
+            QuestionType::SINGLE->value => Radio::make((string)$questionKey),
+            QuestionType::MULTIPLE->value => CheckboxList::make((string)$questionKey),
+            QuestionType::TEXT->value => Textarea::make((string)$questionKey)->hint('Nicht anonym - Max. 255 Zeichen')->maxLength(255),
+            QuestionType::TOGGLE->value => Toggle::make((string)$questionKey)->default(false)->inline(false),
+            QuestionType::DATE->value => DatePicker::make((string)$questionKey),
+            QuestionType::TIME->value => DateTimePicker::make((string)$questionKey)->seconds(false)->date(false)->time()->displayFormat('HH:mm'),
+            QuestionType::DATETIME->value => DateTimePicker::make((string)$questionKey)->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
+            QuestionType::COLOR->value => ColorPicker::make((string)$questionKey),
+            QuestionType::NUMBER->value => TextInput::make((string)$questionKey)->numeric(),
             default => throw new \InvalidArgumentException('Unknown question type'),
         };
     }

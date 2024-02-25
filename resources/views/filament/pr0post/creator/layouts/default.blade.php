@@ -40,7 +40,7 @@
             </tr>
         </table>
     </div>
-    <div class="border-t border-white/10 pt-2 px-2">
+    <div class="border-t border-white/10 pt-2 px-2 w-full">
         <div class="flex items-center justify-center flex-col">
             <div style="height: auto;" class="fi-logo inline-flex">
                 <div class="flex items-center gap-2 font-medium text-lg sm:h-8 h-6">
