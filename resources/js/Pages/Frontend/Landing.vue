@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <div class="mx-auto max-w-7xl px-6 lg:px-8 mt-24 sm:mt-32 md:mt-56">
+  <div class="mx-auto mt-24 max-w-7xl px-6 sm:mt-32 md:mt-56 lg:px-8">
     <div class="mx-auto max-w-2xl lg:max-w-none">
       <div
         v-motion
@@ -55,7 +55,7 @@ export default {
       </div>
     </div>
 
-    <div class="mx-auto max-w-7xl lg:px-8 mt-16">
+    <div class="mx-auto mt-16 max-w-7xl lg:px-8">
       <div class="mx-auto max-w-2xl lg:max-w-none">
         <div>
           <dl
@@ -68,7 +68,7 @@ export default {
               :enter="{ opacity: 1, y: 0, scale: 1 }"
               :delay="300">
               <div
-                class="flex flex-col-reverse pl-8 relative before:absolute after:absolute before:bg-[#f2f5f4] after:bg-[#f2f5f4]/20 before:left-0 before:top-0 before:h-6 before:w-px after:bottom-0 after:left-0 after:top-8 after:w-px"
+                class="relative flex flex-col-reverse pl-8 before:absolute before:left-0 before:top-0 before:h-6 before:w-px before:bg-[#f2f5f4] after:absolute after:bottom-0 after:left-0 after:top-8 after:w-px after:bg-[#f2f5f4]/20"
                 style="opacity: 1; transform: none">
                 <dt class="mt-2 text-base text-[#f2f5f4]/80">Maintainer</dt>
                 <dd
@@ -82,7 +82,7 @@ export default {
               :initial="{ opacity: 0, y: 100 }"
               :enter="{ opacity: 1, y: 0, scale: 1 }"
               :delay="500"
-              class="flex flex-col-reverse pl-8 relative before:absolute after:absolute before:bg-[#f2f5f4] after:bg-[#f2f5f4]/20 before:left-0 before:top-0 before:h-6 before:w-px after:bottom-0 after:left-0 after:top-8 after:w-px"
+              class="relative flex flex-col-reverse pl-8 before:absolute before:left-0 before:top-0 before:h-6 before:w-px before:bg-[#f2f5f4] after:absolute after:bottom-0 after:left-0 after:top-8 after:w-px after:bg-[#f2f5f4]/20"
               style="opacity: 1; transform: none">
               <dt class="mt-2 text-base text-[#f2f5f4]/80">
                 Bisher erstelle Umfragen
@@ -97,7 +97,7 @@ export default {
               :initial="{ opacity: 0, y: 100 }"
               :enter="{ opacity: 1, y: 0, scale: 1 }"
               :delay="700"
-              class="flex flex-col-reverse pl-8 relative before:absolute after:absolute before:bg-[#f2f5f4] after:bg-[#f2f5f4]/20 before:left-0 before:top-0 before:h-6 before:w-px after:bottom-0 after:left-0 after:top-8 after:w-px"
+              class="relative flex flex-col-reverse pl-8 before:absolute before:left-0 before:top-0 before:h-6 before:w-px before:bg-[#f2f5f4] after:absolute after:bottom-0 after:left-0 after:top-8 after:w-px after:bg-[#f2f5f4]/20"
               style="opacity: 1; transform: none">
               <dt class="mt-2 text-base text-[#f2f5f4]/80">Aktive Nutzer</dt>
               <dd
@@ -112,7 +112,7 @@ export default {
 
     <div
       v-motion
-      class="sm:flex hidden flex-col items-center gap-2 mt-12 cursor-pointer"
+      class="mt-12 hidden cursor-pointer flex-col items-center gap-2 sm:flex"
       :initial="{ opacity: 0, y: 100 }"
       :enter="{ opacity: 1, y: 0, scale: 1 }"
       :delay="900"
@@ -124,7 +124,7 @@ export default {
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="w-8 h-8 text-[#f2f5f4]">
+        class="h-8 w-8 text-[#f2f5f4]">
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -135,7 +135,7 @@ export default {
   <div
     id="aktuelle-features"
     v-motion
-    class="mx-auto max-w-7xl px-6 lg:px-8 pt-20 sm:mt-32 sm:py-32 lg:mt-42"
+    class="lg:mt-42 mx-auto max-w-7xl px-6 pt-20 sm:mt-32 sm:py-32 lg:px-8"
     :initial="{ opacity: 0, y: 24 }"
     :visibleOnce="{ opacity: 1, y: 0, scale: 1 }"
     :delay="300">
@@ -143,7 +143,7 @@ export default {
       <div class="max-w-2xl" style="opacity: 1; transform: none">
         <h2>
           <span
-            class="block font-display tracking-tight [text-wrap:balance] text-4xl font-medium sm:text-5xl text-[#f2f5f4]"
+            class="font-display block text-4xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-5xl"
             >Aktuelle Features und Neuerungen</span
           >
         </h2>
@@ -157,7 +157,7 @@ export default {
       </div>
     </div>
   </div>
-  <div class="mx-auto max-w-7xl px-6 lg:px-8 mt-16">
+  <div class="mx-auto mt-16 max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-2xl lg:max-w-none">
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <FeatureBlock

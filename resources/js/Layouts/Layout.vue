@@ -60,7 +60,7 @@ defineProps({
             </pattern>
           </defs>
         </svg>
-        <main class="w-full flex-auto mb-6">
+        <main class="mb-6 w-full flex-auto">
           <slot />
         </main>
       </div>

@@ -11,19 +11,19 @@ export default {
   <div
     id="faq"
     v-motion
-    class="mx-auto max-w-7xl px-6 lg:px-8 pt-20 sm:mt-32 sm:py-32 lg:mt-42"
+    class="lg:mt-42 mx-auto max-w-7xl px-6 pt-20 sm:mt-32 sm:py-32 lg:px-8"
     :initial="{ opacity: 0, y: 24 }"
     :visibleOnce="{ opacity: 1, y: 0, scale: 1 }"
     :delay="300">
     <div class="mx-auto max-w-2xl lg:max-w-none">
       <div class="max-w-2xl" style="opacity: 1; transform: none">
         <h2
-          class="block font-display tracking-tight [text-wrap:balance] text-4xl font-medium sm:text-5xl text-[#f2f5f4]">
+          class="font-display block text-4xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-5xl">
           FAQ
         </h2>
       </div>
     </div>
-    <div class="mx-auto max-w-7xl lg:px-8 mt-8">
+    <div class="mx-auto mt-8 max-w-7xl lg:px-8">
       <div class="mx-auto max-w-2xl lg:max-w-none">
         <div class="grid grid-cols-1 gap-2">
           <FaqElement :question="'Wie erstelle ich eine Umfrage?'">

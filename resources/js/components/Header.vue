@@ -12,12 +12,12 @@ import pr0p0llImage from '../../assets/imgs/pr0p0ll.png';
         <div class="flex items-center justify-between">
           <Link
             href="/"
-            class="sm:text-2xl text-xl font-medium flex items-center gap-2 text-[#f2f5f4]">
+            class="flex items-center gap-2 text-xl font-medium text-[#f2f5f4] sm:text-2xl">
             <img
               alt="Pr0p0ll Logo"
               title="Pr0p0ll Logo"
               :src="pr0p0llImage"
-              class="w-auto sm:h-12 h-10 aspect-square" />
+              class="aspect-square h-10 w-auto sm:h-12" />
             Pr0p0ll
           </Link>
           <div class="flex items-center gap-x-8">

@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/vue3';
 <template>
   <footer
     v-motion
-    class="mx-auto max-w-7xl px-6 lg:px-8 mt-24 w-full sm:pt-32 lg:pt-40"
+    class="mx-auto mt-24 w-full max-w-7xl px-6 sm:pt-32 lg:px-8 lg:pt-40"
     :initial="{ opacity: 0, y: 24 }"
     :visibleOnce="{ opacity: 1, y: 0 }"
     :delay="100">
@@ -101,7 +101,7 @@ import { Link } from '@inertiajs/vue3';
               <a
                 target="_blank"
                 href="https://github.com/Tschucki/pr0p0ll"
-                class="flex aspect-video h-12 gap-4 w-full mt-6 items-center justify-center rounded-xl bg-pr0gramm-500 text-white hover:bg-pr0gramm-500/80 transition hover:bg-neutral-800 font-semibold">
+                class="mt-6 flex aspect-video h-12 w-full items-center justify-center gap-4 rounded-xl bg-pr0gramm-500 font-semibold text-white transition hover:bg-neutral-800 hover:bg-pr0gramm-500/80">
                 <span class="tracking-wide">Liebe teilen</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +109,7 @@ import { Link } from '@inertiajs/vue3';
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6">
+                  class="h-6 w-6">
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -124,12 +124,12 @@ import { Link } from '@inertiajs/vue3';
           <a
             aria-label="Home"
             href="/"
-            class="text-[#f2f5f4] flex items-center gap-2 font-medium">
+            class="flex items-center gap-2 font-medium text-[#f2f5f4]">
             <img
               alt="Pr0p0ll Logo"
               title="Pr0p0ll Logo"
               :src="pr0p0llImage"
-              class="w-auto sm:h-8 h-4 aspect-square" />
+              class="aspect-square h-4 w-auto sm:h-8" />
             Pr0p0ll
           </a>
           <p class="text-sm text-[#f2f5f4]">ԅ(≖‿≖ԅ)</p>

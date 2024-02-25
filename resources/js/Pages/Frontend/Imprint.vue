@@ -17,7 +17,7 @@ defineOptions({
 </script>
 
 <template>
-  <div class="mx-auto max-w-7xl px-6 lg:px-8 mt-24 sm:mt-32 md:mt-56">
+  <div class="mx-auto mt-24 max-w-7xl px-6 sm:mt-32 md:mt-56 lg:px-8">
     <div class="mx-auto max-w-2xl lg:max-w-none">
       <div
         v-motion

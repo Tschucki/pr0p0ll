@@ -10,7 +10,7 @@ export default {
 <template>
   <div :id="question">
     <h4
-      class="block font-display tracking-tight [text-wrap:balance] text-3xl font-medium sm:text-4xl text-[#f2f5f4]">
+      class="font-display block text-3xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-4xl">
       {{ question }}
     </h4>
     <div class="mx-auto max-w-7xl text-[#f2f5f4]">
