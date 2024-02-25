@@ -66,7 +66,7 @@ class PollResultService
         }
 
         $answerData = [
-            'heading' => (string)now()->getTimestamp(),
+            'heading' => $question->title,
             'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
@@ -106,7 +106,7 @@ class PollResultService
         }
 
         $answerData = [
-            'heading' => (string)now()->getTimestamp(),
+            'heading' => $question->title,
             'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
