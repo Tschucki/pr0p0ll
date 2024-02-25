@@ -114,6 +114,8 @@
             </script>
         @endif
 
+        <script defer data-domain="pr0p0ll.com" src="https://plausible.marcelwagner.dev/js/script.outbound-links.js"></script>
+
         {{ \Filament\Support\Facades\FilamentView::renderHook('panels::head.end') }}
     </head>
 
