@@ -8,6 +8,7 @@ use App\Filament\Pages\Login;
 use App\Filament\Pages\UpdateUserData;
 use App\Filament\Widgets\NeedsDataReviewWidget;
 use Filament\Enums\ThemeMode;
+use Filament\FilamentManager;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -23,11 +24,17 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
+use Filament\Facades\Filament;
+use Illuminate\Contracts\View\View;
 
 class Pr0p0llPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        Filament::registerRenderHook('panels::global-search.after',
+            fn (): View => view('filament.header.aftersearch'),
+        );
+
         return $panel
             ->default()
             ->id('pr0p0ll')
@@ -52,6 +59,7 @@ class Pr0p0llPanelProvider extends PanelProvider
             ->userMenuItems([
                 MenuItem::make()->label('Startseite')->url('/')->icon('heroicon-o-home'),
             ])
+            ->font('Inter')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

@@ -27,7 +27,7 @@ _sfc_main$9.setup = (props, ctx) => {
 };
 const Container = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["ssrRender", _sfc_ssrRender$3]]);
 const _sfc_main$8 = {
-  name: "Button"
+  name: "Pr0Button"
 };
 function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   _push(`<button${ssrRenderAttrs(mergeProps({ class: "inline-flex rounded-lg px-4 py-1.5 font-semibold text-sm transition bg-pr0gramm-500 text-white hover:bg-pr0gramm-500/80" }, _attrs))}>`);
@@ -37,10 +37,10 @@ function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
 const _sfc_setup$8 = _sfc_main$8.setup;
 _sfc_main$8.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/components/Button.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/components/Pr0Button.vue");
   return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
-const Button = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$2]]);
+const Pr0Button = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$2]]);
 const pr0p0llImage = "/build/assets/pr0p0ll-fRda7U6F.png";
 const _sfc_main$7 = {
   __name: "Header",
@@ -77,7 +77,7 @@ const _sfc_main$7 = {
             _push2(`<div class="flex items-center gap-x-8"${_scopeId}>`);
             if (!((_a = _ctx.$page.props.auth.user) == null ? void 0 : _a.id)) {
               _push2(`<a href="/login"${_scopeId}>`);
-              _push2(ssrRenderComponent(Button, null, {
+              _push2(ssrRenderComponent(Pr0Button, null, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
                     _push3(` Login mit Pr0gramm `);
@@ -95,7 +95,7 @@ const _sfc_main$7 = {
             }
             if ((_b = _ctx.$page.props.auth.user) == null ? void 0 : _b.id) {
               _push2(`<a href="/login"${_scopeId}>`);
-              _push2(ssrRenderComponent(Button, null, {
+              _push2(ssrRenderComponent(Pr0Button, null, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
                     _push3(` Zu den Umfragen `);
@@ -135,7 +135,7 @@ const _sfc_main$7 = {
                     key: 0,
                     href: "/login"
                   }, [
-                    createVNode(Button, null, {
+                    createVNode(Pr0Button, null, {
                       default: withCtx(() => [
                         createTextVNode(" Login mit Pr0gramm ")
                       ]),
@@ -146,7 +146,7 @@ const _sfc_main$7 = {
                     key: 1,
                     href: "/login"
                   }, [
-                    createVNode(Button, null, {
+                    createVNode(Pr0Button, null, {
                       default: withCtx(() => [
                         createTextVNode(" Zu den Umfragen ")
                       ]),
@@ -171,7 +171,7 @@ _sfc_main$7.setup = (props, ctx) => {
   return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
 const _sfc_main$6 = {
-  __name: "Footer",
+  __name: "FooterElement",
   __ssrInlineRender: true,
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
@@ -181,7 +181,7 @@ const _sfc_main$6 = {
         initial: { opacity: 0, y: 24 },
         visibleOnce: { opacity: 1, y: 0 },
         delay: 100
-      }, _attrs, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="mx-auto max-w-2xl lg:max-w-none"><div style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><div class="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2"><nav><ul role="list" class="grid grid-cols-2 gap-8 sm:grid-cols-3"><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]">Rechtliches</div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4">`);
+      }, _attrs, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="mx-auto max-w-2xl lg:max-w-none"><div style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><div class="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2"><nav><ul role="list" class="grid grid-cols-2 gap-8 sm:grid-cols-3"><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Rechtliches </div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4">`);
       _push(ssrRenderComponent(unref(Link), {
         class: "transition hover:text-[#f2f5f4]",
         href: "/impressum"
@@ -213,14 +213,14 @@ const _sfc_main$6 = {
         }),
         _: 1
       }, _parent));
-      _push(`</li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/nutzungsbedingungen">Nutzungsbedingungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]">Hilfe</div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">FAQ</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Diskussionen</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Auswertungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]">Kontakt</div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="https://pr0gramm.com/inbox/messages/PimmelmannJones">PimmelmannJones (Pr0gramm)</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="mailto:info@pr0p0ll.com">E-Mail</a></li></ul></li></ul></nav><div class="flex lg:justify-end"><form class="max-w-sm"><h2 class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]">Lass einen Stern auf GitHub da</h2><p class="mt-4 text-sm text-[#f2f5f4]/80">Zeige, dass dir das Projekt gefällt und gib dem Repo einen Stern</p><a target="_blank" href="https://github.com/Tschucki/pr0p0ll" class="flex aspect-video h-12 gap-4 w-full mt-6 items-center justify-center rounded-xl bg-pr0gramm-500 text-white hover:bg-pr0gramm-500/80 transition hover:bg-neutral-800 font-semibold"><span class="tracking-wide">Liebe teilen</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"></path></svg></a></form></div></div><div class="mb-20 mt-24 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12"><a aria-label="Home" href="/" class="text-[#f2f5f4] flex items-center gap-2 font-medium"><img alt="Pr0p0ll Logo" title="Pr0p0ll Logo"${ssrRenderAttr("src", unref(pr0p0llImage))} class="w-auto sm:h-8 h-4 aspect-square"> Pr0p0ll </a><p class="text-sm text-[#f2f5f4]">ԅ(≖‿≖ԅ)</p></div></div></div></footer>`);
+      _push(`</li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/nutzungsbedingungen">Nutzungsbedingungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Hilfe </div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">FAQ</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Diskussionen</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Auswertungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Kontakt </div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="https://pr0gramm.com/inbox/messages/PimmelmannJones">PimmelmannJones (Pr0gramm)</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="mailto:info@pr0p0ll.com">E-Mail</a></li></ul></li></ul></nav><div class="flex lg:justify-end"><form class="max-w-sm"><h2 class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Lass einen Stern auf GitHub da </h2><p class="mt-4 text-sm text-[#f2f5f4]/80"> Zeige, dass dir das Projekt gefällt und gib dem Repo einen Stern </p><a target="_blank" href="https://github.com/Tschucki/pr0p0ll" class="flex aspect-video h-12 gap-4 w-full mt-6 items-center justify-center rounded-xl bg-pr0gramm-500 text-white hover:bg-pr0gramm-500/80 transition hover:bg-neutral-800 font-semibold"><span class="tracking-wide">Liebe teilen</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"></path></svg></a></form></div></div><div class="mb-20 mt-24 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12"><a aria-label="Home" href="/" class="text-[#f2f5f4] flex items-center gap-2 font-medium"><img alt="Pr0p0ll Logo" title="Pr0p0ll Logo"${ssrRenderAttr("src", unref(pr0p0llImage))} class="w-auto sm:h-8 h-4 aspect-square"> Pr0p0ll </a><p class="text-sm text-[#f2f5f4]">ԅ(≖‿≖ԅ)</p></div></div></div></footer>`);
     };
   }
 };
 const _sfc_setup$6 = _sfc_main$6.setup;
 _sfc_main$6.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/components/Footer.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/components/FooterElement.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
 const _sfc_main$5 = {
@@ -265,9 +265,13 @@ _sfc_main$5.setup = (props, ctx) => {
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
 const _sfc_main$4 = /* @__PURE__ */ Object.assign({
-  layout: (h2, page) => h2(_sfc_main$5, {
-    title: "Impressum - Pr0p0ll"
-  }, () => page)
+  layout: (h2, page) => h2(
+    _sfc_main$5,
+    {
+      title: "Impressum - Pr0p0ll"
+    },
+    () => page
+  )
 }, {
   __name: "Imprint",
   __ssrInlineRender: true,
@@ -326,15 +330,19 @@ _sfc_main$3.setup = (props, ctx) => {
 const FeatureBlock = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$1]]);
 const _sfc_main$2 = {
   name: "Landing",
-  layout: (h2, page) => h2(_sfc_main$5, {
-    title: "Pr0p0ll - Umfragen für Pr0gramm Nutzer",
-    description: "Ein Reboot der alten Pr0p0ll-Plattform für Pr0gramm-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist Open-Source und wird von Tschucki maintaint"
-  }, () => page),
+  components: { FeatureBlock },
+  layout: (h2, page) => h2(
+    _sfc_main$5,
+    {
+      title: "Pr0p0ll - Umfragen für Pr0gramm Nutzer",
+      description: "Ein Reboot der alten Pr0p0ll-Plattform für Pr0gramm-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist Open-Source und wird von Tschucki maintaint"
+    },
+    () => page
+  ),
   props: {
     userCount: Number,
     pollCount: Number
   },
-  components: { Footer: _sfc_main$6, FeatureBlock, Layout: _sfc_main$5 },
   methods: {
     scrollToFeatures: () => {
       document.getElementById("aktuelle-features").scrollIntoView({ behavior: "smooth" });
@@ -355,13 +363,13 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     initial: { opacity: 0, y: 100 },
     enter: { opacity: 1, y: 0, scale: 1 },
     delay: 300
-  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="flex flex-col-reverse pl-8 relative before:absolute after:absolute before:bg-[#f2f5f4] after:bg-[#f2f5f4]/20 before:left-0 before:top-0 before:h-6 before:w-px after:bottom-0 after:left-0 after:top-8 after:w-px" style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><dt class="mt-2 text-base text-[#f2f5f4]/80">Maintainer</dt><dd class="font-display text-3xl font-semibold text-[#f2f5f4] sm:text-4xl">Tschucki</dd></div></a><div${ssrRenderAttrs(mergeProps({
+  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="flex flex-col-reverse pl-8 relative before:absolute after:absolute before:bg-[#f2f5f4] after:bg-[#f2f5f4]/20 before:left-0 before:top-0 before:h-6 before:w-px after:bottom-0 after:left-0 after:top-8 after:w-px" style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><dt class="mt-2 text-base text-[#f2f5f4]/80">Maintainer</dt><dd class="font-display text-3xl font-semibold text-[#f2f5f4] sm:text-4xl"> Tschucki </dd></div></a><div${ssrRenderAttrs(mergeProps({
     initial: { opacity: 0, y: 100 },
     enter: { opacity: 1, y: 0, scale: 1 },
     delay: 500,
     class: "flex flex-col-reverse pl-8 relative before:absolute after:absolute before:bg-[#f2f5f4] after:bg-[#f2f5f4]/20 before:left-0 before:top-0 before:h-6 before:w-px after:bottom-0 after:left-0 after:top-8 after:w-px",
     style: { "opacity": "1", "transform": "none" }
-  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><dt class="mt-2 text-base text-[#f2f5f4]/80">Bisher erstelle Umfragen</dt><dd class="font-display text-3xl font-semibold text-[#f2f5f4] sm:text-4xl">${ssrInterpolate($props.pollCount)}</dd></div><div${ssrRenderAttrs(mergeProps({
+  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><dt class="mt-2 text-base text-[#f2f5f4]/80"> Bisher erstelle Umfragen </dt><dd class="font-display text-3xl font-semibold text-[#f2f5f4] sm:text-4xl">${ssrInterpolate($props.pollCount)}</dd></div><div${ssrRenderAttrs(mergeProps({
     initial: { opacity: 0, y: 100 },
     enter: { opacity: 1, y: 0, scale: 1 },
     delay: 700,
@@ -378,27 +386,27 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     initial: { opacity: 0, y: 24 },
     visibleOnce: { opacity: 1, y: 0, scale: 1 },
     delay: 300
-  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="mx-auto max-w-2xl lg:max-w-none"><div class="max-w-2xl" style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><h2><span class="block font-display tracking-tight [text-wrap:balance] text-4xl font-medium sm:text-5xl text-[#f2f5f4]">Aktuelle Features und Neuerungen</span></h2><div class="mt-6 text-xl text-[#f2f5f4]/80"><p>Hier eine kurze Liste an Neuerungen, die das neue Pr0p0ll mitbringt. Das Projekt befindet sich in stetiger Entwicklung und ist offen für jegliche Kritik und Hilfe</p></div></div></div></div><div class="mx-auto max-w-7xl px-6 lg:px-8 mt-16"><div class="mx-auto max-w-2xl lg:max-w-none"><div class="grid grid-cols-1 gap-8 lg:grid-cols-3">`);
+  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="mx-auto max-w-2xl lg:max-w-none"><div class="max-w-2xl" style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><h2><span class="block font-display tracking-tight [text-wrap:balance] text-4xl font-medium sm:text-5xl text-[#f2f5f4]">Aktuelle Features und Neuerungen</span></h2><div class="mt-6 text-xl text-[#f2f5f4]/80"><p> Hier eine kurze Liste an Neuerungen, die das neue Pr0p0ll mitbringt. Das Projekt befindet sich in stetiger Entwicklung und ist offen für jegliche Kritik und Hilfe </p></div></div></div></div><div class="mx-auto max-w-7xl px-6 lg:px-8 mt-16"><div class="mx-auto max-w-2xl lg:max-w-none"><div class="grid grid-cols-1 gap-8 lg:grid-cols-3">`);
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    visibleOnce: { opacity: 1, x: 0 },
+    "visible-once": { opacity: 1, x: 0 },
     delay: 200
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` UI/UX `);
+        _push2(`UI/UX`);
       } else {
         return [
-          createTextVNode(" UI/UX ")
+          createTextVNode("UI/UX")
         ];
       }
     }),
     feature: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Form-Builder `);
+        _push2(`Form-Builder`);
       } else {
         return [
-          createTextVNode(" Form-Builder ")
+          createTextVNode("Form-Builder")
         ];
       }
     }),
@@ -418,24 +426,24 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    visibleOnce: { opacity: 1, x: 0 },
+    "visible-once": { opacity: 1, x: 0 },
     delay: 300
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` UI/UX `);
+        _push2(`UI/UX`);
       } else {
         return [
-          createTextVNode(" UI/UX ")
+          createTextVNode("UI/UX")
         ];
       }
     }),
     feature: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Zielgruppen definieren `);
+        _push2(`Zielgruppen definieren`);
       } else {
         return [
-          createTextVNode(" Zielgruppen definieren ")
+          createTextVNode("Zielgruppen definieren")
         ];
       }
     }),
@@ -455,24 +463,24 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    visibleOnce: { opacity: 1, x: 0 },
+    "visible-once": { opacity: 1, x: 0 },
     delay: 400
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` UX `);
+        _push2(`UX`);
       } else {
         return [
-          createTextVNode(" UX ")
+          createTextVNode("UX")
         ];
       }
     }),
     feature: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` O-Auth `);
+        _push2(`O-Auth`);
       } else {
         return [
-          createTextVNode(" O-Auth ")
+          createTextVNode("O-Auth")
         ];
       }
     }),
@@ -489,24 +497,24 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    visibleOnce: { opacity: 1, x: 0 },
+    "visible-once": { opacity: 1, x: 0 },
     delay: 450
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` UX `);
+        _push2(`UX`);
       } else {
         return [
-          createTextVNode(" UX ")
+          createTextVNode("UX")
         ];
       }
     }),
     feature: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Benachrichtigungssystem `);
+        _push2(`Benachrichtigungen`);
       } else {
         return [
-          createTextVNode(" Benachrichtigungssystem ")
+          createTextVNode("Benachrichtigungen")
         ];
       }
     }),
@@ -523,24 +531,24 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    visibleOnce: { opacity: 1, x: 0 },
+    "visible-once": { opacity: 1, x: 0 },
     delay: 500
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Nice-To-Haves `);
+        _push2(`Nice-To-Haves`);
       } else {
         return [
-          createTextVNode(" Nice-To-Haves ")
+          createTextVNode("Nice-To-Haves")
         ];
       }
     }),
     feature: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Bewertung von Umfragen `);
+        _push2(`Bewertung von Umfragen`);
       } else {
         return [
-          createTextVNode(" Bewertung von Umfragen ")
+          createTextVNode("Bewertung von Umfragen")
         ];
       }
     }),
@@ -557,24 +565,24 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    visibleOnce: { opacity: 1, x: 0 },
+    "visible-once": { opacity: 1, x: 0 },
     delay: 550
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Mehr `);
+        _push2(`Mehr`);
       } else {
         return [
-          createTextVNode(" Mehr ")
+          createTextVNode("Mehr")
         ];
       }
     }),
     feature: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Alle Features `);
+        _push2(`Alle Features`);
       } else {
         return [
-          createTextVNode(" Alle Features ")
+          createTextVNode("Alle Features")
         ];
       }
     }),
@@ -603,9 +611,13 @@ const __vite_glob_0_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.def
   default: Landing
 }, Symbol.toStringTag, { value: "Module" }));
 const _sfc_main$1 = /* @__PURE__ */ Object.assign({
-  layout: (h2, page) => h2(_sfc_main$5, {
-    title: "Datenschutzerklärung - Pr0p0ll"
-  }, () => page)
+  layout: (h2, page) => h2(
+    _sfc_main$5,
+    {
+      title: "Datenschutzerklärung - Pr0p0ll"
+    },
+    () => page
+  )
 }, {
   __name: "Privacy",
   __ssrInlineRender: true,
@@ -635,9 +647,13 @@ const __vite_glob_0_2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.def
   default: _sfc_main$1
 }, Symbol.toStringTag, { value: "Module" }));
 const _sfc_main = /* @__PURE__ */ Object.assign({
-  layout: (h2, page) => h2(_sfc_main$5, {
-    title: "Nutzungsbedingungen - Pr0p0ll"
-  }, () => page)
+  layout: (h2, page) => h2(
+    _sfc_main$5,
+    {
+      title: "Nutzungsbedingungen - Pr0p0ll"
+    },
+    () => page
+  )
 }, {
   __name: "Terms",
   __ssrInlineRender: true,
