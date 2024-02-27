@@ -23,6 +23,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - name: Install Composer
+        uses: php-actions/composer@v6
+        with:
+          php_extensions: intl zip
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
