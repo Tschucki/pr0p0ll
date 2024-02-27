@@ -100,14 +100,13 @@ class PollSeeder extends Seeder
     private function createSingleOptionAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
 
-
         foreach (range(1, 10) as $i) {
             $user = User::inRandomOrder()->first();
             $anonymousUser = $user->createAnonymousUser();
             $anonymousUserId = $anonymousUser->getKey();
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
-                    'answer_value' => 'Option ' . random_int(1, 3),
+                    'answer_value' => 'Option '.random_int(1, 3),
                 ])->getKey(),
                 'answerable_type' => get_class($question->answerType()),
                 'user_id' => null,
@@ -121,14 +120,13 @@ class PollSeeder extends Seeder
     private function createMultipleOptionAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
 
-
         foreach (range(1, 10) as $i) {
             $user = User::inRandomOrder()->first();
             $anonymousUser = $user->createAnonymousUser();
             $anonymousUserId = $anonymousUser->getKey();
             $question->answers()->create([
                 'answerable_id' => $question->answerType()->create([
-                    'answer_value' => 'Option ' . random_int(1, 3),
+                    'answer_value' => 'Option '.random_int(1, 3),
                 ])->getKey(),
                 'answerable_type' => get_class($question->answerType()),
                 'user_id' => null,
@@ -141,7 +139,6 @@ class PollSeeder extends Seeder
 
     private function createBoolAnswersForQuestion(Question $question, MyPoll $myPoll): void
     {
-
 
         foreach (range(1, 10) as $i) {
             $user = User::inRandomOrder()->first();

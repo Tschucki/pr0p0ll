@@ -12,7 +12,6 @@ use Filament\Forms\Components\Section;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
-use Str;
 
 class PollPreviewAction
 {
@@ -28,7 +27,7 @@ class PollPreviewAction
 
             if ($fullPreview) {
                 $preview[] = Placeholder::make('Titel')->content($poll->title);
-                $preview[] = Placeholder::make('Beschreibung')->content(fn () => new HtmlString('<div class="prose dark:prose-invert">'.Str::markdown($poll->description).'</div>'))->visible(fn () => $poll->description);
+                $preview[] = Placeholder::make('Beschreibung')->content(fn () => new HtmlString('<div class="prose dark:prose-invert">'.$poll->description.'</div>'))->visible(fn () => (bool) $poll->description);
             }
 
             $preview[] = Section::make('Fragen')->schema(function () use ($poll) {

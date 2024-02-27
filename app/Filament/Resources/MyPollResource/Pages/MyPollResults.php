@@ -22,17 +22,21 @@ use Livewire\Attributes\Url;
 
 class MyPollResults extends Page
 {
-    use InteractsWithRecord;
     use InteractsWithForms;
+    use InteractsWithRecord;
 
     #[Url(as: 'gender')]
     public ?string $gender = '';
+
     #[Url(as: 'region')]
     public ?array $region = [];
+
     #[Url(as: 'nationality')]
     public ?array $nationality = [];
+
     #[Url(as: 'min_age')]
     public ?string $min_age = '';
+
     #[Url(as: 'max_age')]
     public ?string $max_age = '';
 

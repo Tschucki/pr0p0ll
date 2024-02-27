@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,11 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class AnonymousUser extends Model
 {
     protected $fillable = [
-        'demographic_data'
+        'demographic_data',
     ];
 
     protected $casts = [
-        'demographic_data' => 'array'
+        'demographic_data' => 'array',
     ];
 
     public function answers(): HasMany

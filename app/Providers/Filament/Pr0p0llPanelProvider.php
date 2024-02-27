@@ -8,7 +8,7 @@ use App\Filament\Pages\Login;
 use App\Filament\Pages\UpdateUserData;
 use App\Filament\Widgets\NeedsDataReviewWidget;
 use Filament\Enums\ThemeMode;
-use Filament\FilamentManager;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -16,6 +16,7 @@ use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -24,8 +25,6 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
-use Filament\Facades\Filament;
-use Illuminate\Contracts\View\View;
 
 class Pr0p0llPanelProvider extends PanelProvider
 {

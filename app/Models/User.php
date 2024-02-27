@@ -77,7 +77,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return (bool)$this->admin;
+        return (bool) $this->admin;
     }
 
     public function scopeAdmin(Builder $query): void

@@ -41,4 +41,9 @@ return [
         'password' => env('PR0GRAMM_PASSWORD'),
     ],
 
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN'),
+        'channel' => env('TELEGRAM_CHANNEL_CHAT_ID'),
+    ],
+
 ];
