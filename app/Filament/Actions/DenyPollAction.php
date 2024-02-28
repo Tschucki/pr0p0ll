@@ -18,6 +18,6 @@ class DenyPollAction
         ])->color('danger')->action(function (Poll $poll, array $data) {
             $poll->deny($data['reason']);
             Notification::make('approve')->success()->title('Abgelehnt')->body('Umfrage wurde abgelehnt')->send();
-        })->visible(fn (Poll $poll) => ! $poll->isApproved() && $poll->isInReview())->requiresConfirmation('Bist du sicher, dass du diese Umfrage genehmigen möchtest?');
+        })->visible(fn (Poll $poll) => ! $poll->isApproved() && $poll->isInReview())->requiresConfirmation();
     }
 }

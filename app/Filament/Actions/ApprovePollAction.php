@@ -15,6 +15,6 @@ class ApprovePollAction
         return Action::make('Genehmigen')->action(function (Poll $poll) {
             $poll->approve();
             Notification::make('approve')->success()->title('Genehmigt')->body('Umfrage wurde genehmigt und ist öffentlich')->send();
-        })->visible(fn (Poll $poll) => ! $poll->isApproved() && $poll->isInReview())->color('success')->requiresConfirmation('Bist du sicher, dass du diese Umfrage genehmigen möchtest?');
+        })->visible(fn (Poll $poll) => ! $poll->isApproved() && $poll->isInReview())->color('success')->requiresConfirmation();
     }
 }

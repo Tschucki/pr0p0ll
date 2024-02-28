@@ -18,6 +18,6 @@ class DisablePollAction
         ])->color('danger')->action(function (Poll $poll, array $data) {
             $poll->disable($data['reason']);
             Notification::make('approve')->success()->title('Deaktiviert')->body('Umfrage wurde deaktiviert und ist nicht mehr öffentlich')->send();
-        })->visible(fn (Poll $poll) => $poll->isApproved())->requiresConfirmation('Bist du sicher, dass du diese Umfrage deaktivieren möchtest?');
+        })->visible(fn (Poll $poll) => $poll->isApproved())->requiresConfirmation();
     }
 }
