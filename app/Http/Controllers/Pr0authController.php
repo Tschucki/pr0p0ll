@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -36,9 +38,15 @@ class Pr0authController extends Controller
             'password' => \Hash::make(\Str::password(24)),
         ]);
 
-        \Auth::login($user, true);
+        Auth::login($user, true);
 
-        return Redirect::route('filament.pr0p0ll.pages.dashboard');
+        if (Auth::check()) {
+            return Redirect::route('filament.pr0p0ll.pages.dashboard');
+        }
+
+        Notification::make('Login failed')->title('Hä. Komisch')->body('Irgendwas ist schief gelaufen.')->send()->warning();
+
+        return Redirect::route('filament.pr0p0ll.auth.login');
     }
 
     public function start(): RedirectResponse
