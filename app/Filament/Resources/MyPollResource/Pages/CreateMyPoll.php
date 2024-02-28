@@ -9,6 +9,7 @@ use App\Models\Polls\MyPoll;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 class CreateMyPoll extends CreateRecord
 {
@@ -44,12 +45,13 @@ class CreateMyPoll extends CreateRecord
         });
 
         try {
-            $validatedQuestions = \Illuminate\Support\Facades\Validator::make($questions->toArray(), [
+            $validatedQuestions = Validator::make($questions->toArray(), [
                 '*.title' => 'required|string',
                 '*.description' => 'nullable|string',
                 '*.question_type_id' => 'required|exists:question_types,id',
                 '*.options' => 'array|present',
-                '*.options.*.title' => 'required',
+                '*.options.*.title' => 'required|string',
+                '*.options.*.helperText' => 'nullable|string',
             ])->validated();
 
             unset($data['questions']);

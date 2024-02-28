@@ -60,6 +60,7 @@ class PollFormService
         $component = $this->getComponent($question->questionType, $question);
         $component = $component->helperText($question->description)->label($question->title);
         if ($question->questionType->hasOptions()) {
+
             $component->options($this->getOptions($question))->descriptions($this->getOptionsDescriptions($question));
         }
 
@@ -101,7 +102,7 @@ class PollFormService
 
     private function getOptionsDescriptions(Question $question): array
     {
-        return collect($question->options)->map(function ($option) {
+        return collect($question->options)->mapWithKeys(function ($option) {
             if (isset($option['helperText'])) {
                 return [
                     $option['title'] => $option['helperText'],
@@ -109,6 +110,6 @@ class PollFormService
             }
 
             return [];
-        })->flatten()->toArray();
+        })->toArray();
     }
 }

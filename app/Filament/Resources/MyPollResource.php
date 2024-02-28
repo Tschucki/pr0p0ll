@@ -57,7 +57,7 @@ class MyPollResource extends Resource
                         TextInput::make('title')->label('Titel')->maxLength(255)->required(),
                         Select::make('category_id')->label('Kategorie')->options(fn () => Category::where('enabled', true)->pluck('title', 'id'))->nullable()->native(false),
                         Textarea::make('description')->label('Beschreibung')->nullable(),
-                        Select::make('closes_after')->label('Ende der Umfrage')->hint('Nachdem die Umfrage genehmigt wurde')->options(ClosesAfter::class)->default('+3 weeks')->required()->helperText('Es wird dir nicht möglich sein, die Umfrage frühzeitig zu beenden.'),
+                        Select::make('closes_after')->label('Ende der Umfrage')->hint('Zeitraum beginnt nachdem die Umfrage genehmigt wurde.')->options(ClosesAfter::class)->default('+3 weeks')->required()->helperText('Es wird dir nicht möglich sein, die Umfrage frühzeitig zu beenden.'),
                     ]),
                     Components\Tabs\Tab::make('Zielgruppe')->schema([
                         Components\Fieldset::make('target_group_count')->label('Potentielle Teilnehmerzahl')
@@ -108,7 +108,7 @@ class MyPollResource extends Resource
                                         Components\Repeater::make('options')->label('Auswahlmöglichkeiten')->schema([
                                             TextInput::make('title')->required()->label('Titel')->maxLength(255),
                                             TextInput::make('helperText')->nullable()->label('Hilfetext')->maxLength(255),
-                                        ])->reorderable(false)->required()->visible(fn () => $questionType->hasOptions()),
+                                        ])->minItems(2)->reorderable(false)->required()->visible(fn () => $questionType->hasOptions()),
                                     ])->reactive()->icon($questionType->icon)->label(function (?array $state) use ($questionType): string {
                                         if ($state === null) {
                                             return $questionType->title;
