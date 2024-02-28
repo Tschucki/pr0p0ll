@@ -1,0 +1,29 @@
+<x-filament-widgets::widget>
+    <x-filament::section>
+        <div class="sm:flex gap-4 justify-center py-2 relative">
+            <div>
+                <div style="color: {{$this->color}}"
+                     class="filament-apex-charts-heading text-xl text-center font-semibold leading-6">
+                    {{$this->getQuestionTitle()}}
+                </div>
+                @if($description = $this->getQuestionDescription())
+                    <div class="text-base text-center mt-2 font-medium tracking-tight text-gray-950 dark:text-white">
+                        {{$description}}
+                    </div>
+                @endif
+
+                @foreach($this->getAnswers() as $answer)
+                    <div class="text-left mt-2 text-sm tracking-tight text-gray-950 dark:text-white p-2 border border-gray-600 rounded-lg">
+                        {{$answer}}
+                    </div>
+                @endforeach
+
+                @if($footerText = $this->getFooterText())
+                    <div class="relative text-center mt-2">
+                        {{$footerText}}
+                    </div>
+                @endif
+            </div>
+        </div>
+    </x-filament::section>
+</x-filament-widgets::widget>

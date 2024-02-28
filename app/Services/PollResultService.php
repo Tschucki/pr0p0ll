@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Filament\Resources\MyPollResource\Widgets\ApexAnswerChart;
+use App\Filament\Widgets\TextAnswersWidget;
 use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
+use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Polls\MyPoll;
 use App\Models\Question;
 use Filament\Widgets\WidgetConfiguration;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class PollResultService
@@ -45,8 +48,37 @@ class PollResultService
         return match (true) {
             $answerType instanceof SingleOptionAnswer, $answerType instanceof MultipleChoiceAnswer => $this->getBarChartWidget($question),
             $answerType instanceof BoolAnswer => $this->getBooleanChartWidget($question),
+            $answerType instanceof TextAnswer => $this->getTextWidget($question),
+
             default => null,
         };
+    }
+
+    private function getTextWidget(Question $question): WidgetConfiguration
+    {
+        $answers = $question->answers()->filter($this->filters)->whereHasMorph('answerable', TextAnswer::class, function (Builder $query) {
+            $query->whereNotNull('answer_value')->where('answer_value', '!=', '');
+        })->get();
+
+        $answerValues = $answers->map(function ($answer) {
+            return $answer->answerable->answer_value;
+        })->toArray();
+
+        $answersCount = $answers->count();
+        $footerText = 'Es wurden ' . $answersCount . ' Antworten abgegeben.';
+
+        $answerData = [
+            'heading' => $question->title,
+            'chartId' => 'chart-' . $question->id,
+            'questionId' => $question->getKey(),
+            'poll' => $question->poll,
+            'answers' => $answerValues,
+            'footerText' => $footerText,
+        ];
+        return TextAnswersWidget::make([
+            'answerData' => $answerData,
+            'question' => $question,
+        ]);
     }
 
     private function getBooleanChartWidget(Question $question): WidgetConfiguration
@@ -59,14 +91,14 @@ class PollResultService
         })->count();
 
         $questionAnswerCount = $question->answers->count();
-        $footerText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
+        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
             'footerText' => $footerText,
@@ -99,14 +131,14 @@ class PollResultService
         });
 
         $questionAnswerCount = $question->answers->count();
-        $footerText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
+        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-'.$question->id,
+            'chartId' => 'chart-' . $question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
             'footerText' => $footerText,

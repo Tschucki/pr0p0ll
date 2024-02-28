@@ -79,7 +79,7 @@ class PollFormService
         return match ($component) {
             QuestionType::SINGLE->value => Radio::make((string) $questionKey),
             QuestionType::MULTIPLE->value => CheckboxList::make((string) $questionKey),
-            QuestionType::TEXT->value => Textarea::make((string) $questionKey)->hint('Nicht anonym - Max. 255 Zeichen')->maxLength(255),
+            QuestionType::TEXT->value => Textarea::make((string) $questionKey)->hint('NUR anonym gegenüber anderer Benutzer - Max. 255 Zeichen')->maxLength(255),
             QuestionType::TOGGLE->value => Toggle::make((string) $questionKey)->default(false)->inline(false),
             QuestionType::DATE->value => DatePicker::make((string) $questionKey),
             QuestionType::TIME->value => DateTimePicker::make((string) $questionKey)->seconds(false)->date(false)->time()->displayFormat('HH:mm'),
