@@ -65,16 +65,17 @@ class PollResultService
         })->toArray();
 
         $answersCount = $answers->count();
-        $footerText = 'Es wurden ' . $answersCount . ' Antworten abgegeben.';
+        $footerText = 'Es wurden '.$answersCount.' Antworten abgegeben.';
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
             'answers' => $answerValues,
             'footerText' => $footerText,
         ];
+
         return TextAnswersWidget::make([
             'answerData' => $answerData,
             'question' => $question,
@@ -91,14 +92,14 @@ class PollResultService
         })->count();
 
         $questionAnswerCount = $question->answers->count();
-        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        $footerText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
             'footerText' => $footerText,
@@ -131,14 +132,14 @@ class PollResultService
         });
 
         $questionAnswerCount = $question->answers->count();
-        $footerText = 'Es wurden ' . $questionAnswerCount . ' Antworten abgegeben.';
+        $footerText = 'Es wurden '.$questionAnswerCount.' Antworten abgegeben.';
         if ($question->questionType->component === 'checkbox-list') {
             $footerText .= ' (Mehrfachauswahl möglich)';
         }
 
         $answerData = [
             'heading' => $question->title,
-            'chartId' => 'chart-' . $question->id,
+            'chartId' => 'chart-'.$question->id,
             'questionId' => $question->getKey(),
             'poll' => $question->poll,
             'footerText' => $footerText,
