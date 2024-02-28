@@ -18,3 +18,7 @@ yarn-error.log
 /.vscode
 /packages
 /build
+DOCKER_ENV
+output.log
+docker_tag
+Dockerfile-php-build
