@@ -5407,22 +5407,22 @@
         },
         {
             "name": "socialiteproviders/pr0gramm",
-            "version": "5.0.1",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SocialiteProviders/Pr0gramm.git",
-                "reference": "498209d196e383c76f0143d8ad96f9cf067fd59c"
+                "reference": "d0501e0e7f7e4188ee0d37deee4b193d2e4128c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SocialiteProviders/Pr0gramm/zipball/498209d196e383c76f0143d8ad96f9cf067fd59c",
-                "reference": "498209d196e383c76f0143d8ad96f9cf067fd59c",
+                "url": "https://api.github.com/repos/SocialiteProviders/Pr0gramm/zipball/d0501e0e7f7e4188ee0d37deee4b193d2e4128c8",
+                "reference": "d0501e0e7f7e4188ee0d37deee4b193d2e4128c8",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": "^8.0",
-                "socialiteproviders/manager": "^4.2"
+                "socialiteproviders/manager": "^4.4"
             },
             "type": "library",
             "autoload": {
@@ -5453,7 +5453,7 @@
                 "issues": "https://github.com/socialiteproviders/providers/issues",
                 "source": "https://github.com/socialiteproviders/providers"
             },
-            "time": "2022-10-03T21:51:37+00:00"
+            "time": "2023-11-07T22:21:16+00:00"
         },
         {
             "name": "spatie/color",
