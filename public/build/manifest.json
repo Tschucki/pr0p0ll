@@ -5,13 +5,13 @@
   },
   "resources/css/app.css": {
     "file": "assets/app-gGZn4xXb.css",
-    "isEntry": true,
-    "src": "resources/css/app.css"
+    "src": "resources/css/app.css",
+    "isEntry": true
   },
   "resources/css/filament/pr0p0ll/theme.css": {
     "file": "assets/theme-iusU0MU0.css",
-    "isEntry": true,
-    "src": "resources/css/filament/pr0p0ll/theme.css"
+    "src": "resources/css/filament/pr0p0ll/theme.css",
+    "isEntry": true
   },
   "resources/fonts/Inter.ttf": {
     "file": "assets/Inter-peAEB6fa.ttf",
@@ -22,15 +22,15 @@
     "src": "resources/fonts/Mona-Sans.var.woff2"
   },
   "resources/js/app.js": {
-    "assets": [
-      "assets/pr0p0ll-fRda7U6F.png",
-      "assets/Mona-Sans.var-8VeH-Hlu.woff2"
-    ],
+    "file": "assets/app-TG9uDoox.js",
+    "src": "resources/js/app.js",
+    "isEntry": true,
     "css": [
       "assets/app-gGZn4xXb.css"
     ],
-    "file": "assets/app-TG9uDoox.js",
-    "isEntry": true,
-    "src": "resources/js/app.js"
+    "assets": [
+      "assets/pr0p0ll-fRda7U6F.png",
+      "assets/Mona-Sans.var-8VeH-Hlu.woff2"
+    ]
   }
 }
