@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Resources\MyPollResource\Widgets;
 
 use App\Models\Question;
 use Filament\Widgets\Widget;
