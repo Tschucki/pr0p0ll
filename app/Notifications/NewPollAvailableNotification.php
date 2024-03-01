@@ -15,12 +15,14 @@ class NewPollAvailableNotification extends Notification
 {
     use Queueable;
 
+    private Poll $poll;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(Poll $poll)
     {
-        //
+        $this->poll = $poll;
     }
 
     /**
@@ -32,6 +34,7 @@ class NewPollAvailableNotification extends Notification
     {
         return [
             'telegram',
+            'pr0gramm',
         ];
     }
 
@@ -53,7 +56,7 @@ class NewPollAvailableNotification extends Notification
             'record' => $poll,
         ]);
 
-        $message = TelegramMessage::create()
+        return TelegramMessage::create()
             ->to(config('services.telegram-bot-api.channel'))
             ->line('*📊 Neue Umfrage verfügbar!*'."\n")
             ->line("*Titel: {$poll->title}*\n")
@@ -71,13 +74,15 @@ class NewPollAvailableNotification extends Notification
             ->line("*\nEndet in:* ".Carbon::make($poll->closes_after)?->diffForHumans()."\n")
             ->line("*\nURL:* [$url]($url)")
             ->button('Jetzt teilnehmen', $url);
-
-        return $message;
     }
 
     public function toPr0gramm($notifiable): string
     {
-        return 'Hallo, es wurde eine neue Umfrage veröffentlicht. Jetzt teilnehmen.';
+        $url = route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
+            'record' => $this->poll,
+        ]);
+
+        return "Hallo, es wurde eine neue Umfrage veröffentlicht.\n" . $url;
     }
 
     /**
