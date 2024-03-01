@@ -1,4 +1,4 @@
-name: "Fix Code Styling"
+name: "Code Styling"
 
 on:
   push:
@@ -10,11 +10,8 @@ on:
       - '**.php'
       - 'resources'
 
-permissions:
-  contents: write
-
 jobs:
-  fix-code-styling:
+  code-styling:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,10 +36,5 @@ jobs:
       - name: Run Prettier
         run: npm run prettier
 
-      - name: Fix PHP code style issues
+      - name: Run Pint
         uses: aglipanci/laravel-pint-action@2.3.1
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Fix styling
