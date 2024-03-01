@@ -57,6 +57,8 @@ class Pr0p0llPanelProvider extends PanelProvider
             ->profile(UpdateUserData::class)
             ->userMenuItems([
                 MenuItem::make()->label('Startseite')->url('/')->icon('heroicon-o-home'),
+                MenuItem::make()->label('Impressum')->url('/impressum')->icon('heroicon-o-home-modern'),
+                MenuItem::make()->label('Datenschutz')->url('/datenschutz')->icon('heroicon-o-shield-check'),
             ])
             ->font('Inter')
             ->middleware([
