@@ -23,11 +23,3 @@ if (config('app.env') === 'local') {
         Route::get('login', LoginRedirectController::class)->name('login');
     });
 }
-
-Route::get('discord', function () {
-    $poll = PublicPoll::find(1);
-
-    Notification::route('discord', config('services.discord.channel_id'))->notify(
-        new NewPollAvailableDiscordNotification($poll)
-    );
-});
