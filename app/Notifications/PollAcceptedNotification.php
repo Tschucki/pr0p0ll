@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use App\Models\Abstracts\Poll;
@@ -39,8 +41,8 @@ class PollAcceptedNotification extends Notification
     public function toMail(User $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->greeting('Hallo ' . $notifiable->name . ',')
-            ->line('Deine Umfrage mit dem Titel "' . $this->poll->title . '" wurde genehmigt und ist nun öffentlich sichtbar.')
+            ->greeting('Hallo '.$notifiable->name.',')
+            ->line('Deine Umfrage mit dem Titel "'.$this->poll->title.'" wurde genehmigt und ist nun öffentlich sichtbar.')
             ->action('An Umfrage teilnehmen', url(route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
                 'record' => $this->poll->getKey(),
             ])))
@@ -54,7 +56,7 @@ class PollAcceptedNotification extends Notification
         ]);
         $title = $this->poll->title;
 
-        return "Hallo, deine Umfrage ({$title}) wurde genehmigt und ist nun öffentlich sichtbar.\n" . "Teilnehmen: " . $url;
+        return "Hallo, deine Umfrage ({$title}) wurde genehmigt und ist nun öffentlich sichtbar.\n".'Teilnehmen: '.$url;
     }
 
     /**

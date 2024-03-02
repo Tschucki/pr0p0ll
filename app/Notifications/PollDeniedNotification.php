@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use App\Models\Abstracts\Poll;
@@ -39,8 +41,8 @@ class PollDeniedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->greeting('Hallo ' . $notifiable->name . ',')
-            ->line('Deine Umfrage mit dem Titel "' . $this->poll->title . '" wurde abgelehnt.')
+            ->greeting('Hallo '.$notifiable->name.',')
+            ->line('Deine Umfrage mit dem Titel "'.$this->poll->title.'" wurde abgelehnt.')
             ->line('Grund: ')
             ->line($this->poll->admin_notes)
             ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.my-polls.view', [
@@ -57,7 +59,7 @@ class PollDeniedNotification extends Notification
         $title = $this->poll->title;
         $reason = $this->poll->admin_notes;
 
-        return "Hallo, deine Umfrage ({$title}) wurde abgelehnt.\nGrund:\n{$reason}\n" . "Zur Umfrage: " . $url;
+        return "Hallo, deine Umfrage ({$title}) wurde abgelehnt.\nGrund:\n{$reason}\n".'Zur Umfrage: '.$url;
     }
 
     /**

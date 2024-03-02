@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Models\Abstracts\Poll;
@@ -17,7 +19,9 @@ class SendPollAcceptedEmailNotification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private Poll $poll;
+
     private User $user;
+
     public int $tries = 15;
 
     public int $backoff = 120;

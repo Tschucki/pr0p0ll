@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Models\Abstracts\Poll;
 use App\Models\User;
-use App\Notifications\PollAcceptedNotification;
 use App\Notifications\PollDeniedNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,7 +19,9 @@ class SendPollDeclinedPr0grammNotification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private Poll $poll;
+
     private User $user;
+
     public int $tries = 15;
 
     public int $backoff = 120;
