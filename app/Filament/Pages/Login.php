@@ -33,6 +33,11 @@ class Login extends \Filament\Pages\Auth\Login
         }
     }
 
+    public static function canAccess(): bool
+    {
+        return \Auth::check() === false;
+    }
+
     public function getForm(string $name): ?Form
     {
         return null;
