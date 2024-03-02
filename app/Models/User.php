@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
@@ -146,12 +147,17 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         }
     }
 
-    public function userWantsNotification(NotificationChannel $notificationChannel, NotificationType $notificationType): bool
+    public function wantsNotification(NotificationChannel $notificationChannel, NotificationType $notificationType): bool
     {
         return $this->notificationSettings()->where([
             'notification_channel_id' => $notificationChannel->getKey(),
             'notification_type_id' => $notificationType->getKey(),
             'enabled' => true,
         ])->exists();
+    }
+
+    public function getNotificationRoutesForType(NotificationType $notificationType): array
+    {
+        return $this->notificationSettings()->with('notificationChannel')->where('notification_type_id', $notificationType->getKey())->where('enabled', true)->get()->pluck('notificationChannel.route')->toArray();
     }
 }

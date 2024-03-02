@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\Abstracts;
 
+use App\Jobs\SendPollAcceptedEmailNotification;
+use App\Jobs\SendPollAcceptedPr0grammNotification;
+use App\Jobs\SendPollDeclinedEmailNotification;
+use App\Jobs\SendPollDeclinedPr0grammNotification;
 use App\Models\Answer;
 use App\Models\Category;
+use App\Models\NotificationChannel;
+use App\Models\NotificationType;
 use App\Models\Question;
 use App\Models\User;
 use App\Services\TargetGroupService;
@@ -66,7 +72,7 @@ abstract class Poll extends Model
 
             return [
                 'id' => $question->getKey(),
-                'type' => (string) ($type->getKey()),
+                'type' => (string)($type->getKey()),
                 'data' => [
                     'question_type_id' => $type->getKey(),
                     'title' => $question->title,
@@ -79,17 +85,17 @@ abstract class Poll extends Model
 
     public function isInReview(): bool
     {
-        return (bool) $this->in_review;
+        return (bool)$this->in_review;
     }
 
     public function isApproved(): bool
     {
-        return (bool) $this->approved;
+        return (bool)$this->approved;
     }
 
     public function isVisibleForPublic(): bool
     {
-        return $this->isApproved() && ! $this->isInReview() && $this->visible_to_public;
+        return $this->isApproved() && !$this->isInReview() && $this->visible_to_public;
     }
 
     public function resultsArePublic(): bool
@@ -109,6 +115,18 @@ abstract class Poll extends Model
             'visible_to_public' => true,
             'published_at' => now(),
         ]);
+        //TODO: Refactor
+        /**
+         * @var User $user
+         * */
+        $user = $this->user;
+        $notificationType = NotificationType::where('identifier', \App\Enums\NotificationType::POLLACCEPTED)->first();
+        if ($user->email && $user->wantsNotification(NotificationChannel::where('route', 'mail')->first(), $notificationType)) {
+            SendPollAcceptedEmailNotification::dispatch($this, $user);
+        }
+        if ($user->wantsNotification(NotificationChannel::where('route', 'pr0gramm')->first(), $notificationType)) {
+            SendPollAcceptedPr0grammNotification::dispatch($this, $user);
+        }
     }
 
     public function deny(string $reason): void
@@ -120,6 +138,18 @@ abstract class Poll extends Model
             'published_at' => null,
             'admin_notes' => $reason,
         ]);
+        //TODO: Refactor
+        /**
+         * @var User $user
+         * */
+        $user = $this->user;
+        $notificationType = NotificationType::where('identifier', \App\Enums\NotificationType::POLLACCEPTED)->first();
+        if ($user->email && $user->wantsNotification(NotificationChannel::where('route', 'mail')->first(), $notificationType)) {
+            SendPollDeclinedEmailNotification::dispatch($this, $user);
+        }
+        if ($user->wantsNotification(NotificationChannel::where('route', 'pr0gramm')->first(), $notificationType)) {
+            SendPollDeclinedPr0grammNotification::dispatch($this, $user);
+        }
     }
 
     public function disable(string $reason): void
@@ -140,7 +170,7 @@ abstract class Poll extends Model
 
     public function userIsWithinTargetGroup(User $user): bool
     {
-        if (! $this->target_group) {
+        if (!$this->target_group) {
             return true;
         }
 

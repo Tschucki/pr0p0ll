@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotificationChannel extends Model
 {
-    use HasFactory;
+    protected $guarded = [];
 }
