@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ba16fa13e50a4379215ab1f1519b1aa",
+    "content-hash": "41158f7d3d2d49197c7aa4dcfed14c13",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -4236,6 +4236,82 @@
             "time": "2024-01-07T17:17:35+00:00"
         },
         {
+            "name": "njoguamos/laravel-plausible",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/njoguamos/laravel-plausible.git",
+                "reference": "aff1ee3bd89eed2370db3642461bfa92413a4538"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/njoguamos/laravel-plausible/zipball/aff1ee3bd89eed2370db3642461bfa92413a4538",
+                "reference": "aff1ee3bd89eed2370db3642461bfa92413a4538",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.5",
+                "illuminate/contracts": "^10.0",
+                "illuminate/support": "^10.0",
+                "php": "^8.1 | ^8.2",
+                "sammyjo20/saloon-cache-plugin": "^2.0",
+                "sammyjo20/saloon-laravel": "^2.0",
+                "spatie/laravel-package-tools": "^1.14.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "NjoguAmos\\Plausible\\PlausibleServiceProvider"
+                    ],
+                    "aliases": {
+                        "Plausible": "NjoguAmos\\Plausible\\Facades\\Plausible"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NjoguAmos\\Plausible\\": "src/",
+                    "NjoguAmos\\Plausible\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Njogu Amos",
+                    "email": "njoguamos@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A laravel package for interacting with plausible analytics api.",
+            "homepage": "https://github.com/njoguamos/laravel-plausible",
+            "keywords": [
+                "laravel",
+                "laravel-plausible",
+                "njoguamos"
+            ],
+            "support": {
+                "issues": "https://github.com/njoguamos/laravel-plausible/issues",
+                "source": "https://github.com/njoguamos/laravel-plausible/tree/v1.2.0"
+            },
+            "time": "2024-01-27T21:32:02+00:00"
+        },
+        {
             "name": "nunomaduro/termwind",
             "version": "v1.15.1",
             "source": {
@@ -5331,6 +5407,205 @@
                 }
             ],
             "time": "2023-02-14T16:54:54+00:00"
+        },
+        {
+            "name": "saloonphp/saloon",
+            "version": "v2.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saloonphp/saloon.git",
+                "reference": "b36bb7a451539536a4d36b96444175ab64fb3b5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saloonphp/saloon/zipball/b36bb7a451539536a4d36b96444175ab64fb3b5d",
+                "reference": "b36bb7a451539536a4d36b96444175ab64fb3b5d",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.5",
+                "guzzlehttp/promises": "^1.5 || ^2.0",
+                "php": "^8.1",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "conflict": {
+                "sammyjo20/saloon": "*"
+            },
+            "require-dev": {
+                "ext-simplexml": "*",
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "illuminate/collections": "^9.39 || ^10.0",
+                "league/flysystem": "^3.0",
+                "pestphp/pest": "^2.2.3",
+                "phpstan/phpstan": "^1.9",
+                "spatie/ray": "^1.33",
+                "symfony/dom-crawler": "^6.0"
+            },
+            "suggest": {
+                "illuminate/collections": "Required for the response collect() method.",
+                "symfony/dom-crawler": "Required for the response dom() method."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Build beautiful API integrations and SDKs with Saloon",
+            "homepage": "https://github.com/saloonphp/saloon",
+            "keywords": [
+                "api",
+                "api-integrations",
+                "saloon",
+                "sammyjo20",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/saloonphp/saloon/issues",
+                "source": "https://github.com/saloonphp/saloon/tree/v2.12.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sammyjo20",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/sammyjo20",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2023-11-12T11:05:47+00:00"
+        },
+        {
+            "name": "sammyjo20/saloon-cache-plugin",
+            "version": "v2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saloonphp/cache-plugin.git",
+                "reference": "cba27ba48cc1bec359bd1353c7b6a8998cee94ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saloonphp/cache-plugin/zipball/cba27ba48cc1bec359bd1353c7b6a8998cee94ea",
+                "reference": "cba27ba48cc1bec359bd1353c7b6a8998cee94ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "saloonphp/saloon": "^2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "league/flysystem": "^3.12.2",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.3",
+                "psr/simple-cache": "^3.0",
+                "spatie/ray": "^1.34.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\CachePlugin\\": "src/",
+                    "Saloon\\CachePlugin\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sammyjo20",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com"
+                }
+            ],
+            "description": "Official plugin for caching Saloon responses",
+            "support": {
+                "issues": "https://github.com/saloonphp/cache-plugin/issues",
+                "source": "https://github.com/saloonphp/cache-plugin/tree/v2.3.1"
+            },
+            "abandoned": "saloonphp/cache-plugin",
+            "time": "2023-08-10T17:48:38+00:00"
+        },
+        {
+            "name": "sammyjo20/saloon-laravel",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saloonphp/laravel-plugin.git",
+                "reference": "82ed968641f429cd2a5a1972eb80ac8e29bb85a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saloonphp/laravel-plugin/zipball/82ed968641f429cd2a5a1972eb80ac8e29bb85a6",
+                "reference": "82ed968641f429cd2a5a1972eb80ac8e29bb85a6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^9.0 || ^10.0",
+                "illuminate/http": "^9.0 || ^10.0",
+                "illuminate/support": "^9.0 || ^10.0",
+                "php": "^8.1",
+                "saloonphp/saloon": "^2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "orchestra/testbench": "^7.7 || ^8.0",
+                "pestphp/pest": "^1.21"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Saloon": "Saloon\\Laravel\\Facades\\Saloon"
+                    },
+                    "providers": [
+                        "Saloon\\Laravel\\SaloonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel plugin for Saloon",
+            "homepage": "https://github.com/saloonphp/laravel-plugin",
+            "keywords": [
+                "api",
+                "api-integrations",
+                "saloon",
+                "sammyjo20",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/saloonphp/laravel-plugin/issues",
+                "source": "https://github.com/saloonphp/laravel-plugin/tree/v2.1.0"
+            },
+            "abandoned": "saloonphp/laravel-plugin",
+            "time": "2023-09-17T11:20:48+00:00"
         },
         {
             "name": "socialiteproviders/manager",
