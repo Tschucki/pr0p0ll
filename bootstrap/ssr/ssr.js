@@ -389,7 +389,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="mx-auto max-w-2xl lg:max-w-none"><div class="max-w-2xl" style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><h2><span class="font-display block text-4xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-5xl">Aktuelle Features und Neuerungen</span></h2><div class="mt-6 text-xl text-[#f2f5f4]/80"><p> Hier eine kurze Liste an Neuerungen, die das neue Pr0p0ll mitbringt. Das Projekt befindet sich in stetiger Entwicklung und ist offen für jegliche Kritik und Hilfe </p></div></div></div></div><div class="mx-auto mt-16 max-w-7xl px-6 lg:px-8"><div class="mx-auto max-w-2xl lg:max-w-none"><div class="grid grid-cols-1 gap-8 lg:grid-cols-3">`);
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    "visible-once": { opacity: 1, x: 0 },
+    visibleOnce: { opacity: 1, x: 0 },
     delay: 200
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -426,7 +426,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    "visible-once": { opacity: 1, x: 0 },
+    visibleOnce: { opacity: 1, x: 0 },
     delay: 300
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -463,7 +463,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    "visible-once": { opacity: 1, x: 0 },
+    visibleOnce: { opacity: 1, x: 0 },
     delay: 400
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -497,7 +497,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    "visible-once": { opacity: 1, x: 0 },
+    visibleOnce: { opacity: 1, x: 0 },
     delay: 450
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -531,7 +531,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    "visible-once": { opacity: 1, x: 0 },
+    visibleOnce: { opacity: 1, x: 0 },
     delay: 500
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -565,7 +565,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   }, _parent));
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
-    "visible-once": { opacity: 1, x: 0 },
+    visibleOnce: { opacity: 1, x: 0 },
     delay: 550
   }, ssrGetDirectiveProps(_ctx, _directive_motion)), {
     image: withCtx((_, _push2, _parent2, _scopeId) => {

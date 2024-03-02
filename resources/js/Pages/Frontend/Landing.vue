@@ -163,7 +163,7 @@ export default {
         <FeatureBlock
           v-motion
           :initial="{ opacity: 0, x: 24 }"
-          :visible-once="{ opacity: 1, x: 0 }"
+          :visibleOnce="{ opacity: 1, x: 0 }"
           :delay="200">
           <template #image>UI/UX</template>
           <template #feature>Form-Builder</template>
@@ -176,7 +176,7 @@ export default {
         <FeatureBlock
           v-motion
           :initial="{ opacity: 0, x: 24 }"
-          :visible-once="{ opacity: 1, x: 0 }"
+          :visibleOnce="{ opacity: 1, x: 0 }"
           :delay="300">
           <template #image>UI/UX</template>
           <template #feature>Zielgruppen definieren</template>
@@ -191,7 +191,7 @@ export default {
         <FeatureBlock
           v-motion
           :initial="{ opacity: 0, x: 24 }"
-          :visible-once="{ opacity: 1, x: 0 }"
+          :visibleOnce="{ opacity: 1, x: 0 }"
           :delay="400">
           <template #image>UX</template>
           <template #feature>O-Auth</template>
@@ -204,7 +204,7 @@ export default {
         <FeatureBlock
           v-motion
           :initial="{ opacity: 0, x: 24 }"
-          :visible-once="{ opacity: 1, x: 0 }"
+          :visibleOnce="{ opacity: 1, x: 0 }"
           :delay="450">
           <template #image>UX</template>
           <template #feature>Benachrichtigungen</template>
@@ -218,7 +218,7 @@ export default {
         <FeatureBlock
           v-motion
           :initial="{ opacity: 0, x: 24 }"
-          :visible-once="{ opacity: 1, x: 0 }"
+          :visibleOnce="{ opacity: 1, x: 0 }"
           :delay="500">
           <template #image>Nice-To-Haves</template>
           <template #feature>Bewertung von Umfragen</template>
@@ -231,7 +231,7 @@ export default {
         <FeatureBlock
           v-motion
           :initial="{ opacity: 0, x: 24 }"
-          :visible-once="{ opacity: 1, x: 0 }"
+          :visibleOnce="{ opacity: 1, x: 0 }"
           :delay="550">
           <template #image>Mehr</template>
           <template #feature>Alle Features</template>
