@@ -9,6 +9,7 @@ use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -92,11 +93,65 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     public function createAnonymousUser(): AnonymousUser
     {
-        return AnonymousUser::create([
+        return AnonymousUser::create($this->getDemographicData());
+    }
+
+    public function getDemographicData(): array
+    {
+        return [
             'birthday' => $this->birthday,
             'nationality' => $this->nationality,
             'gender' => $this->gender,
             'region' => $this->region,
-        ]);
+        ];
+    }
+
+    public function notificationSettings(): HasMany
+    {
+        return $this->hasMany(NotificationSetting::class, 'user_id');
+    }
+
+    public function getNotificationSettingsForForm(): array
+    {
+        $notificationSettings = [];
+        NotificationChannel::each(function (NotificationChannel $notificationChannel) use (&$notificationSettings) {
+            $notificationSettings[$notificationChannel->getKey()] = [];
+            NotificationType::each(function (NotificationType $notificationType) use (&$notificationSettings, $notificationChannel) {
+                $notificationSettings[$notificationChannel->getKey()][$notificationType->getKey()] = $this->notificationSettings()->where([
+                    'notification_channel_id' => $notificationChannel->getKey(),
+                    'notification_type_id' => $notificationType->getKey(),
+                ])->value('enabled') ?? false;
+            });
+        });
+
+        return $notificationSettings;
+    }
+
+    public function updateNotificationSettings(array $notificationSettings): void
+    {
+        foreach ($notificationSettings as $notificationChannelKey => $notificationSetting) {
+            foreach ($notificationSetting as $notificationTypeKey => $notificationSettingValue) {
+                $this->notificationSettings()->updateOrCreate(
+                    [
+                        'user_id' => $this->getKey(),
+                        'notification_channel_id' => $notificationChannelKey,
+                        'notification_type_id' => $notificationTypeKey,
+                    ],
+                    [
+                        'enabled' => $notificationSettingValue,
+                        'notification_channel_id' => $notificationChannelKey,
+                        'notification_type_id' => $notificationTypeKey,
+                    ]);
+            }
+        }
+    }
+
+    public function userWantsNotification(NotificationChannel $notificationChannel, NotificationType $notificationType): bool
+    {
+        return $this->notificationSettings()->where([
+            'notification_channel_id' => $notificationChannel->getKey(),
+            'notification_type_id' => $notificationType->getKey(),
+            'enabled' => true,
+        ])->exists();
     }
 }

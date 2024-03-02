@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PollSeeder::class,
             CategorySeeder::class,
+            NotificationChannelSeeder::class,
+            NotificationTypeSeeder::class,
         ]);
     }
 }

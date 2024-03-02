@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
-use App\Filament\Pages\UpdateUserData;
 use App\Filament\Widgets\NeedsDataReviewWidget;
 use Filament\Enums\ThemeMode;
 use Filament\Facades\Filament;
@@ -54,7 +53,6 @@ class Pr0p0llPanelProvider extends PanelProvider
                 NeedsDataReviewWidget::class,
             ])
             ->plugins([FilamentApexChartsPlugin::make()])
-            ->profile(UpdateUserData::class)
             ->userMenuItems([
                 MenuItem::make()->label('Startseite')->url('/')->icon('heroicon-o-home'),
                 MenuItem::make()->label('Impressum')->url('/impressum')->icon('heroicon-o-home-modern'),

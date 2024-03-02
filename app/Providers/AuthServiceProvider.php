@@ -8,9 +8,11 @@ namespace App\Providers;
 use App\Models\Polls\MyPoll;
 use App\Models\Polls\Poll;
 use App\Models\Polls\PublicPoll;
+use App\Models\User;
 use App\Policies\MyPollPolicy;
 use App\Policies\PollPolicy;
 use App\Policies\PublicPollPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         MyPoll::class => MyPollPolicy::class,
         PublicPoll::class => PublicPollPolicy::class,
         Poll::class => PollPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

@@ -22,7 +22,7 @@
             >
                 <x-filament::button
                         color="gray"
-                        :href="route('filament.pr0p0ll.auth.profile')"
+                        :href="route('filament.pr0p0ll.pages.benutzer-einstellungen')"
                         tag="a"
                 >
                     Meine Daten

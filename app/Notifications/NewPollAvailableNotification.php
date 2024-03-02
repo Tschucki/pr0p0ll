@@ -82,7 +82,7 @@ class NewPollAvailableNotification extends Notification
             'record' => $this->poll,
         ]);
 
-        return "Hallo, es wurde eine neue Umfrage veröffentlicht.\n" . $url;
+        return "Hallo, es wurde eine neue Umfrage veröffentlicht.\n".$url;
     }
 
     /**
