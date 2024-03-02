@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Notifications\Discord;
 
 use App\Models\Polls\Poll;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Discord\DiscordChannel;
@@ -45,12 +46,13 @@ class NewPollAvailableDiscordNotification extends Notification
         $description = $this->poll->description ?? '';
         $category = $this->poll->category?->title ?? '';
         $user = $this->poll->not_anonymous ? $this->poll->user->name : 'Anonym';
+        $endsIn = Carbon::make($this->poll->closes_after)?->diffForHumans();
 
         return DiscordMessage::create()
             ->embed([
                 'type' => 'rich',
                 'title' => '📊 Neue Umfrage verfügbar!',
-                'description' => "Titel: {$title}\n\nBeschreibung: {$description}\n\nKategorie: {$category}\n\nBenutzer: {$user}\n\n{$url}",
+                'description' => "Titel: {$title}\n\nBeschreibung: {$description}\n\nKategorie: {$category}\n\nBenutzer: {$user}\n\nEndet in: {$endsIn}\n\n{$url}",
                 'color' => 0xEE4D2E,
                 'url' => $url,
             ]);
