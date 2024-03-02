@@ -54,7 +54,7 @@ class UserSettingsPage extends Page implements HasForms
     public function mount(): void
     {
         $this->currentUser = \Auth::user();
-        if (!$this->currentUser) {
+        if (! $this->currentUser) {
             throw new Halt('User nicht gefunden');
         }
         $demoGraphicData = $this->currentUser->getDemographicData() ?? [];
@@ -111,9 +111,9 @@ class UserSettingsPage extends Page implements HasForms
                 ])->columnSpan(1),
                 Section::make('Benutzerdaten')->schema([
                     TextInput::make('name')->label('Benutzername')->disabled(),
-                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->nullable()->email()
+                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->nullable()->email(),
                 ])->extraAttributes([
-                    'class' => 'h-full'
+                    'class' => 'h-full',
                 ])->columnSpan(1),
             ]),
             Section::make('Benachrichtigungs-Einstellungen')->schema([
@@ -123,7 +123,7 @@ class UserSettingsPage extends Page implements HasForms
                         $tabs[] = Tabs\Tab::make($notificationChannel->title)->label($notificationChannel->title)->icon($notificationChannel->icon)->schema(function () use ($notificationChannel) {
                             $items = [];
                             NotificationType::each(function (NotificationType $notificationType) use (&$items, $notificationChannel) {
-                                $items[] = Toggle::make('notification_settings.' . $notificationChannel->getKey() . '.' . $notificationType->getKey())->label($notificationType->title)->helperText($notificationType->description);
+                                $items[] = Toggle::make('notification_settings.'.$notificationChannel->getKey().'.'.$notificationType->getKey())->label($notificationType->title)->helperText($notificationType->description);
                             });
 
                             return $items;
@@ -153,16 +153,16 @@ class UserSettingsPage extends Page implements HasForms
 
             $data = $this->form->getState();
             $demoGraphicDataKeys = array_keys($user->getDemographicData());
-            $demographicData = array_filter($data, static fn($key) => in_array($key, $demoGraphicDataKeys, true), ARRAY_FILTER_USE_KEY);
+            $demographicData = array_filter($data, static fn ($key) => in_array($key, $demoGraphicDataKeys, true), ARRAY_FILTER_USE_KEY);
 
             // Update demographic data
             $user->update($demographicData);
 
             if ($user->where('email')->doesntExist() && $user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
                 $user->update([
-                    'email' => $data['email']
+                    'email' => $data['email'],
                 ]);
-            } else if ($user->where('email', $data['email'])->first()->getKey() !== \Auth::user()->getKey()) {
+            } elseif ($user->where('email', $data['email'])->first()->getKey() !== \Auth::user()->getKey()) {
                 Notification::make('email_not_unique')->danger()->title('Die E-mail konnte nicht gespeichert werden')->send();
             }
 

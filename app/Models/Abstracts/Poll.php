@@ -71,7 +71,7 @@ abstract class Poll extends Model
 
             return [
                 'id' => $question->getKey(),
-                'type' => (string)($type->getKey()),
+                'type' => (string) ($type->getKey()),
                 'data' => [
                     'question_type_id' => $type->getKey(),
                     'title' => $question->title,
@@ -84,17 +84,17 @@ abstract class Poll extends Model
 
     public function isInReview(): bool
     {
-        return (bool)$this->in_review;
+        return (bool) $this->in_review;
     }
 
     public function isApproved(): bool
     {
-        return (bool)$this->approved;
+        return (bool) $this->approved;
     }
 
     public function isVisibleForPublic(): bool
     {
-        return $this->isApproved() && !$this->isInReview() && $this->visible_to_public;
+        return $this->isApproved() && ! $this->isInReview() && $this->visible_to_public;
     }
 
     public function resultsArePublic(): bool
@@ -160,7 +160,7 @@ abstract class Poll extends Model
 
     public function userIsWithinTargetGroup(User $user): bool
     {
-        if (!$this->target_group) {
+        if (! $this->target_group) {
             return true;
         }
 

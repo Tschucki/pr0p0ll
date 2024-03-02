@@ -45,20 +45,20 @@ class NewPollAvailableTelegramNotification extends Notification
 
         return TelegramMessage::create()
             ->to(config('services.telegram-bot-api.channel'))
-            ->line('*📊 Neue Umfrage verfügbar!*' . "\n")
+            ->line('*📊 Neue Umfrage verfügbar!*'."\n")
             ->line("*Titel: {$this->poll->title}*\n")
             ->when($this->poll->description, function (TelegramMessage $message) {
-                $message->line('*Beschreibung:* ' . $this->poll->description);
+                $message->line('*Beschreibung:* '.$this->poll->description);
             })
             ->when($this->poll->category, function (TelegramMessage $message) {
                 $message->line("*\nKategorie:* {$this->poll->category->title}");
             })
             ->when($this->poll->not_anonymous, function (TelegramMessage $message) {
                 $pr0UserName = $this->poll->user->name;
-                $pr0grammUserProfileUrl = 'https://pr0gramm.com/' . $pr0UserName;
+                $pr0grammUserProfileUrl = 'https://pr0gramm.com/'.$pr0UserName;
                 $message->line("*\nBenutzer:* [$pr0UserName]($pr0grammUserProfileUrl)");
             })
-            ->line("*\nEndet in:* " . Carbon::make($this->poll->closes_after)?->diffForHumans() . "\n")
+            ->line("*\nEndet in:* ".Carbon::make($this->poll->closes_after)?->diffForHumans()."\n")
             ->line("*\nURL:* [$url]($url)")
             ->button('Jetzt teilnehmen', $url);
     }

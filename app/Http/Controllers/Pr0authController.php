@@ -30,7 +30,7 @@ class Pr0authController extends Controller
             ]
         ];*/
 
-        if (!in_array($user->name, config('pr0p0ll.beta_users'), true)) {
+        if (! in_array($user->name, config('pr0p0ll.beta_users'), true)) {
             abort(403);
         }
 

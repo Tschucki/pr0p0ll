@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace App\Notifications\Email;
 
 use App\Models\Polls\PublicPoll;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Discord\DiscordMessage;
-use NotificationChannels\Pr0gramm\Pr0grammChannel;
-use NotificationChannels\Telegram\TelegramMessage;
 
 class NewPollAvailableEmailNotification extends Notification
 {
@@ -45,7 +41,7 @@ class NewPollAvailableEmailNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('📊 Neue Umfrage verfügbar! #' . $this->poll->getKey())
+            ->subject('📊 Neue Umfrage verfügbar! #'.$this->poll->getKey())
             ->greeting('Hallo '.$notifiable->name.',')
             ->line('Es ist eine neue Umfrage auf Pr0p0ll verfügbar. Titel "'.$this->poll->title.'" wurde abgelehnt.')
             ->line('Titel: ')

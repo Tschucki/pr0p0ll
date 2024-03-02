@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace App\Notifications\Pr0gramm;
 
 use App\Models\Polls\PublicPoll;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Discord\DiscordMessage;
 use NotificationChannels\Pr0gramm\Pr0grammChannel;
-use NotificationChannels\Telegram\TelegramMessage;
 
 class NewPollAvailablePr0grammNotification extends Notification
 {
