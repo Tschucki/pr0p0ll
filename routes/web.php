@@ -12,12 +12,11 @@ Route::get('/impressum', [FrontendController::class, 'imprint'])->name('frontend
 Route::get('/datenschutz', [FrontendController::class, 'privacy'])->name('frontend.privacy');
 Route::get('/nutzungsbedingungen', [FrontendController::class, 'terms'])->name('frontend.terms');
 
-if (config('app.env') === 'local') {
-    Route::middleware(['guest'])->group(function () {
-        Route::get('/oauth/callback', [Pr0authController::class, 'callback'])->name('oauth.callback');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/oauth/callback', [Pr0authController::class, 'callback'])->name('oauth.callback');
 
-        Route::get('/oauth/start', [Pr0authController::class, 'start'])->name('oauth.start');
+    Route::get('/oauth/start', [Pr0authController::class, 'start'])->name('oauth.start');
 
-        Route::get('login', LoginRedirectController::class)->name('login');
-    });
-}
+    Route::get('login', LoginRedirectController::class)->name('login');
+});
+
