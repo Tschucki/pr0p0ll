@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Models\Abstracts\Poll;
+use App\Models\NotificationType;
+use App\Models\Polls\Poll;
 use App\Models\User;
-use App\Notifications\PollDeniedNotification;
+use App\Notifications\Email\PollDeniedEmailNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -40,6 +41,8 @@ class SendPollDeclinedEmailNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        Notification::route('mail', $this->user->email)->notify(new PollDeniedNotification($this->poll));
+        if (in_array('mail', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::POLLDECLINED)->first()), true)) {
+            Notification::route('mail', $this->user->email)->notify(new PollDeniedEmailNotification($this->poll));
+        }
     }
 }

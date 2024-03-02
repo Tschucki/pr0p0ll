@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\LoginRedirectController;
 use App\Http\Controllers\Pr0authController;
+use App\Models\Polls\PublicPoll;
+use App\Notifications\Discord\NewPollAvailableDiscordNotification;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'landing'])->name('frontend.landing');
@@ -21,3 +23,11 @@ if (config('app.env') === 'local') {
         Route::get('login', LoginRedirectController::class)->name('login');
     });
 }
+
+Route::get('discord', function () {
+    $poll = PublicPoll::find(1);
+
+    Notification::route('discord', config('services.discord.channel_id'))->notify(
+        new NewPollAvailableDiscordNotification($poll)
+    );
+});

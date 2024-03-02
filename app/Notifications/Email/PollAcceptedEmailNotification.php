@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Notifications;
+namespace App\Notifications\Email;
 
-use App\Models\Abstracts\Poll;
-use App\Models\NotificationType;
+use App\Models\Polls\Poll;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PollAcceptedNotification extends Notification
+class PollAcceptedEmailNotification extends Notification
 {
     use Queueable;
 
@@ -32,7 +31,9 @@ class PollAcceptedNotification extends Notification
      */
     public function via(User $notifiable): array
     {
-        return $notifiable->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::POLLACCEPTED)->first());
+        return [
+            'mail',
+        ];
     }
 
     /**
@@ -47,16 +48,6 @@ class PollAcceptedNotification extends Notification
                 'record' => $this->poll->getKey(),
             ])))
             ->line('Danke, dass du Pr0p0ll nutzt.');
-    }
-
-    public function toPr0gramm($notifiable): string
-    {
-        $url = route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
-            'record' => $this->poll->getKey(),
-        ]);
-        $title = $this->poll->title;
-
-        return "Hallo, deine Umfrage ({$title}) wurde genehmigt und ist nun öffentlich sichtbar.\n".'Teilnehmen: '.$url;
     }
 
     /**

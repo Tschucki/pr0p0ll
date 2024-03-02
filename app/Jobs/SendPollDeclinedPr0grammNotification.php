@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Models\Abstracts\Poll;
+use App\Models\NotificationType;
+use App\Models\Polls\Poll;
 use App\Models\User;
-use App\Notifications\PollDeniedNotification;
+use App\Notifications\Pr0gramm\PollDeniedPr0grammNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Notification;
 
 class SendPollDeclinedPr0grammNotification implements ShouldQueue
 {
@@ -40,6 +40,8 @@ class SendPollDeclinedPr0grammNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        Notification::route('pr0gramm', $this->user->name)->notify(new PollDeniedNotification($this->poll));
+        if (in_array('pr0gramm', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::POLLDECLINED)->first()), true)) {
+            $this->user->notify(new PollDeniedPr0grammNotification($this->poll));
+        }
     }
 }
