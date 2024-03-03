@@ -157,12 +157,11 @@ class UserSettingsPage extends Page implements HasForms
 
             // Update demographic data
             $user->update($demographicData);
-
-            if ($user->where('email')->doesntExist() && $user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
+            if ($user->where('email', $data['email'])->doesntExist() && $user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
                 $user->update([
                     'email' => $data['email'],
                 ]);
-            } elseif ($user->where('email', $data['email'])->first()->getKey() !== \Auth::user()->getKey()) {
+            } elseif ($user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
                 Notification::make('email_not_unique')->danger()->title('Die E-mail konnte nicht gespeichert werden')->send();
             }
 
