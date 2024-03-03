@@ -30,7 +30,7 @@ class Pr0p0llPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         Filament::registerRenderHook('panels::global-search.after',
-            fn (): View => view('filament.header.aftersearch'),
+            static fn (): View => view('filament.header.aftersearch'),
         );
 
         return $panel

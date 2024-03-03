@@ -13,7 +13,7 @@
                 </h2>
 
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                    Du solltest Deine persönlichen Daten aktualisieren, damit an passenden Umfragen teilnehmen kannst.
+                    Du solltest Deine persönlichen Daten aktualisieren, damit Du an passenden Umfragen teilnehmen kannst.
                 </p>
             </div>
 
