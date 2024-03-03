@@ -10,6 +10,7 @@ use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Http\RedirectResponse;
 
 class Login extends \Filament\Pages\Auth\Login
 {
@@ -24,6 +25,11 @@ class Login extends \Filament\Pages\Auth\Login
         return Action::make('authenticate')
             ->label('Mit Pr0gramm anmelden')
             ->submit('login');
+    }
+
+    protected function getBackAction()
+    {
+        return Action::make('back')->link()->label('Zurück zur Startseite')->url(route('frontend.landing'));
     }
 
     public function mount(): void
@@ -45,7 +51,7 @@ class Login extends \Filament\Pages\Auth\Login
 
     public function getHeading(): string|Htmlable
     {
-        return 'Melde dich an';
+        return 'Mit Pr0gramm anmelden';
     }
 
     public function login()
@@ -65,7 +71,7 @@ class Login extends \Filament\Pages\Auth\Login
                 ->danger()
                 ->send();
 
-            return;
+            return null;
         }
 
         return \Redirect::route('oauth.start');
