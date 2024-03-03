@@ -20,7 +20,7 @@
     <h4 class="text-sm font-medium text-gray-950 dark:text-white">
         Nutzungsbedingungen
     </h4>
-    Mit deiner Anmeldung stimmst du den   <x-filament::link :href="''">
+    Mit deiner Anmeldung stimmst du den <x-filament::link :href="route('frontend.terms')">
             Nutzungsbedingungen
         </x-filament::link> zu.
     </p>
