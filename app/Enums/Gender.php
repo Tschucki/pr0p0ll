@@ -15,7 +15,7 @@ enum Gender: string implements HasLabel
     {
         return match ($this) {
             self::MALE => 'Männlich',
-            self::FEMALE => 'Weiblich -  (.)(.)?',
+            self::FEMALE => 'Weiblich',
         };
     }
 }
