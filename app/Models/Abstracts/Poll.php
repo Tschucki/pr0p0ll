@@ -105,8 +105,8 @@ abstract class Poll extends Model
 
     public function resultsArePublic(): bool
     {
-        if ($this->published_at !== null && $this->close_after !== null) {
-            return Carbon::make($this->published_at)?->add($this->close_after)->isPast();
+        if ($this->published_at !== null && $this->closes_after !== null) {
+            return Carbon::make($this->published_at)?->add($this->closes_after)->isPast();
         }
 
         return false;
@@ -167,7 +167,7 @@ abstract class Poll extends Model
 
     public function hasEnded(): bool
     {
-        return $this->close_after !== null && Carbon::make($this->published_at)?->add($this->close_after)->isPast();
+        return $this->closes_after !== null && Carbon::make($this->published_at)?->add($this->closes_after)->isPast();
     }
 
     public function disable(string $reason): void

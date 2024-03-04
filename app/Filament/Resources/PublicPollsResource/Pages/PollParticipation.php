@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PublicPollsResource\Pages;
 
+use App\Filament\Resources\MyPollResource;
 use App\Filament\Resources\PublicPollsResource;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\TextAnswer;
@@ -49,9 +50,14 @@ class PollParticipation extends Page
         return 'An '.'"'.$this->record->title.'"'.' teilnehmen';
     }
 
-    public function mount(int|string $record): void
+    public function mount(int|string $record)
     {
         $this->record = $this->resolveRecord($record);
+        if ($this->record->hasEnded()) {
+            Notification::make('poll_not_ended')->danger()->title('Umfrage beendet')->body('Die Umfrage ist beendet.')->send();
+
+            return redirect(PublicPollsResource::getUrl('index'));
+        }
         $this->authorizeAccess();
         $this->form->fill();
     }
