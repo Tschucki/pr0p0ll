@@ -15,6 +15,7 @@ use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -25,12 +26,16 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
+
 class Pr0p0llPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         Filament::registerRenderHook('panels::global-search.after',
             static fn (): View => view('filament.header.aftersearch'),
+        );
+        Filament::registerRenderHook('panels::body.start',
+            static fn (): View => view('filament.beta.beta-feedback'),
         );
 
         return $panel
