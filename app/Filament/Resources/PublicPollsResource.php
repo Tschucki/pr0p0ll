@@ -42,7 +42,7 @@ class PublicPollsResource extends Resource
                 Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('description')->label('Beschreibung')->hidden()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('category.title')->label('Kategorie')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->visible(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous)->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : '')->searchable()->sortable(),
                 Tables\Columns\IconColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user())),
                 Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
             ])

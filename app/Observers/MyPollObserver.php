@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Observers;
 
 use App\Models\Polls\MyPoll;
+use App\Models\Polls\Poll;
 use App\Models\User;
 use App\Notifications\PollNeedsReviewNotification;
 use Illuminate\Support\Facades\Notification;
@@ -27,7 +28,8 @@ class MyPollObserver
         // Check if the poll has been turned in for review
         if ($myPoll->isDirty('in_review') && $myPoll->isInReview()) {
             // Send a notification to the admins
-            Notification::send(User::admin()->get(), new PollNeedsReviewNotification($myPoll));
+            $poll = Poll::find($myPoll->getKey());
+            Notification::send(User::admin()->get(), new PollNeedsReviewNotification($poll));
         }
     }
 

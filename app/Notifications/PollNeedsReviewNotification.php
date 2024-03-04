@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Models\Abstracts\Poll as AbstractPoll;
+use App\Models\Polls\Poll;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -15,12 +15,12 @@ class PollNeedsReviewNotification extends Notification
 {
     use Queueable;
 
-    private AbstractPoll $poll;
+    private Poll $poll;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(AbstractPoll $poll)
+    public function __construct(Poll $poll)
     {
         $this->poll = $poll;
     }
