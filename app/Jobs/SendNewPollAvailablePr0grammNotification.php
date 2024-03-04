@@ -7,14 +7,14 @@ namespace App\Jobs;
 use App\Models\NotificationType;
 use App\Models\Polls\Poll;
 use App\Models\User;
-use App\Notifications\Pr0gramm\PollAcceptedPr0grammNotification;
+use App\Notifications\Pr0gramm\NewPollAvailablePr0grammNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SendPollAcceptedPr0grammNotification implements ShouldQueue
+class SendNewPollAvailablePr0grammNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -40,8 +40,8 @@ class SendPollAcceptedPr0grammNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        if (in_array('pr0gramm', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::POLLACCEPTED)->first()), true)) {
-            $this->user->notify(new PollAcceptedPr0grammNotification($this->poll));
+        if (in_array('pr0gramm', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::NEWPOLLPUBLISHED)->first()), true)) {
+            $this->user->notify(new NewPollAvailablePr0grammNotification($this->poll));
         }
     }
 }

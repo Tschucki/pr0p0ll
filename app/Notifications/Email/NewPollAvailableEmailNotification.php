@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications\Email;
 
-use App\Models\Polls\PublicPoll;
+use App\Models\Polls\Poll;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -13,12 +13,12 @@ class NewPollAvailableEmailNotification extends Notification
 {
     use Queueable;
 
-    private PublicPoll $poll;
+    private Poll $poll;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(PublicPoll $poll)
+    public function __construct(Poll $poll)
     {
         $this->poll = $poll;
     }
@@ -42,10 +42,9 @@ class NewPollAvailableEmailNotification extends Notification
     {
         return (new MailMessage)
             ->subject('📊 Neue Umfrage verfügbar! #'.$this->poll->getKey())
-            ->greeting('Hallo '.$notifiable->name.',')
-            ->line('Es ist eine neue Umfrage auf Pr0p0ll verfügbar. Titel "'.$this->poll->title.'" wurde abgelehnt.')
-            ->line('Titel: ')
-            ->line($this->poll->title)
+            ->greeting('Hallo,')
+            ->line('Es ist eine neue Umfrage auf Pr0p0ll verfügbar.')
+            ->line('Titel: '.$this->poll->title)
             ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
                 'record' => $this->poll->getKey(),
             ])))

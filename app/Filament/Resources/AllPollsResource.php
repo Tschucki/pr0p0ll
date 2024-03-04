@@ -34,7 +34,7 @@ class AllPollsResource extends Resource
                 Tables\Columns\IconColumn::make('approved')->label('Genehmigt')->boolean()->sortable()->toggleable(),
                 Tables\Columns\IconColumn::make('visible_to_public')->label('Sichtbar für Öffentlichkeit')->boolean()->sortable()->toggleable(),
                 Tables\Columns\IconColumn::make('in_review')->label('Prüfung nötig')->boolean()->sortable()->toggleable(),
-                Tables\Columns\IconColumn::make('published_at')->label('Veröffentlicht am')->boolean()->sortable()->toggleable(),
+                Tables\Columns\TextColumn::make('published_at')->label('Veröffentlicht am')->dateTime('d.m.Y H:i')->sortable()->toggleable(),
                 Tables\Columns\TextColumn::make('title')->label('Titel')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('questions_count')->counts('questions')->label('Anzahl Fragen')->sortable()->toggleable(),

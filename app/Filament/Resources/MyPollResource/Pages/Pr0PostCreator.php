@@ -41,9 +41,14 @@ class Pr0PostCreator extends Page
         return static::$title;
     }
 
-    public function mount(int|string $record): void
+    public function mount(int|string $record)
     {
         $this->record = $this->resolveRecord($record);
+        if (! $this->record->hasEnded()) {
+            Notification::make('poll_not_ended')->danger()->title('Umfrage noch nicht beendet')->body('Die Umfrage ist noch nicht beendet.')->send();
+
+            return redirect(MyPollResource::getUrl('view', ['record' => $this->record]));
+        }
         $this->participants = $this->record->participants()->count();
         $this->authorizeAccess();
         $this->fillForm();

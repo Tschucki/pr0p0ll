@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Notifications\Email;
 
 use App\Models\Polls\Poll;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -29,7 +28,7 @@ class PollDeniedEmailNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via($notifiable): array
     {
         return [
             'mail',
@@ -42,7 +41,8 @@ class PollDeniedEmailNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->greeting('Hallo '.$notifiable->name.',')
+            ->greeting('Hallo,')
+            ->subject('📊 Deine Umfrage wurde abgelehnt! #'.$this->poll->getKey())
             ->line('Deine Umfrage mit dem Titel "'.$this->poll->title.'" wurde abgelehnt.')
             ->line('Grund: ')
             ->line($this->poll->admin_notes)

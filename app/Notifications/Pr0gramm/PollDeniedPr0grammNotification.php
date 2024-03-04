@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Notifications\Pr0gramm;
 
 use App\Models\Polls\Poll;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Pr0gramm\Pr0grammChannel;
@@ -29,7 +28,7 @@ class PollDeniedPr0grammNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via($notifiable): array
     {
         return [
             Pr0grammChannel::class,

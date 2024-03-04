@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\Models\Abstracts;
 
+use App\Jobs\SendNewPollAvailableEmailNotification;
+use App\Jobs\SendNewPollAvailablePr0grammNotification;
 use App\Jobs\SendPollAcceptedEmailNotification;
 use App\Jobs\SendPollAcceptedPr0grammNotification;
+use App\Jobs\SendPollAcceptedTelegramNotification;
 use App\Jobs\SendPollDeclinedEmailNotification;
 use App\Jobs\SendPollDeclinedPr0grammNotification;
 use App\Jobs\SendPollPublishedDiscordNotification;
 use App\Models\Answer;
 use App\Models\Category;
+use App\Models\NotificationChannel;
+use App\Models\NotificationType;
 use App\Models\Question;
 use App\Models\User;
 use App\Services\TargetGroupService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -122,6 +128,23 @@ abstract class Poll extends Model
         SendPollAcceptedEmailNotification::dispatch($poll, $user);
         SendPollAcceptedPr0grammNotification::dispatch($poll, $user);
         SendPollPublishedDiscordNotification::dispatch($poll);
+        SendPollAcceptedTelegramNotification::dispatch($poll);
+        $usersForMail = User::whereHas('notificationSettings', function (Builder $query) {
+            $query->where('notification_type_id', NotificationType::where('identifier', \App\Enums\NotificationType::NEWPOLLPUBLISHED)->first()->getKey())
+                ->where('notification_channel_id', NotificationChannel::where('route', 'mail')->first()->getKey())
+                ->where('enabled', true);
+        })->get();
+        $usersForPr0 = User::whereHas('notificationSettings', function (Builder $query) {
+            $query->where('notification_type_id', NotificationType::where('identifier', \App\Enums\NotificationType::NEWPOLLPUBLISHED)->first()->getKey())
+                ->where('notification_channel_id', NotificationChannel::where('route', 'pr0gramm')->first()->getKey())
+                ->where('enabled', true);
+        })->get();
+        foreach ($usersForMail as $user) {
+            SendNewPollAvailableEmailNotification::dispatch($poll, $user);
+        }
+        foreach ($usersForMail as $user) {
+            SendNewPollAvailablePr0grammNotification::dispatch($poll, $user);
+        }
     }
 
     public function deny(string $reason): void
@@ -140,6 +163,11 @@ abstract class Poll extends Model
         $poll = \App\Models\Polls\Poll::find($this->getKey());
         SendPollDeclinedEmailNotification::dispatch($poll, $user);
         SendPollDeclinedPr0grammNotification::dispatch($poll, $user);
+    }
+
+    public function hasEnded(): bool
+    {
+        return $this->close_after !== null && Carbon::make($this->published_at)?->add($this->close_after)->isPast();
     }
 
     public function disable(string $reason): void

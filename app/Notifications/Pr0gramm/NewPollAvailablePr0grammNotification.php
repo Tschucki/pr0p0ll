@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications\Pr0gramm;
 
-use App\Models\Polls\PublicPoll;
+use App\Models\Polls\Poll;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Pr0gramm\Pr0grammChannel;
@@ -13,12 +13,12 @@ class NewPollAvailablePr0grammNotification extends Notification
 {
     use Queueable;
 
-    private PublicPoll $poll;
+    private Poll $poll;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(PublicPoll $poll)
+    public function __construct(Poll $poll)
     {
         $this->poll = $poll;
     }

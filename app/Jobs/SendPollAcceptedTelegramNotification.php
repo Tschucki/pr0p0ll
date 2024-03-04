@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Models\NotificationType;
 use App\Models\Polls\Poll;
 use App\Models\User;
-use App\Notifications\Pr0gramm\PollAcceptedPr0grammNotification;
+use App\Notifications\Telegram\NewPollAvailableTelegramNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Notification;
 
-class SendPollAcceptedPr0grammNotification implements ShouldQueue
+class SendPollAcceptedTelegramNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -29,10 +29,9 @@ class SendPollAcceptedPr0grammNotification implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(Poll $poll, User $user)
+    public function __construct(Poll $poll)
     {
         $this->poll = $poll;
-        $this->user = $user;
     }
 
     /**
@@ -40,8 +39,6 @@ class SendPollAcceptedPr0grammNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        if (in_array('pr0gramm', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::POLLACCEPTED)->first()), true)) {
-            $this->user->notify(new PollAcceptedPr0grammNotification($this->poll));
-        }
+        Notification::route('telegram', config('services.telegram-bot-api.channel'))->notify(new NewPollAvailableTelegramNotification($this->poll));
     }
 }

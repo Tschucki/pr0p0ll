@@ -32,6 +32,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 use Yepsua\Filament\Tables\Components\RatingColumn;
 
 class MyPollResource extends Resource
@@ -127,6 +128,49 @@ class MyPollResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('status')->icon('heroicon-o-cog')->label('Status')->state(function (MyPoll $myPoll) {
+                    if ($myPoll->isVisibleForPublic()) {
+                        return 'Öffentlich sichtbar';
+                    }
+                    if ($myPoll->isApproved()) {
+                        return 'Genehmigt';
+                    }
+                    if ($myPoll->hasEnded()) {
+
+                    }
+                    if ($myPoll->isInReview()) {
+                        return 'In Überprüfung';
+                    }
+
+                    return 'Entwurf';
+                })->icon(function (MyPoll $myPoll) {
+                    if ($myPoll->isVisibleForPublic()) {
+                        return 'heroicon-o-eye';
+                    }
+                    if ($myPoll->isApproved()) {
+                        return 'heroicon-o-check-circle';
+                    }
+                    if ($myPoll->hasEnded()) {
+                        return 'heroicon-o-lock-closed';
+                    }
+                    if ($myPoll->isInReview()) {
+                        return 'heroicon-o-scale';
+                    }
+
+                    return 'heroicon-o-pencil-square';
+                })->iconColor(function (MyPoll $myPoll) {
+                    if ($myPoll->isVisibleForPublic()) {
+                        return 'success';
+                    }
+                    if ($myPoll->isApproved()) {
+                        return 'success';
+                    }
+                    if ($myPoll->hasEnded()) {
+                        return 'success';
+                    }
+
+                    return 'warning';
+                }),
                 Tables\Columns\TextColumn::make('title')->label('Titel')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('answers_count')->counts('answers')->label('Anzahl Antworten')->sortable()->toggleable(),
                 Tables\Columns\TextColumn::make('participants_count')->counts('participants')->label('Anzahl Teilnehmer')->sortable()->toggleable(),
@@ -158,9 +202,9 @@ class MyPollResource extends Resource
                 TextEntry::make('admin_notes')->label(''),
             ])->visible(fn (MyPoll $myPoll) => $myPoll->admin_notes),
             Section::make($infolist->getRecord()->title)->schema([
-                TextEntry::make('description')->columnSpanFull()->label('Beschreibung')->markdown(),
+                TextEntry::make('description')->visible(fn (MyPoll $myPoll) => $myPoll->description !== null)->columnSpanFull()->label('Beschreibung')->markdown(),
                 TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn (MyPoll $poll) => ! $poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn (MyPoll $poll) => $poll->not_anonymous ? 'Dein Name wird angezeigt' : 'Dein Name wird nicht angezeigt'),
-                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (MyPoll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
+                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (MyPoll $poll) => $poll->isVisibleForPublic() ? Carbon::make($poll->closes_after)?->diffForHumans() : ClosesAfter::from($poll->closes_after)->getLabel()),
                 /*Section::make('Statistiken')->schema([
                     // TODO: Add statistics (participation rate, etc.)
                 ])->columns([

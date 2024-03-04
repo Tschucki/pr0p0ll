@@ -10,7 +10,6 @@ use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Http\RedirectResponse;
 
 class Login extends \Filament\Pages\Auth\Login
 {
@@ -71,7 +70,7 @@ class Login extends \Filament\Pages\Auth\Login
                 ->danger()
                 ->send();
 
-            return null;
+            return;
         }
 
         return \Redirect::route('oauth.start');

@@ -42,7 +42,7 @@ class SendPollAcceptedEmailNotification implements ShouldQueue
     public function handle(): void
     {
         if (in_array('mail', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::POLLACCEPTED)->first()), true)) {
-            Notification::route('mail', $this->user->email)->notify(new PollAcceptedEmailNotification($this->poll));
+            Notification::route('mail', [$this->user->email => $this->user->name])->notify(new PollAcceptedEmailNotification($this->poll));
         }
     }
 }

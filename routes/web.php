@@ -19,4 +19,3 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('login', LoginRedirectController::class)->name('login');
 });
-

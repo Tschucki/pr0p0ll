@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -29,10 +31,12 @@ class LoginToPr0gramm extends Command
         $login = Pr0grammApi::login(config('services.pr0gramm.username'), config('services.pr0gramm.password'));
         if (isset($login['success'])) {
             $this->info('Login successful');
+
             return 0;
         }
 
         $this->error('Login failed');
+
         return 1;
     }
 }

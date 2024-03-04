@@ -26,7 +26,7 @@ class MyPollObserver
     {
         // Check if the poll has been turned in for review
         if ($myPoll->isDirty('in_review') && $myPoll->isInReview()) {
-            // Send a notification to the admin
+            // Send a notification to the admins
             Notification::send(User::admin()->get(), new PollNeedsReviewNotification($myPoll));
         }
     }
