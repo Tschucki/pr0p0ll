@@ -15,7 +15,7 @@ class CreateMyPoll extends CreateRecord
 {
     protected static string $resource = MyPollResource::class;
 
-    protected static ?string $title = 'Eigene Umfrage erstellen';
+    protected static ?string $title = 'Eigene Umfrage erstellen (Entwurf)';
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
