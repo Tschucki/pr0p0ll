@@ -103,8 +103,18 @@ abstract class Poll extends Model
         return $this->isApproved() && ! $this->isInReview() && $this->visible_to_public;
     }
 
+    public function isClosed(): bool
+    {
+        if ($this->published_at !== null && $this->closes_after !== null) {
+            return Carbon::make($this->published_at)?->add($this->closes_after)->isPast();
+        }
+
+        return false;
+    }
+
     public function resultsArePublic(): bool
     {
+        //TODO: Implement
         if ($this->published_at !== null && $this->closes_after !== null) {
             return Carbon::make($this->published_at)?->add($this->closes_after)->isPast();
         }

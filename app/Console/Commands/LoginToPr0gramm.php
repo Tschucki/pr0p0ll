@@ -28,6 +28,8 @@ class LoginToPr0gramm extends Command
      */
     public function handle(): int
     {
+        Pr0grammApi::logout();
+
         $login = Pr0grammApi::login(config('services.pr0gramm.username'), config('services.pr0gramm.password'));
         if (isset($login['success'])) {
             $this->info('Login successful');

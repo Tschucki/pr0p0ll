@@ -9,7 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Pr0gramm\Pr0grammChannel;
 
-class PollAcceptedPr0grammNotification extends Notification
+class OwnPollClosedPr0grammNotification extends Notification
 {
     use Queueable;
 
@@ -37,12 +37,12 @@ class PollAcceptedPr0grammNotification extends Notification
 
     public function toPr0gramm($notifiable): string
     {
-        $url = route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
+        $url = route('filament.pr0p0ll.resources.my-polls.results', [
             'record' => $this->poll->getKey(),
         ]);
         $title = $this->poll->title;
 
-        return "Hallo, deine Umfrage ({$title}) wurde genehmigt und ist nun öffentlich sichtbar.\n".'Teilnehmen: '.$url;
+        return "Hallo, deine Umfrage ({$title}) ist nun zu Ende. Du kannst jetzt einen pr0-Post erstellen.\n".'Auswertung: '.$url;
     }
 
     /**
