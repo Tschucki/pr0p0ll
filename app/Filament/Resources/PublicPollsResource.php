@@ -12,7 +12,6 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Carbon;
 
 class PublicPollsResource extends Resource
 {
@@ -43,10 +42,10 @@ class PublicPollsResource extends Resource
                 Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('description')->label('Beschreibung')->hidden()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('category.title')->label('Kategorie')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('closes_after')->label('Ende')->state(fn(PublicPoll $publicPoll) => $publicPoll->hasEnded() ? 'Geschlossen' : now()->add($publicPoll->closes_after)->diffForHumans())->toggleable(),
-                Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->state(fn(PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : '')->searchable()->sortable(),
-                Tables\Columns\IconColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->boolean()->state(fn(PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user())),
-                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->state(fn(PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
+                Tables\Columns\TextColumn::make('closes_after')->label('Ende')->state(fn (PublicPoll $publicPoll) => $publicPoll->hasEnded() ? 'Geschlossen' : now()->add($publicPoll->closes_after)->diffForHumans())->toggleable(),
+                Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : '')->searchable()->sortable(),
+                Tables\Columns\IconColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user())),
+                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
             ])
             ->filters([])
             ->groups([
@@ -57,8 +56,8 @@ class PublicPollsResource extends Resource
                     ->icon('heroicon-o-plus-circle')
                     ->button()
                     ->label('Teilnehmen')
-                    ->url(fn(PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
-                    ->hidden(fn(PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || !$publicPoll->userIsWithinTargetGroup(\Auth::user()) || $publicPoll->hasEnded()),
+                    ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
+                    ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user()) || $publicPoll->hasEnded()),
             ])
             ->bulkActions([])
             ->query(

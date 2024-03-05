@@ -8,7 +8,6 @@ use App\Models\Polls\Poll;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Pr0gramm\Pr0grammChannel;
 
 // TODO: Add ShouldQueue
 class PollNeedsReviewNotification extends Notification
@@ -33,7 +32,7 @@ class PollNeedsReviewNotification extends Notification
     public function via(object $notifiable): array
     {
         return [
-            'mail'
+            'mail',
         ];
     }
 

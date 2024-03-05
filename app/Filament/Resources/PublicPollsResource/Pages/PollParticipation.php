@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PublicPollsResource\Pages;
 
-use App\Filament\Resources\MyPollResource;
 use App\Filament\Resources\PublicPollsResource;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\TextAnswer;
