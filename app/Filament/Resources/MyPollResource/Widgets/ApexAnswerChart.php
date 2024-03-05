@@ -44,7 +44,7 @@ class ApexAnswerChart extends ApexChartWidget
         dataLabels: {
             enabled: true,
             formatter: function(val, opts) {
-            return val + '% ' + '(' + opts.w.config.series[opts.seriesIndex]  +')';
+            return Number(val).toFixed(2) + '% ' + '(' + opts.w.config.series[opts.seriesIndex]  +')';
             },
             dropShadow: {
                 enabled: true
@@ -64,7 +64,7 @@ class ApexAnswerChart extends ApexChartWidget
             var absoluteValue = Math.abs(val);
             var total = opts.w.globals.seriesTotals[opts.seriesIndex];
             var percentage = ((absoluteValue / total) * 100).toFixed(2);
-            return absoluteValue + ' (' + percentage + '%)';
+            return absoluteValue + ' (' + Number(percentage).toFixed(2) + '%)';
             },
             dropShadow: {
                 enabled: true
