@@ -142,7 +142,7 @@ abstract class Poll extends Model
         foreach ($usersForMail as $user) {
             SendNewPollAvailableEmailNotification::dispatch($poll, $user);
         }
-        foreach ($usersForMail as $user) {
+        foreach ($usersForPr0 as $user) {
             SendNewPollAvailablePr0grammNotification::dispatch($poll, $user);
         }
     }
