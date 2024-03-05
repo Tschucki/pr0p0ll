@@ -33,8 +33,7 @@ class PollNeedsReviewNotification extends Notification
     public function via(object $notifiable): array
     {
         return [
-            'mail',
-            Pr0grammChannel::class,
+            'mail'
         ];
     }
 
