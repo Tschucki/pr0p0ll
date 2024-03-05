@@ -41,7 +41,7 @@ class SendNewPollAvailableEmailNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        if (in_array('mail', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::NEWPOLLPUBLISHED)->first()), true)) {
+        if ($this->user->email && in_array('mail', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::NEWPOLLPUBLISHED)->first()), true)) {
             Notification::route('mail', [$this->user->email => $this->user->name])->notify(new NewPollAvailableEmailNotification($this->poll));
         }
     }
