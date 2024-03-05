@@ -6,6 +6,7 @@ namespace App\Filament\Resources\MyPollResource\Pages;
 
 use App\Enums\Gender;
 use App\Enums\Nationality;
+use App\Enums\Region;
 use App\Filament\Resources\MyPollResource;
 use App\Services\PollResultService;
 use Filament\Actions\Action;
@@ -94,11 +95,11 @@ class MyPollResults extends Page
                 TextInput::make('min_age')->afterStateUpdated(function (Get $get) {
                     $this->min_age = $get('min_age');
                     $this->update();
-                })->label('Mindestalter')->type('number')->columnSpan(1)->default(0)->minValue(0)->maxValue(99)->required()->default(0),
+                })->label('Mindestalter')->type('number')->columnSpan(1)->default(0)->minValue(0)->maxValue(99)->default(0),
                 TextInput::make('max_age')->afterStateUpdated(function (Get $get) {
                     $this->max_age = $get('max_age');
                     $this->update();
-                })->label('Maximalalter')->type('number')->columnSpan(1)->default(0)->minValue(0)->maxValue(99)->required()->default(0),
+                })->label('Maximalalter')->type('number')->columnSpan(1)->default(0)->minValue(0)->maxValue(99)->default(0),
                 Select::make('nationality')->afterStateUpdated(function (Get $get) {
                     $this->nationality = $get('nationality');
                     $this->update();
@@ -106,7 +107,7 @@ class MyPollResults extends Page
                 Select::make('region')->afterStateUpdated(function (Get $get) {
                     $this->region = $get('region');
                     $this->update();
-                })->columnSpan(1)->multiple()->label('Region')->options(Nationality::class)->native(false),
+                })->columnSpan(1)->multiple()->label('Region')->options(Region::class)->native(false),
             ])->columns(2)
             ->statePath('data');
     }
