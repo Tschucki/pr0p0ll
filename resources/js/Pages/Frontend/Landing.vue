@@ -16,8 +16,8 @@ export default {
       () => page
     ),
   props: {
-    userCount: Number,
-    pollCount: Number,
+    userCount: String,
+    pollCount: String,
   },
   methods: {
     scrollToFeatures: () => {
