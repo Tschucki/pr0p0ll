@@ -68,7 +68,7 @@ class PublicPollsResource extends Resource
                         true => 'Innerhalb Zielgruppe',
                         false => 'Außerhalb Zielgruppe',
                     ])
-                    ->default(fn (Page $livewire) => $livewire->activeTab === 'offene-umfragen' ? '1' : '0')
+                    ->default(fn (Page $livewire) => $livewire->activeTab === 'offene-umfragen' ? '1' : null)
                     ->query(function (Builder $query, $data) {
                         if ($data['value'] === '1') {
                             $pollIdsWithinTargetGroup = PublicPoll::all()->filter(fn ($poll) => $poll->userIsWithinTargetGroup(\Auth::user()) === true)->pluck('id');
