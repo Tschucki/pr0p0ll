@@ -81,23 +81,18 @@ class PublicPollsResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         // TODO: Add Cache
-        $allPublicPolls = PublicPoll::where('visible_to_public', true)
+        $notParticipatedPolls = PublicPoll::whereDoesntHave('participants', static function (Builder $query) {
+            $query->where('participant_id', \Auth::id());
+        })
+            ->where('original_content_link', null)
+            ->where('visible_to_public', true)
             ->where('approved', true)
             ->where('in_review', false)
             ->where('closes_at', '>', now())
             ->withoutGlobalScope(SoftDeletingScope::class)
-            ->count();
+            ->get();
 
-        $allParticipatedPolls = PublicPoll::whereHas('participants', static function (Builder $query) {
-            $query->where('user_id', \Auth::id());
-        })
-            ->where('visible_to_public', true)
-            ->where('approved', true)
-            ->where('in_review', false)
-            ->withoutGlobalScope(SoftDeletingScope::class)
-            ->count();
-
-        return \Number::abbreviate($allPublicPolls - $allParticipatedPolls);
+        return \Number::abbreviate($notParticipatedPolls->count());
     }
 
     public static function getPages(): array

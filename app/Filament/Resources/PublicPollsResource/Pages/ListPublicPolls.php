@@ -28,7 +28,7 @@ class ListPublicPolls extends ListRecords
         return [
             'offene-umfragen' => Tab::make('Offene Umfragen')->modifyQueryUsing(function (Builder $query) {
                 $query->whereDoesntHave('participants', function (Builder $query) {
-                    $query->where('user_id', auth()->id());
+                    $query->where('participant_id', auth()->id());
                 })->where('closes_at', '>', now())->orderBy('closes_at', 'DESC');
             })->badge(function () {
                 $allPublicPolls = PublicPoll::where('visible_to_public', true)
@@ -52,10 +52,10 @@ class ListPublicPolls extends ListRecords
 
             'teilgenommen' => Tab::make('Teilgenommene Umfragen')->modifyQueryUsing(function (Builder $query) {
                 $query->whereHas('participants', function (Builder $query) {
-                    $query->where('user_id', auth()->id());
+                    $query->where('participant_id', auth()->id());
                 });
             })->badge(fn () => PublicPoll::whereHas('participants', static function (Builder $query) {
-                $query->where('user_id', auth()->id());
+                $query->where('participant_id', auth()->id());
             })->count()),
 
             'alle' => Tab::make('Alle')->modifyQueryUsing(function (Builder $query) {
