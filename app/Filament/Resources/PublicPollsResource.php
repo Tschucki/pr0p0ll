@@ -7,6 +7,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PublicPollsResource\Pages;
 use App\Models\Polls\PublicPoll;
 use Filament\Forms\Form;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
@@ -59,6 +60,25 @@ class PublicPollsResource extends Resource
                     ->label('Teilnehmen')
                     ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
                     ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user()) || $publicPoll->hasEnded()),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('in_target_group')
+                    ->label('Zielgruppe')
+                    ->options([
+                        true => 'Innerhalb Zielgruppe',
+                        false => 'Außerhalb Zielgruppe',
+                    ])
+                    ->default(fn (Page $livewire) => $livewire->activeTab === 'offene-umfragen' ? '1' : '0')
+                    ->query(function (Builder $query, $data) {
+                        if ($data['value'] === '1') {
+                            $pollIdsWithinTargetGroup = PublicPoll::all()->filter(fn ($poll) => $poll->userIsWithinTargetGroup(\Auth::user()) === true)->pluck('id');
+                            $query->whereIn('id', $pollIdsWithinTargetGroup);
+                        }
+                        if ($data['value'] === '0') {
+                            $pollIdsWithinTargetGroup = PublicPoll::all()->filter(fn ($poll) => $poll->userIsWithinTargetGroup(\Auth::user()) === false)->pluck('id');
+                            $query->whereIn('id', $pollIdsWithinTargetGroup);
+                        }
+                    }),
             ])
             ->bulkActions([])
             ->query(

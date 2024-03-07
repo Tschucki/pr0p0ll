@@ -27,6 +27,13 @@ class TargetGroupService
         return self::baseQuery($aTargetGroupData)->where('id', $user->getKey())->exists();
     }
 
+    public static function getUsersWithinTargetGroup(array $aBuilderData = []): array
+    {
+        $aTargetGroupData = self::builderDataToArray($aBuilderData);
+
+        return self::baseQuery($aTargetGroupData)->get();
+    }
+
     private static function baseQuery(array $aTargetGroupData): Builder
     {
         $query = User::query();
