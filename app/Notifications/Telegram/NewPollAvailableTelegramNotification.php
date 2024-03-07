@@ -54,8 +54,8 @@ class NewPollAvailableTelegramNotification extends Notification
                 $message->line("*\nKategorie:* {$this->poll->category->title}");
             })
             ->when($this->poll->not_anonymous, function (TelegramMessage $message) {
-                $pr0UserName = $this->poll->user->name;
-                $pr0grammUserProfileUrl = 'https://pr0gramm.com/'.$pr0UserName;
+                $pr0UserName = $this->poll->not_anonymous ? $this->poll->user->name : 'Anonym';
+                $pr0grammUserProfileUrl = 'https://pr0gramm.com/user/'.$pr0UserName;
                 $message->line("*\nBenutzer:* [$pr0UserName]($pr0grammUserProfileUrl)");
             })
             ->line("*\nEndet in:* ".Carbon::make($this->poll->closes_after)?->diffForHumans()."\n")
