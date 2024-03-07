@@ -48,7 +48,7 @@ class OwnPollClosedEmailNotification extends Notification
             ->action('Zur Auswerung', url(route('filament.pr0p0ll.resources.my-polls.results', [
                 'record' => $this->poll->getKey(),
             ])))
-            ->line('Danke, dass du Pr0p0ll nutzt.');
+            ->line('Danke, dass du pr0p0ll nutzt.');
     }
 
     /**

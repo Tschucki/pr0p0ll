@@ -14,15 +14,15 @@ import pr0p0llImage from '../../assets/imgs/pr0p0ll.png';
             href="/"
             class="flex items-center gap-2 text-xl font-medium text-[#f2f5f4] sm:text-2xl">
             <img
-              alt="Pr0p0ll Logo"
-              title="Pr0p0ll Logo"
+              alt="pr0p0ll Logo"
+              title="pr0p0ll Logo"
               :src="pr0p0llImage"
               class="aspect-square h-10 w-auto sm:h-12" />
-            Pr0p0ll
+            pr0p0ll
           </Link>
           <div class="flex items-center gap-x-8">
             <a v-if="!$page.props.auth.user?.id" href="/login">
-              <Pr0Button> Login mit Pr0gramm </Pr0Button>
+              <Pr0Button> Login mit pr0gramm </Pr0Button>
             </a>
             <a v-if="$page.props.auth.user?.id" href="/login">
               <Pr0Button> Zu den Umfragen </Pr0Button>

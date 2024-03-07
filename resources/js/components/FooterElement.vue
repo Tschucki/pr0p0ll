@@ -75,7 +75,7 @@ import { Link } from '@inertiajs/vue3';
                     <a
                       class="transition hover:text-[#f2f5f4]"
                       href="https://pr0gramm.com/inbox/messages/PimmelmannJones"
-                      >PimmelmannJones (Pr0gramm)</a
+                      >PimmelmannJones (pr0gramm)</a
                     >
                   </li>
                   <li class="mt-4">
@@ -126,11 +126,11 @@ import { Link } from '@inertiajs/vue3';
             href="/"
             class="flex items-center gap-2 font-medium text-[#f2f5f4]">
             <img
-              alt="Pr0p0ll Logo"
-              title="Pr0p0ll Logo"
+              alt="pr0p0ll Logo"
+              title="pr0p0ll Logo"
               :src="pr0p0llImage"
               class="aspect-square h-4 w-auto sm:h-8" />
-            Pr0p0ll
+            pr0p0ll
           </a>
           <p class="text-sm text-[#f2f5f4]">ԅ(≖‿≖ԅ)</p>
         </div>

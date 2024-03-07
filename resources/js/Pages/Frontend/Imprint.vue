@@ -9,7 +9,7 @@ defineOptions({
     h(
       Layout,
       {
-        title: 'Impressum - Pr0p0ll',
+        title: 'Impressum - pr0p0ll',
       },
       () => page
     ),

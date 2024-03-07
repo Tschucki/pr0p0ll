@@ -9,7 +9,7 @@ defineOptions({
     h(
       Layout,
       {
-        title: 'Datenschutzerklärung - Pr0p0ll',
+        title: 'Datenschutzerklärung - pr0p0ll',
       },
       () => page
     ),

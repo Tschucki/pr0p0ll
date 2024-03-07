@@ -9,9 +9,9 @@ export default {
     h(
       Layout,
       {
-        title: 'Pr0p0ll - Umfragen für Pr0gramm Nutzer',
+        title: 'pr0p0ll - Umfragen für pr0gramm Nutzer',
         description:
-          'Ein Reboot der alten Pr0p0ll-Plattform für Pr0gramm-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist Open-Source und wird von Tschucki maintaint',
+          'Ein Reboot der alten pr0p0ll-Plattform für pr0gramm-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist Open-Source und wird von Tschucki maintaint',
       },
       () => page
     ),
@@ -43,8 +43,8 @@ export default {
           Coming Soon!
         </h1>
         <p class="mt-6 text-xl text-[#f2f5f4]/80">
-          Ein Reboot der alten Pr0p0ll-Plattform für
-          <a href="https://pr0gramm.com">Pr0gramm</a>-Nutzer, um Umfragen zu
+          Ein Reboot der alten pr0p0ll-Plattform für
+          <a href="https://pr0gramm.com">pr0gramm</a>-Nutzer, um Umfragen zu
           erstellen und zu beantworten. Das Projekt ist komplett Open-Source und
           ist auf
           <a href="https://github.com/tschucki/pr0p0ll" target="_blank"
@@ -149,7 +149,7 @@ export default {
         </h2>
         <div class="mt-6 text-xl text-[#f2f5f4]/80">
           <p>
-            Hier eine kurze Liste an Neuerungen, die das neue Pr0p0ll mitbringt.
+            Hier eine kurze Liste an Neuerungen, die das neue pr0p0ll mitbringt.
             Das Projekt befindet sich in stetiger Entwicklung und ist offen für
             jegliche Kritik und Hilfe
           </p>
@@ -183,7 +183,7 @@ export default {
           <template #description>
             Ihr könnt eure Umfragen nun auch für noch spezifischere Zielgruppen
             freigeben. Ihr könnt das Geschlecht, das Alter und die Region des
-            Pr0gramm-Nutzers definieren, der an eure Umfrage teilnehmen darf.
+            pr0gramm-Nutzers definieren, der an eure Umfrage teilnehmen darf.
             <br /><br />
             Man sieht auch wie viele Nutzer in eure Zielgruppe fallen.
           </template>
@@ -196,8 +196,8 @@ export default {
           <template #image>UX</template>
           <template #feature>O-Auth</template>
           <template #description>
-            Ihr könnt euch nun direkt mit eurem Pr0gramm-Account auf Pr0p0ll
-            anmelden. Ihr braucht euch also kein neues Konto bei Pr0p0ll
+            Ihr könnt euch nun direkt mit eurem pr0gramm-Account auf pr0p0ll
+            anmelden. Ihr braucht euch also kein neues Konto bei pr0p0ll
             anzulegen.
           </template>
         </FeatureBlock>
@@ -236,7 +236,7 @@ export default {
           <template #image>Mehr</template>
           <template #feature>Alle Features</template>
           <template #description>
-            Hier findet ihr eine Liste aller Features, die das neue Pr0p0ll
+            Hier findet ihr eine Liste aller Features, die das neue pr0p0ll
             mitbringt.
           </template>
         </FeatureBlock>

@@ -43,12 +43,12 @@ class NewPollAvailableEmailNotification extends Notification
         return (new MailMessage)
             ->subject('📊 Neue Umfrage verfügbar! #'.$this->poll->getKey())
             ->greeting('Hallo,')
-            ->line('Es ist eine neue Umfrage auf Pr0p0ll verfügbar.')
+            ->line('Es ist eine neue Umfrage auf pr0p0ll verfügbar.')
             ->line('Titel: '.$this->poll->title)
             ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
                 'record' => $this->poll->getKey(),
             ])))
-            ->line('Danke, dass du Pr0p0ll nutzt.');
+            ->line('Danke, dass du pr0p0ll nutzt.');
     }
 
     /**

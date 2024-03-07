@@ -49,7 +49,7 @@ class PollDeniedEmailNotification extends Notification
             ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.my-polls.view', [
                 'record' => $this->poll->getKey(),
             ])))
-            ->line('Danke, dass du Pr0p0ll nutzt.');
+            ->line('Danke, dass du pr0p0ll nutzt.');
     }
 
     /**

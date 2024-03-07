@@ -44,7 +44,7 @@
         <div class="flex items-center justify-center flex-col">
             <div style="height: auto;" class="fi-logo inline-flex">
                 <div class="flex items-center gap-2 font-medium text-lg sm:h-8 h-6">
-                    <img src="{{asset('pr0p0ll.png')}}" title="Pr0p0ll Logo" class="w-auto sm:h-8 h-6 aspect-square">
+                    <img src="{{asset('pr0p0ll.png')}}" title="pr0p0ll Logo" class="w-auto sm:h-8 h-6 aspect-square">
                 </div>
             </div>
             <div>

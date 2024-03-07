@@ -59,16 +59,16 @@ const _sfc_main$7 = {
             }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img alt="Pr0p0ll Logo" title="Pr0p0ll Logo"${ssrRenderAttr("src", unref(pr0p0llImage))} class="aspect-square h-10 w-auto sm:h-12"${_scopeId2}> Pr0p0ll `);
+                  _push3(`<img alt="pr0p0ll Logo" title="pr0p0ll Logo"${ssrRenderAttr("src", unref(pr0p0llImage))} class="aspect-square h-10 w-auto sm:h-12"${_scopeId2}> pr0p0ll `);
                 } else {
                   return [
                     createVNode("img", {
-                      alt: "Pr0p0ll Logo",
-                      title: "Pr0p0ll Logo",
+                      alt: "pr0p0ll Logo",
+                      title: "pr0p0ll Logo",
                       src: unref(pr0p0llImage),
                       class: "aspect-square h-10 w-auto sm:h-12"
                     }, null, 8, ["src"]),
-                    createTextVNode(" Pr0p0ll ")
+                    createTextVNode(" pr0p0ll ")
                   ];
                 }
               }),
@@ -80,10 +80,10 @@ const _sfc_main$7 = {
               _push2(ssrRenderComponent(Pr0Button, null, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
-                    _push3(` Login mit Pr0gramm `);
+                    _push3(` Login mit pr0gramm `);
                   } else {
                     return [
-                      createTextVNode(" Login mit Pr0gramm ")
+                      createTextVNode(" Login mit pr0gramm ")
                     ];
                   }
                 }),
@@ -121,12 +121,12 @@ const _sfc_main$7 = {
                 }, {
                   default: withCtx(() => [
                     createVNode("img", {
-                      alt: "Pr0p0ll Logo",
-                      title: "Pr0p0ll Logo",
+                      alt: "pr0p0ll Logo",
+                      title: "pr0p0ll Logo",
                       src: unref(pr0p0llImage),
                       class: "aspect-square h-10 w-auto sm:h-12"
                     }, null, 8, ["src"]),
-                    createTextVNode(" Pr0p0ll ")
+                    createTextVNode(" pr0p0ll ")
                   ]),
                   _: 1
                 }),
@@ -137,7 +137,7 @@ const _sfc_main$7 = {
                   }, [
                     createVNode(Pr0Button, null, {
                       default: withCtx(() => [
-                        createTextVNode(" Login mit Pr0gramm ")
+                        createTextVNode(" Login mit pr0gramm ")
                       ]),
                       _: 1
                     })
@@ -213,7 +213,7 @@ const _sfc_main$6 = {
         }),
         _: 1
       }, _parent));
-      _push(`</li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/nutzungsbedingungen">Nutzungsbedingungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Hilfe </div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">FAQ</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Diskussionen</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Auswertungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Kontakt </div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="https://pr0gramm.com/inbox/messages/PimmelmannJones">PimmelmannJones (Pr0gramm)</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="mailto:info@pr0p0ll.com">E-Mail</a></li></ul></li></ul></nav><div class="flex lg:justify-end"><form class="max-w-sm"><h2 class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Lass einen Stern auf GitHub da </h2><p class="mt-4 text-sm text-[#f2f5f4]/80"> Zeige, dass dir das Projekt gefällt und gib dem Repo einen Stern </p><a target="_blank" href="https://github.com/Tschucki/pr0p0ll" class="mt-6 flex aspect-video h-12 w-full items-center justify-center gap-4 rounded-xl bg-pr0gramm-500 font-semibold text-white transition hover:bg-neutral-800 hover:bg-pr0gramm-500/80"><span class="tracking-wide">Liebe teilen</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"></path></svg></a></form></div></div><div class="mb-20 mt-24 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12"><a aria-label="Home" href="/" class="flex items-center gap-2 font-medium text-[#f2f5f4]"><img alt="Pr0p0ll Logo" title="Pr0p0ll Logo"${ssrRenderAttr("src", unref(pr0p0llImage))} class="aspect-square h-4 w-auto sm:h-8"> Pr0p0ll </a><p class="text-sm text-[#f2f5f4]">ԅ(≖‿≖ԅ)</p></div></div></div></footer>`);
+      _push(`</li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/nutzungsbedingungen">Nutzungsbedingungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Hilfe </div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">FAQ</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Diskussionen</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="/">Auswertungen</a></li></ul></li><li><div class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Kontakt </div><ul role="list" class="mt-4 text-sm text-[#f2f5f4]/80"><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="https://pr0gramm.com/inbox/messages/PimmelmannJones">PimmelmannJones (pr0gramm)</a></li><li class="mt-4"><a class="transition hover:text-[#f2f5f4]" href="mailto:info@pr0p0ll.com">E-Mail</a></li></ul></li></ul></nav><div class="flex lg:justify-end"><form class="max-w-sm"><h2 class="font-display text-sm font-semibold tracking-wider text-[#f2f5f4]"> Lass einen Stern auf GitHub da </h2><p class="mt-4 text-sm text-[#f2f5f4]/80"> Zeige, dass dir das Projekt gefällt und gib dem Repo einen Stern </p><a target="_blank" href="https://github.com/Tschucki/pr0p0ll" class="mt-6 flex aspect-video h-12 w-full items-center justify-center gap-4 rounded-xl bg-pr0gramm-500 font-semibold text-white transition hover:bg-neutral-800 hover:bg-pr0gramm-500/80"><span class="tracking-wide">Liebe teilen</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"></path></svg></a></form></div></div><div class="mb-20 mt-24 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12"><a aria-label="Home" href="/" class="flex items-center gap-2 font-medium text-[#f2f5f4]"><img alt="pr0p0ll Logo" title="pr0p0ll Logo"${ssrRenderAttr("src", unref(pr0p0llImage))} class="aspect-square h-4 w-auto sm:h-8"> pr0p0ll </a><p class="text-sm text-[#f2f5f4]">ԅ(≖‿≖ԅ)</p></div></div></div></footer>`);
     };
   }
 };
@@ -268,7 +268,7 @@ const _sfc_main$4 = /* @__PURE__ */ Object.assign({
   layout: (h2, page) => h2(
     _sfc_main$5,
     {
-      title: "Impressum - Pr0p0ll"
+      title: "Impressum - pr0p0ll"
     },
     () => page
   )
@@ -334,8 +334,8 @@ const _sfc_main$2 = {
   layout: (h2, page) => h2(
     _sfc_main$5,
     {
-      title: "Pr0p0ll - Umfragen für Pr0gramm Nutzer",
-      description: "Ein Reboot der alten Pr0p0ll-Plattform für Pr0gramm-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist Open-Source und wird von Tschucki maintaint"
+      title: "pr0p0ll - Umfragen für pr0gramm Nutzer",
+      description: "Ein Reboot der alten pr0p0ll-Plattform für pr0gramm-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist Open-Source und wird von Tschucki maintaint"
     },
     () => page
   ),
@@ -357,7 +357,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     initial: { opacity: 0, y: 100 },
     enter: { opacity: 1, y: 0, scale: 1 },
     delay: 150
-  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"> Coming Soon! </h1><p class="mt-6 text-xl text-[#f2f5f4]/80"> Ein Reboot der alten Pr0p0ll-Plattform für <a href="https://pr0gramm.com">Pr0gramm</a>-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist komplett Open-Source und ist auf <a href="https://github.com/tschucki/pr0p0ll" target="_blank">GitHub</a> einsehbar </p></div></div><div class="mx-auto mt-16 max-w-7xl lg:px-8"><div class="mx-auto max-w-2xl lg:max-w-none"><div><dl class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:grid-cols-none"><a${ssrRenderAttrs(mergeProps({
+  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"> Coming Soon! </h1><p class="mt-6 text-xl text-[#f2f5f4]/80"> Ein Reboot der alten pr0p0ll-Plattform für <a href="https://pr0gramm.com">pr0gramm</a>-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist komplett Open-Source und ist auf <a href="https://github.com/tschucki/pr0p0ll" target="_blank">GitHub</a> einsehbar </p></div></div><div class="mx-auto mt-16 max-w-7xl lg:px-8"><div class="mx-auto max-w-2xl lg:max-w-none"><div><dl class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:grid-cols-none"><a${ssrRenderAttrs(mergeProps({
     href: "https://github.com/Tschucki",
     target: "_blank",
     initial: { opacity: 0, y: 100 },
@@ -386,7 +386,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     initial: { opacity: 0, y: 24 },
     visibleOnce: { opacity: 1, y: 0, scale: 1 },
     delay: 300
-  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="mx-auto max-w-2xl lg:max-w-none"><div class="max-w-2xl" style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><h2><span class="font-display block text-4xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-5xl">Aktuelle Features und Neuerungen</span></h2><div class="mt-6 text-xl text-[#f2f5f4]/80"><p> Hier eine kurze Liste an Neuerungen, die das neue Pr0p0ll mitbringt. Das Projekt befindet sich in stetiger Entwicklung und ist offen für jegliche Kritik und Hilfe </p></div></div></div></div><div class="mx-auto mt-16 max-w-7xl px-6 lg:px-8"><div class="mx-auto max-w-2xl lg:max-w-none"><div class="grid grid-cols-1 gap-8 lg:grid-cols-3">`);
+  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><div class="mx-auto max-w-2xl lg:max-w-none"><div class="max-w-2xl" style="${ssrRenderStyle({ "opacity": "1", "transform": "none" })}"><h2><span class="font-display block text-4xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-5xl">Aktuelle Features und Neuerungen</span></h2><div class="mt-6 text-xl text-[#f2f5f4]/80"><p> Hier eine kurze Liste an Neuerungen, die das neue pr0p0ll mitbringt. Das Projekt befindet sich in stetiger Entwicklung und ist offen für jegliche Kritik und Hilfe </p></div></div></div></div><div class="mx-auto mt-16 max-w-7xl px-6 lg:px-8"><div class="mx-auto max-w-2xl lg:max-w-none"><div class="grid grid-cols-1 gap-8 lg:grid-cols-3">`);
   _push(ssrRenderComponent(_component_FeatureBlock, mergeProps({
     initial: { opacity: 0, x: 24 },
     visibleOnce: { opacity: 1, x: 0 },
@@ -449,10 +449,10 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     }),
     description: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Ihr könnt eure Umfragen nun auch für noch spezifischere Zielgruppen freigeben. Ihr könnt das Geschlecht, das Alter und die Region des Pr0gramm-Nutzers definieren, der an eure Umfrage teilnehmen darf. <br${_scopeId}><br${_scopeId}> Man sieht auch wie viele Nutzer in eure Zielgruppe fallen. `);
+        _push2(` Ihr könnt eure Umfragen nun auch für noch spezifischere Zielgruppen freigeben. Ihr könnt das Geschlecht, das Alter und die Region des pr0gramm-Nutzers definieren, der an eure Umfrage teilnehmen darf. <br${_scopeId}><br${_scopeId}> Man sieht auch wie viele Nutzer in eure Zielgruppe fallen. `);
       } else {
         return [
-          createTextVNode(" Ihr könnt eure Umfragen nun auch für noch spezifischere Zielgruppen freigeben. Ihr könnt das Geschlecht, das Alter und die Region des Pr0gramm-Nutzers definieren, der an eure Umfrage teilnehmen darf. "),
+          createTextVNode(" Ihr könnt eure Umfragen nun auch für noch spezifischere Zielgruppen freigeben. Ihr könnt das Geschlecht, das Alter und die Region des pr0gramm-Nutzers definieren, der an eure Umfrage teilnehmen darf. "),
           createVNode("br"),
           createVNode("br"),
           createTextVNode(" Man sieht auch wie viele Nutzer in eure Zielgruppe fallen. ")
@@ -486,10 +486,10 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     }),
     description: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Ihr könnt euch nun direkt mit eurem Pr0gramm-Account auf Pr0p0ll anmelden. Ihr braucht euch also kein neues Konto bei Pr0p0ll anzulegen. `);
+        _push2(` Ihr könnt euch nun direkt mit eurem pr0gramm-Account auf pr0p0ll anmelden. Ihr braucht euch also kein neues Konto bei pr0p0ll anzulegen. `);
       } else {
         return [
-          createTextVNode(" Ihr könnt euch nun direkt mit eurem Pr0gramm-Account auf Pr0p0ll anmelden. Ihr braucht euch also kein neues Konto bei Pr0p0ll anzulegen. ")
+          createTextVNode(" Ihr könnt euch nun direkt mit eurem pr0gramm-Account auf pr0p0ll anmelden. Ihr braucht euch also kein neues Konto bei pr0p0ll anzulegen. ")
         ];
       }
     }),
@@ -588,10 +588,10 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     }),
     description: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(` Hier findet ihr eine Liste aller Features, die das neue Pr0p0ll mitbringt. `);
+        _push2(` Hier findet ihr eine Liste aller Features, die das neue pr0p0ll mitbringt. `);
       } else {
         return [
-          createTextVNode(" Hier findet ihr eine Liste aller Features, die das neue Pr0p0ll mitbringt. ")
+          createTextVNode(" Hier findet ihr eine Liste aller Features, die das neue pr0p0ll mitbringt. ")
         ];
       }
     }),
@@ -614,7 +614,7 @@ const _sfc_main$1 = /* @__PURE__ */ Object.assign({
   layout: (h2, page) => h2(
     _sfc_main$5,
     {
-      title: "Datenschutzerklärung - Pr0p0ll"
+      title: "Datenschutzerklärung - pr0p0ll"
     },
     () => page
   )
@@ -650,7 +650,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({
   layout: (h2, page) => h2(
     _sfc_main$5,
     {
-      title: "Nutzungsbedingungen - Pr0p0ll"
+      title: "Nutzungsbedingungen - pr0p0ll"
     },
     () => page
   )

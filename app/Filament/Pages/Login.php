@@ -22,7 +22,7 @@ class Login extends \Filament\Pages\Auth\Login
     protected function getAuthenticateFormAction(): Action
     {
         return Action::make('authenticate')
-            ->label('Mit Pr0gramm anmelden')
+            ->label('Mit pr0gramm anmelden')
             ->submit('login');
     }
 
@@ -50,7 +50,7 @@ class Login extends \Filament\Pages\Auth\Login
 
     public function getHeading(): string|Htmlable
     {
-        return 'Mit Pr0gramm anmelden';
+        return 'Mit pr0gramm anmelden';
     }
 
     public function login()

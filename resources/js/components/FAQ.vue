@@ -29,7 +29,7 @@ export default {
           <FaqElement :question="'Wie erstelle ich eine Umfrage?'">
             <p>
               Um eine Umfrage zu erstellen benötigst du einen Account bei
-              <a href="https://pr0gramm.com">Pr0gramm</a>.
+              <a href="https://pr0gramm.com">pr0gramm</a>.
             </p>
           </FaqElement>
         </div>

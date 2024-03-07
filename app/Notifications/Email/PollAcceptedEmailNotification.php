@@ -47,7 +47,7 @@ class PollAcceptedEmailNotification extends Notification
             ->action('An Umfrage teilnehmen', url(route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
                 'record' => $this->poll->getKey(),
             ])))
-            ->line('Danke, dass du Pr0p0ll nutzt.');
+            ->line('Danke, dass du pr0p0ll nutzt.');
     }
 
     /**

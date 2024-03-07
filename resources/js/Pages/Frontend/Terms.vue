@@ -9,7 +9,7 @@ defineOptions({
     h(
       Layout,
       {
-        title: 'Nutzungsbedingungen - Pr0p0ll',
+        title: 'Nutzungsbedingungen - pr0p0ll',
       },
       () => page
     ),
