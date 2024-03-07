@@ -26,7 +26,7 @@ class ListPublicPolls extends ListRecords
     public function getTabs(): array
     {
         return [
-            'offene-umfragen' => Tab::make('Offene Umfragen')->modifyQueryUsing(function (Builder $query) {
+            'offene-umfragen' => Tab::make('Offen')->modifyQueryUsing(function (Builder $query) {
                 $query->whereDoesntHave('participants', function (Builder $query) {
                     $query->where('participant_id', auth()->id());
                 })->where('closes_at', '>', now())->orderBy('closes_at', 'DESC');
@@ -45,7 +45,7 @@ class ListPublicPolls extends ListRecords
                 return \Number::abbreviate($notParticipatedPolls->count());
             }),
 
-            'teilgenommen' => Tab::make('Teilgenommene Umfragen')->modifyQueryUsing(function (Builder $query) {
+            'teilgenommen' => Tab::make('Teilgenommen')->modifyQueryUsing(function (Builder $query) {
                 $query->whereHas('participants', function (Builder $query) {
                     $query->where('participant_id', auth()->id());
                 });
