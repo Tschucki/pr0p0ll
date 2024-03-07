@@ -119,7 +119,7 @@ class UserSettingsPage extends Page implements HasForms
                 ])->columnSpan(1),
                 Section::make('Benutzerdaten')->schema([
                     TextInput::make('name')->label('Benutzername')->disabled(),
-                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->nullable()->email()->suffixIcon(function () {
+                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->unique(table: 'users', column: 'email', ignoreRecord: true)->nullable()->email()->suffixIcon(function () {
                         $user = \Auth::user();
                         if ($user->email === null) {
                             return '';
@@ -178,24 +178,20 @@ class UserSettingsPage extends Page implements HasForms
 
             // Update demographic data
             $user->update($demographicData);
-            if ($user->where('email', $data['email'])->doesntExist() && $user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
-                if ($user->email !== $data['email']) {
-                    $user->update([
-                        'email_verified_at' => null,
-                    ]);
-                    $user->update([
-                        'email' => $data['email'],
-                    ]);
-                    if ($user->email !== null) {
-                        $notification = new VerifyEmail;
-                        $notification->url = Filament::getVerifyEmailUrl($user);
+            if ($user->email !== $data['email']) {
+                $user->update([
+                    'email_verified_at' => null,
+                ]);
+                $user->update([
+                    'email' => $data['email'],
+                ]);
+                if ($user->email !== null) {
+                    $notification = new VerifyEmail;
+                    $notification->url = Filament::getVerifyEmailUrl($user);
 
-                        $user->notify($notification);
-                        Notification::make('email_verification_needed')->warning()->title('E-Mail bestätigen')->body('Bevor Benachrichtigungen an diese Adresse gesendet werden musst du deine E-Mail bestätigen.')->send();
-                    }
+                    $user->notify($notification);
+                    Notification::make('email_verification_needed')->warning()->title('E-Mail bestätigen')->body('Bevor Benachrichtigungen an diese Adresse gesendet werden musst du deine E-Mail bestätigen.')->send();
                 }
-            } elseif ($user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
-                Notification::make('email_not_unique')->danger()->title('Die E-mail konnte nicht gespeichert werden')->send();
             }
 
             // Update notification settings
