@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PublicPollsResource extends Resource
@@ -75,6 +76,25 @@ class PublicPollsResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        // TODO: Add Cache
+        $notParticipatedPolls = PublicPoll::whereDoesntHave('participants', static function (Builder $query) {
+            $query->where('user_id', \Auth::id());
+        })
+            ->where('original_content_link', null)
+            ->where('visible_to_public', true)
+            ->where('approved', true)
+            ->where('in_review', false)
+            ->withoutGlobalScope(SoftDeletingScope::class)
+            ->get();
+        $leftPolls = $notParticipatedPolls->filter(static function (PublicPoll $publicPoll) {
+            return $publicPoll->hasEnded() === false;
+        });
+
+        return \Number::abbreviate($leftPolls->count());
     }
 
     public static function getPages(): array
