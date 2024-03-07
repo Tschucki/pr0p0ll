@@ -119,7 +119,7 @@ class UserSettingsPage extends Page implements HasForms
                 ])->columnSpan(1),
                 Section::make('Benutzerdaten')->schema([
                     TextInput::make('name')->label('Benutzername')->disabled(),
-                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->unique(table: 'users', column: 'email', ignoreRecord: true)->nullable()->email()->suffixIcon(fn() => \Auth::user()->hasVerifiedEmail() ? 'heroicon-o-check-badge' : '')->suffixIconColor(fn () => \Auth::user()->hasVerifiedEmail() ? 'success' : 'warning'),
+                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->unique(table: 'users', column: 'email', ignorable: \Auth::user())->nullable()->email()->suffixIcon(fn() => \Auth::user()->hasVerifiedEmail() ? 'heroicon-o-check-badge' : '')->suffixIconColor(fn () => \Auth::user()->hasVerifiedEmail() ? 'success' : 'warning'),
                     Actions::make([
                         FormAction::make('resend_email_verification')->icon('heroicon-o-check-badge')->color('warning')->label('E-Mail-Verifizierung erneut senden')->action(fn () => $this->resendEmailVerificationEmail()),
                     ])->fullWidth()->visible(fn () => Filament::auth()->user()?->email !== null && Filament::auth()->user()?->hasVerifiedEmail() === false),
