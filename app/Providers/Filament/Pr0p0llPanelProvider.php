@@ -41,6 +41,7 @@ class Pr0p0llPanelProvider extends PanelProvider
             ->id('pr0p0ll')
             ->path('pr0p0ll')
             ->login()
+            ->emailVerification(isRequired: false)
             ->colors([
                 'primary' => '#ee4d2e',
             ])

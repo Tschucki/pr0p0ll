@@ -10,7 +10,13 @@ use App\Enums\Region;
 use App\Models\NotificationChannel;
 use App\Models\NotificationType;
 use App\Models\User;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Exception;
 use Filament\Actions\Action;
+use Filament\Facades\Filament;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action as FormAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -22,6 +28,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Exceptions\Halt;
@@ -29,6 +36,7 @@ use Filament\Support\Exceptions\Halt;
 class UserSettingsPage extends Page implements HasForms
 {
     use InteractsWithForms;
+    use WithRateLimiting;
 
     public ?array $data = [];
 
@@ -111,7 +119,20 @@ class UserSettingsPage extends Page implements HasForms
                 ])->columnSpan(1),
                 Section::make('Benutzerdaten')->schema([
                     TextInput::make('name')->label('Benutzername')->disabled(),
-                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->nullable()->email(),
+                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->nullable()->email()->suffixIcon(function () {
+                        $user = \Auth::user();
+                        if ($user->email === null) {
+                            return '';
+                        }
+                        if ($user->hasVerifiedEmail()) {
+                            return 'heroicon-o-check-badge';
+                        }
+
+                        return 'heroicon-o-x-circle';
+                    })->suffixIconColor(fn () => \Auth::user()->hasVerifiedEmail() ? 'success' : 'warning'),
+                    Actions::make([
+                        FormAction::make('resend_email_verification')->icon('heroicon-o-check-badge')->color('warning')->label('E-Mail-Verifizierung erneut senden')->action(fn () => $this->resendEmailVerificationEmail()),
+                    ])->fullWidth()->visible(fn () => Filament::auth()->user()?->email !== null && Filament::auth()->user()?->hasVerifiedEmail() === false),
                 ])->extraAttributes([
                     'class' => 'h-full',
                 ])->columnSpan(1),
@@ -158,9 +179,21 @@ class UserSettingsPage extends Page implements HasForms
             // Update demographic data
             $user->update($demographicData);
             if ($user->where('email', $data['email'])->doesntExist() && $user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
-                $user->update([
-                    'email' => $data['email'],
-                ]);
+                if ($user->email !== $data['email']) {
+                    $user->update([
+                        'email_verified_at' => null,
+                    ]);
+                    $user->update([
+                        'email' => $data['email'],
+                    ]);
+                    if ($user->email !== null) {
+                        $notification = new VerifyEmail;
+                        $notification->url = Filament::getVerifyEmailUrl($user);
+
+                        $user->notify($notification);
+                        Notification::make('email_verification_needed')->warning()->title('E-Mail bestätigen')->body('Bevor Benachrichtigungen an diese Adresse gesendet werden musst du deine E-Mail bestätigen.')->send();
+                    }
+                }
             } elseif ($user->where('email', $data['email'])->first()?->getKey() !== \Auth::user()->getKey()) {
                 Notification::make('email_not_unique')->danger()->title('Die E-mail konnte nicht gespeichert werden')->send();
             }
@@ -171,6 +204,48 @@ class UserSettingsPage extends Page implements HasForms
         } catch (Halt $exception) {
             return;
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function resendEmailVerificationEmail()
+    {
+        try {
+            $this->rateLimit(2);
+        } catch (TooManyRequestsException $exception) {
+            Notification::make()
+                ->title(__('filament-panels::pages/auth/email-verification/email-verification-prompt.notifications.notification_resend_throttled.title', [
+                    'seconds' => $exception->secondsUntilAvailable,
+                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
+                ]))
+                ->body(array_key_exists('body', __('filament-panels::pages/auth/email-verification/email-verification-prompt.notifications.notification_resend_throttled') ?: []) ? __('filament-panels::pages/auth/email-verification/email-verification-prompt.notifications.notification_resend_throttled.body', [
+                    'seconds' => $exception->secondsUntilAvailable,
+                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
+                ]) : null)
+                ->danger()
+                ->send();
+
+            return;
+        }
+
+        $user = Filament::auth()->user();
+
+        if (! method_exists($user, 'notify')) {
+            $userClass = $user::class;
+
+            throw new Exception("Model [{$userClass}] does not have a [notify()] method.");
+        }
+
+        $notification = new VerifyEmail;
+        $notification->url = Filament::getVerifyEmailUrl($user);
+
+        $user->notify($notification);
+
+        Notification::make()
+            ->title(__('filament-panels::pages/auth/email-verification/email-verification-prompt.notifications.notification_resent.title'))
+            ->success()
+            ->send();
     }
 
     protected function getSaveFormAction(): Action

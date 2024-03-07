@@ -41,7 +41,7 @@ class SendOwnPollClosedEmailNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->user->email && in_array('mail', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::OWNPOLLHASENDED)->first()), true)) {
+        if ($this->user->email && $this->user->hasVerifiedEmail() && in_array('mail', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::OWNPOLLHASENDED)->first()), true)) {
             Notification::route('mail', [$this->user->email => $this->user->name])->notify(new OwnPollClosedEmailNotification($this->poll));
         }
     }
