@@ -42,7 +42,9 @@ class ListPublicPolls extends ListRecords
                     ->withoutGlobalScope(SoftDeletingScope::class)
                     ->get();
 
-                return \Number::abbreviate($notParticipatedPolls->count());
+                $inTargetGroup = $notParticipatedPolls->filter(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user()));
+
+                return \Number::abbreviate($inTargetGroup->count());
             }),
 
             'teilgenommen' => Tab::make('Teilgenommen')->modifyQueryUsing(function (Builder $query) {

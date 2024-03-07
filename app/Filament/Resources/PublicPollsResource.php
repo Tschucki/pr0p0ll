@@ -112,7 +112,9 @@ class PublicPollsResource extends Resource
             ->withoutGlobalScope(SoftDeletingScope::class)
             ->get();
 
-        return \Number::abbreviate($notParticipatedPolls->count());
+        $inTargetGroup = $notParticipatedPolls->filter(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user()));
+
+        return \Number::abbreviate($inTargetGroup->count());
     }
 
     public static function getPages(): array
