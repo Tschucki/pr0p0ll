@@ -39,6 +39,7 @@ abstract class Poll extends Model
         'approved' => 'boolean',
         'not_anonymous' => 'boolean',
         'target_group' => 'array',
+        'closes_at' => 'datetime',
     ];
 
     public function user(): BelongsTo
@@ -129,6 +130,7 @@ abstract class Poll extends Model
             'in_review' => false,
             'visible_to_public' => true,
             'published_at' => now(),
+            'closes_at' => now()->add($this->closes_after),
         ]);
         /**
          * @var User $user
