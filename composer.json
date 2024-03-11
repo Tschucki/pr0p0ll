@@ -25,7 +25,12 @@
         "socialiteproviders/pr0gramm": "^5.0",
         "tightenco/ziggy": "^1.8",
         "tschucki/laravel-notification-channel-pr0gramm": "^0.0.1",
-        "yepsua/filament-rating-field": "^0.3.0"
+        "yepsua/filament-rating-field": "^0.3.0",
+        "ext-bcmath": "*",
+        "ext-pcntl": "*",
+        "ext-sodium": "*",
+        "ext-intl": "*",
+        "ext-zip": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
