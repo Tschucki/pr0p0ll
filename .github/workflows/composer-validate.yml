@@ -23,7 +23,7 @@ jobs:
       - name: Install Composer
         uses: php-actions/composer@v6
         with:
-          php_extensions: intl zip pcntl bcmath
+          php_extensions: intl zip sodium pcntl bcmath
 
       - name: Validate Composer files
         run: composer validate

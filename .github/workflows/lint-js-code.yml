@@ -21,7 +21,7 @@ jobs:
       - name: Install Composer
         uses: php-actions/composer@v6
         with:
-          php_extensions: intl zip pcntl bcmath
+          php_extensions: intl zip sodium pcntl bcmath
 
       - name: Setup Node
         uses: actions/setup-node@v4
