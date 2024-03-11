@@ -24,6 +24,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_extensions: intl zip sodium pcntl bcmath
+          args: --ignore-platform-reqs
 
       - name: Validate Composer files
         run: composer validate
