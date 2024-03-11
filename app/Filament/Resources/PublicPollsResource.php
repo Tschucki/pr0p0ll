@@ -41,13 +41,23 @@ class PublicPollsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('description')->label('Beschreibung')->hidden()->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('category.title')->label('Kategorie')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('closes_after')->label('Ende')->state(fn (PublicPoll $publicPoll) => $publicPoll->hasEnded() ? 'Geschlossen' : now()->add($publicPoll->closes_after)->diffForHumans())->toggleable(),
-                Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : '')->searchable()->sortable(),
-                Tables\Columns\IconColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user())),
-                Tables\Columns\IconColumn::make('participated')->label('Teilgenommen')->boolean()->state(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user())),
+                Tables\Columns\Layout\Stack::make([
+                    Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->prefix('Titel: ')->searchable()->sortable(),
+                    Tables\Columns\TextColumn::make('description')->label('Beschreibung')->searchable()->sortable(),
+                    Tables\Columns\TextColumn::make('category.title')->label('Kategorie')->searchable()->sortable(),
+                    Tables\Columns\TextColumn::make('closes_after')->label('Ende')->prefix('Endet in: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->hasEnded() ? 'Geschlossen' : now()->add($publicPoll->closes_after)->diffForHumans().' ('.$publicPoll->closes_at->format('d.m.Y H:i').' Uhr)')->toggleable(),
+                    Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->prefix('Von: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : '')->searchable()->sortable(),
+                    Tables\Columns\TextColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->icon(function (PublicPoll $poll) {
+                        return $poll->userIsWithinTargetGroup(\Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
+                    })->iconColor(function (PublicPoll $poll) {
+                        return $poll->userIsWithinTargetGroup(\Auth::user()) ? 'success' : 'danger';
+                    })->prefix('In Zielgruppe: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user()) ? 'Ja' : 'Nein'),
+                    Tables\Columns\TextColumn::make('participated')->label('Teilgenommen')->icon(function (PublicPoll $poll) {
+                        return $poll->userParticipated(\Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
+                    })->iconColor(function (PublicPoll $poll) {
+                        return $poll->userParticipated(\Auth::user()) ? 'success' : 'danger';
+                    })->state(fn (PublicPoll $poll) => $poll->userParticipated(\Auth::user()) ? 'Ja' : 'Nein')->prefix('Teilgenommen: '),
+                ]),
             ])
             ->filters([])
             ->groups([
@@ -59,7 +69,7 @@ class PublicPollsResource extends Resource
                     ->button()
                     ->label('Teilnehmen')
                     ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
-                    ->hidden(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user()) || $publicPoll->hasEnded()),
+                    ->disabled(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user()) || $publicPoll->hasEnded()),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('in_target_group')
