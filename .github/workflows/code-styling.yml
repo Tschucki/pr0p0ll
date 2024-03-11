@@ -23,7 +23,7 @@ jobs:
       - name: Install Composer
         uses: php-actions/composer@v6
         with:
-          php_extensions: intl zip
+          php_extensions: intl zip pcntl bcmath
 
       - name: Setup Node
         uses: actions/setup-node@v4
