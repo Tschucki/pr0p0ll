@@ -44,7 +44,7 @@ class PublicPollsResource extends Resource
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->prefix('Titel: ')->searchable()->sortable(),
                     Tables\Columns\TextColumn::make('description')->label('Beschreibung')->searchable()->sortable(),
-                    Tables\Columns\TextColumn::make('category.title')->label('Kategorie')->searchable()->sortable(),
+                    Tables\Columns\TextColumn::make('category.title')->prefix('Kategorie: ')->label('Kategorie')->searchable()->sortable(),
                     Tables\Columns\TextColumn::make('closes_after')->label('Ende')->prefix('Endet in: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->hasEnded() ? 'Geschlossen' : now()->add($publicPoll->closes_after)->diffForHumans().' ('.$publicPoll->closes_at->format('d.m.Y H:i').' Uhr)')->toggleable(),
                     Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->prefix('Von: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : '')->searchable()->sortable(),
                     Tables\Columns\TextColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->icon(function (PublicPoll $poll) {
