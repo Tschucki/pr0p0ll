@@ -24,7 +24,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_extensions: intl zip sodium pcntl bcmath
-          args: --ignore-platform-reqs
+          args: --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-bcmath
 
       - name: Setup Node
         uses: actions/setup-node@v4
