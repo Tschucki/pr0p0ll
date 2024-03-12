@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Polls\Poll;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -165,5 +167,19 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
     public function getNotificationRoutesForType(NotificationType $notificationType): array
     {
         return $this->notificationSettings()->with('notificationChannel')->where('notification_type_id', $notificationType->getKey())->where('enabled', true)->get()->pluck('notificationChannel.route')->toArray();
+    }
+
+    public function polls(): HasMany
+    {
+        return $this->hasMany(Poll::class, 'user_id');
+    }
+
+    public function participations(): BelongsToMany
+    {
+        return $this->belongsToMany(Poll::class, 'participants_2_polls', 'participant_id', 'poll_id')
+            ->withTimestamps()
+            ->withPivot([
+                'rating',
+            ]);
     }
 }
