@@ -120,7 +120,7 @@ import { Link } from '@inertiajs/vue3';
           </div>
         </div>
         <div
-          class="mb-20 mt-24 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12">
+          class="mb-20 mt-24 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 pt-12">
           <a
             aria-label="Home"
             href="/"
