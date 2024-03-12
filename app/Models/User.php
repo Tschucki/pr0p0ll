@@ -18,7 +18,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasAvatar
+class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -82,7 +82,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
 
     public function isAdmin(): bool
     {
-        return (bool)$this->admin;
+        return (bool) $this->admin;
     }
 
     public function getFilamentAvatarUrl(): ?string

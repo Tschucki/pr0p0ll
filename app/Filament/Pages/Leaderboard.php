@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
 use App\Models\User;
@@ -28,8 +30,8 @@ class Leaderboard extends Page implements HasTable
                         return (string) (
                             $rowLoop->iteration +
                             ($livewire->getTableRecordsPerPage() * (
-                                    $livewire->getTablePage() - 1
-                                ))
+                                $livewire->getTablePage() - 1
+                            ))
                         );
                     }
                 ),
