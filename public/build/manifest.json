@@ -4,7 +4,7 @@
     "src": "resources/assets/imgs/pr0p0ll.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-4Niw_BMu.css",
+    "file": "assets/app-CAUMM98o.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -22,11 +22,11 @@
     "src": "resources/fonts/Mona-Sans.var.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-ncdFEmsb.js",
+    "file": "assets/app-Dc_MqjLJ.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-4Niw_BMu.css"
+      "assets/app-CAUMM98o.css"
     ],
     "assets": [
       "assets/pr0p0ll-fRda7U6F.png",
