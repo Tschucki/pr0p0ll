@@ -22,7 +22,7 @@ class Leaderboard extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(User::query())
+            ->query(User::query()->select('id', 'name'))
             ->defaultSort('participations_count', 'desc')
             ->columns([
                 TextColumn::make('position')->badge()->label('Position')->prefix('#')->state(
