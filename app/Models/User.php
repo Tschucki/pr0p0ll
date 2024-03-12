@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasAvatar
 {
     use HasApiTokens;
     use HasFactory;
@@ -79,7 +80,12 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return (bool) $this->admin;
+        return (bool)$this->admin;
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return asset('images/feiner-schmuser.png');
     }
 
     public function scopeAdmin(Builder $query): void
