@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Abstracts\AnswerType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +25,7 @@ class QuestionType extends Model
         $query->where('disabled', false);
     }
 
-    public function answerType()
+    public function answerType(): AnswerType
     {
         return new $this->answer_type;
     }

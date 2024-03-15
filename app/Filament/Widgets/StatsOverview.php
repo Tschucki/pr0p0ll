@@ -7,6 +7,7 @@ namespace App\Filament\Widgets;
 use App\Models\Answer;
 use App\Models\Polls\Poll;
 use App\Models\Question;
+use App\Models\QuestionType;
 use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -39,6 +40,19 @@ class StatsOverview extends BaseWidget
         );
         $todayVisitors = $aggregates['visitors']['value'];
 
+        $answerTypeCounts = QuestionType::where('disabled', false)->get()->map(function (QuestionType $type) {
+
+            $cacheKey = $type->title.'answers_count';
+            if (\Cache::has($cacheKey)) {
+                $count = \Cache::get($cacheKey);
+            } else {
+                $count = Answer::where('answerable_type', $type->answerType()->getMorphClass())->count();
+                \Cache::put($cacheKey, $count, now()->addHours(12));
+            }
+
+            return Stat::make('Antworten '.$type->title, Number::abbreviate($count));
+        });
+
         return [
             Stat::make('Umfragen', Number::abbreviate(Poll::count())),
             Stat::make('Benutzer', Number::abbreviate(User::count())),
@@ -46,6 +60,7 @@ class StatsOverview extends BaseWidget
             Stat::make('Fragen', Number::abbreviate($questions)),
             Stat::make('Aktuelle Besucher', Number::abbreviate($visitors)),
             Stat::make('Heutige Besucher', Number::abbreviate($todayVisitors)),
+            ...$answerTypeCounts,
         ];
     }
 }
