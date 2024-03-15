@@ -45,6 +45,7 @@ class UserResource extends Resource
             ->actions([
                 BanAction::make()->visible(fn ($record) => ! $record->isBanned()),
                 UnbanAction::make()->visible(fn ($record) => $record->isBanned()),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
