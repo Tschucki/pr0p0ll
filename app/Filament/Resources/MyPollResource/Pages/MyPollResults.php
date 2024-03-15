@@ -36,10 +36,10 @@ class MyPollResults extends Page
     public ?array $nationality = [];
 
     #[Url(as: 'min_age')]
-    public ?string $min_age = '';
+    public ?string $min_age = null;
 
     #[Url(as: 'max_age')]
-    public ?string $max_age = '';
+    public ?string $max_age = null;
 
     protected $listeners = ['updatedFilter' => '$refresh'];
 
