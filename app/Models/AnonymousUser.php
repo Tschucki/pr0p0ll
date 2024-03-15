@@ -10,11 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class AnonymousUser extends Model
 {
     protected $fillable = [
-        'demographic_data',
+        'birthday',
+        'nationality',
+        'gender',
+        'region',
     ];
 
     protected $casts = [
-        'demographic_data' => 'array',
+        'birthday' => 'date',
     ];
 
     public function answers(): HasMany
