@@ -20,7 +20,11 @@ class UserResource extends Resource
 
     protected static ?string $slug = 'benutzer';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $label = 'Benutzer';
+    protected static ?string $pluralLabel = 'Benutzer';
+
+
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function canAccess(): bool
     {
