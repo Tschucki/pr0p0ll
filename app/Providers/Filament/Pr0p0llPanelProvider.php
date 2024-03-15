@@ -6,6 +6,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
 use App\Filament\Widgets\NeedsDataReviewWidget;
+use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Filament\Enums\ThemeMode;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
@@ -73,6 +74,7 @@ class Pr0p0llPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                ForbidBannedUser::class,
             ])
             ->brandLogo(fn () => view('filament.admin.logo'))
             ->brandLogoHeight('auto')

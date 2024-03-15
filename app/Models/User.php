@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Polls\Poll;
+use Cog\Contracts\Ban\Bannable as BannableInterface;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -18,8 +20,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerifyEmail
+class User extends Authenticatable implements BannableInterface, FilamentUser, HasAvatar, MustVerifyEmail
 {
+    use Bannable;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;

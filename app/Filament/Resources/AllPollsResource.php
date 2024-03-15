@@ -27,6 +27,11 @@ class AllPollsResource extends Resource
 
     protected static ?string $pluralLabel = 'Umfragen';
 
+    public static function canAccess(): bool
+    {
+        return \Auth::user()->isAdmin();
+    }
+
     public static function table(Table $table): Table
     {
         return $table

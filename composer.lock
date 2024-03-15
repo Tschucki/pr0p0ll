@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8499dfc51347f567a41d39f00c5c029",
+    "content-hash": "5542b92169e3dd2ed25dda7edb625003",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -345,6 +345,89 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "cybercog/laravel-ban",
+            "version": "4.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cybercog/laravel-ban.git",
+                "reference": "41e6ccca67d7785e06e3a391d5b6ab45916113e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cybercog/laravel-ban/zipball/41e6ccca67d7785e06e3a391d5b6ab45916113e2",
+                "reference": "41e6ccca67d7785e06e3a391d5b6ab45916113e2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0|^10.0|^11.0",
+                "illuminate/events": "^9.0|^10.0|^11.0",
+                "illuminate/support": "^9.0|^10.0|^11.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.6|^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cog\\Laravel\\Ban\\Providers\\BanServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cog\\Laravel\\Ban\\": "src/",
+                    "Cog\\Contracts\\Ban\\": "contracts/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Komarev",
+                    "email": "anton@komarev.com",
+                    "homepage": "https://komarev.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Ban simplify blocking and banning Eloquent models.",
+            "homepage": "https://komarev.com/sources/laravel-ban",
+            "keywords": [
+                "Justice",
+                "arrest",
+                "ban",
+                "block",
+                "cog",
+                "cybercog",
+                "eloquent",
+                "forbid",
+                "jail",
+                "laravel",
+                "restrict",
+                "trait",
+                "user"
+            ],
+            "support": {
+                "docs": "https://github.com/cybercog/laravel-ban/wiki",
+                "email": "open@cybercog.su",
+                "issues": "https://github.com/cybercog/laravel-ban/issues",
+                "source": "https://github.com/cybercog/laravel-ban",
+                "wiki": "https://github.com/cybercog/laravel-ban/wiki"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/antonkomarev",
+                    "type": "custom"
+                }
+            ],
+            "time": "2024-03-05T16:55:42+00:00"
         },
         {
             "name": "danharrin/date-format-converter",
@@ -9007,6 +9090,69 @@
             "time": "2022-06-03T18:03:27+00:00"
         },
         {
+            "name": "widiu7omo/filament-bandel",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/widiu7omo/filament-bandel.git",
+                "reference": "59eef985db912306bc0723dba1c76707ca36aecb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/widiu7omo/filament-bandel/zipball/59eef985db912306bc0723dba1c76707ca36aecb",
+                "reference": "59eef985db912306bc0723dba1c76707ca36aecb",
+                "shasum": ""
+            },
+            "require": {
+                "cybercog/laravel-ban": "^4.8",
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.6",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.14"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.4",
+                "pestphp/pest": "^2.4",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Widiu7omo\\FilamentBandel\\FilamentBandelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Widiu7omo\\FilamentBandel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Danar Widi",
+                    "email": "widiu7omo@gmail.com",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Banned Model with Filament Bandel",
+            "homepage": "https://github.com/widiu7omo/filament-bandel",
+            "keywords": [
+                "filament-bandel",
+                "laravel",
+                "widiu7omo"
+            ],
+            "support": {
+                "issues": "https://github.com/widiu7omo/filament-bandel/issues",
+                "source": "https://github.com/widiu7omo/filament-bandel/tree/v2.0.0"
+            },
+            "time": "2023-09-27T02:02:01+00:00"
+        },
+        {
             "name": "yepsua/filament-rating-field",
             "version": "v0.3.0",
             "source": {
@@ -13692,9 +13838,9 @@
     "platform": {
         "php": "^8.1",
         "ext-bcmath": "*",
+        "ext-intl": "*",
         "ext-pcntl": "*",
         "ext-sodium": "*",
-        "ext-intl": "*",
         "ext-zip": "*"
     },
     "platform-dev": [],
