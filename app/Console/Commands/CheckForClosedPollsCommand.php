@@ -31,8 +31,8 @@ class CheckForClosedPollsCommand extends Command
     public function handle(): void
     {
         Poll::where('published_at', '<', now())->where('in_review', false)->where('visible_to_public', true)->each(function (Poll $poll) {
-            $this->info('Close '.$poll->title);
             if ($poll->isClosed()) {
+                $this->info('Close '.$poll->title);
                 $poll->update([
                     'visible_to_public' => false,
                 ]);
