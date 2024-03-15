@@ -54,7 +54,7 @@ class MyPollResource extends Resource
                     Components\Tabs\Tab::make('Allgemein')->schema([
                         Components\Toggle::make('not_anonymous')->label('Möchtest du die Umfrage so veröffentlichen, dass dein Name sichtbar ist?')->inline(false)->required()->default(true)->helperText('Es geht nur darum ob dein Name bei der Umfrage angezeigt wird. Das pr0p0ll-Team sieht natürlich, dass du diese Umfrage erstellt hast. Das soll dafür sorgen, dass Teilnehmer nicht beeinflusst werden.'),
                         TextInput::make('title')->label('Titel')->maxLength(255)->required(),
-                        Select::make('category_id')->label('Kategorie')->options(fn () => Category::where('enabled', true)->pluck('title', 'id'))->nullable()->native(false),
+                        Select::make('category_id')->searchable()->label('Kategorie')->options(fn () => Category::where('enabled', true)->pluck('title', 'id'))->nullable()->native(false),
                         Textarea::make('description')->label('Beschreibung')->nullable(),
                         Select::make('closes_after')->label('Ende der Umfrage')->hint('Zeitraum beginnt nachdem die Umfrage genehmigt wurde.')->options(ClosesAfter::class)->default('+3 weeks')->required()->helperText('Es wird dir nicht möglich sein, die Umfrage frühzeitig zu beenden.'),
                     ]),
