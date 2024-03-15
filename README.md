@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <a href="https://github.com/pr0p0ll/pr0p0ll">
+  <a href="https://github.com/Tschucki/pr0p0ll">
     <img src="resources/assets/imgs/pr0p0ll.png" alt="Logo" width="50" height="50">
   </a>
 
@@ -18,7 +18,7 @@
   </p>
 </p>
 
-[![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2F3936ac5a-a184-4514-83d2-65bcbc93581f%3Fdate%3D1%26commit%3D1&style=plastic)](https://forge.laravel.com) ![Contributors](https://img.shields.io/github/contributors/pr0p0ll/pr0p0ll?color=dark-green) ![Issues](https://img.shields.io/github/issues/pr0p0ll/pr0p0ll) ![License](https://img.shields.io/github/license/pr0p0ll/pr0p0ll)
+[![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2Fc9505301-16b7-47c9-bc6c-924c33c5cbc3%3Fdate%3D1&style=plastic)](https://forge.laravel.com/servers/754115/sites/2256343) ![Contributors](https://img.shields.io/github/contributors/Tschucki/pr0p0ll?color=dark-green) ![Issues](https://img.shields.io/github/issues/Tschucki/pr0p0ll) ![License](https://img.shields.io/github/license/Tschucki/pr0p0ll)
 
 ## Table Of Contents
 
@@ -32,14 +32,20 @@
 
 ## About The Project
 
-Pr0p0ll ist eine Plattform für Pr0gramm-User, um Umfragen zu erstellen und an diesen teilzunehmen. Der Betreiber der alten Platform (RundesBalli) hat das Projekt an Tschucki übergeben und hat die Plattform neu entwickelt. Die neue Plattform ist mit Laravel 10 und Filament 3 entwickelt worden. Um Zugang zur Plattform zu erhalten loggt sich der Benutzer über O-Auth ein.
+Pr0p0ll is a platform for [pr0gramm](https://pr0gramm.com) users to create and participate in polls. The maintainer of the old platform ([RundesBalli](https://github.com/RundesBalli)) has transferred the project to Tschucki. The new platform has been developed using Laravel and [Filament](https://github.com/filamentphp/filament).
+
+To access the platform, the user must have an account on [pr0gramm](https://pr0gramm.com) to authenticate via O-Auth.
 
 ### Features
 
-#### Form Builder
-Ermöglicht es dem Benutzer, Umfragen zu erstellen. Die Umfragen können mit verschiedenen Fragetypen erstellt werden.
-#### Zielgruppen definieren
-Der Benutzer kann definieren, wer an der Umfrage teilnehmen darf. Die Umfrage kann entweder öffentlich oder nur für bestimmte Benutzergruppen verfügbar sein.
+#### Poll Builder
+Allows the user to create polls. The polls can be created with different question types.
+#### Define Target Groups
+The user can define who is allowed to participate in the poll. The poll can either be public or only available to specific user groups.
+#### Poll Participation
+The user can participate in polls. The user can see the results of the poll after the poll has ended.
+#### Poll Results
+See the results of the poll after the poll has ended and filter the results by demographic data.
 
 ## Built With
 
