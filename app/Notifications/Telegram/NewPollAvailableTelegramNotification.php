@@ -39,7 +39,7 @@ class NewPollAvailableTelegramNotification extends Notification
 
     public function toTelegram($notifiable): TelegramMessage
     {
-        $url = route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
+        $url = route('filament.pr0p0ll.resources.umfragen.teilnehmen', [
             'record' => $this->poll,
         ]);
 

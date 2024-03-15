@@ -45,7 +45,7 @@ class NewPollAvailableEmailNotification extends Notification
             ->greeting('Hallo,')
             ->line('Es ist eine neue Umfrage auf pr0p0ll verfügbar.')
             ->line('Titel: '.$this->poll->title)
-            ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
+            ->action('Zur Umfrage', url(route('filament.pr0p0ll.resources.umfragen.teilnehmen', [
                 'record' => $this->poll->getKey(),
             ])))
             ->line('Danke, dass du pr0p0ll nutzt.');

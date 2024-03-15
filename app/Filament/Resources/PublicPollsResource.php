@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Pages\PollResults;
+use App\Filament\Pages\Pr0PostCreator;
 use App\Filament\Resources\PublicPollsResource\Pages;
 use App\Models\Polls\PublicPoll;
 use Carbon\Carbon;
@@ -23,6 +25,8 @@ class PublicPollsResource extends Resource
     protected static ?string $navigationGroup = 'Umfragen';
 
     protected static ?string $label = 'Öffentliche Umfrage';
+
+    protected static ?string $slug = 'umfragen';
 
     protected static ?string $pluralLabel = 'Öffentliche Umfragen';
 
@@ -65,11 +69,12 @@ class PublicPollsResource extends Resource
                 Tables\Grouping\Group::make('category.title')->label('Kategorie'),
             ])
             ->actions([
+                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic()),
                 Tables\Actions\Action::make('participate')
                     ->icon('heroicon-o-plus-circle')
                     ->button()
                     ->label('Teilnehmen')
-                    ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.public-polls.teilnehmen', ['record' => $publicPoll]))
+                    ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.umfragen.teilnehmen', ['record' => $publicPoll]))
                     ->disabled(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user()) || $publicPoll->hasEnded()),
             ])
             ->filters([
@@ -128,11 +133,18 @@ class PublicPollsResource extends Resource
         return \Number::abbreviate($inTargetGroup->count());
     }
 
+    public static function canViewResults(PublicPoll $poll): bool
+    {
+        return static::can('viewAny');
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListPublicPolls::route('/'),
             'teilnehmen' => Pages\PollParticipation::route('/{record}/teilnehmen'),
+            'results' => PollResults::route('/{record}/auswertung'),
+            'pr0post' => Pr0PostCreator::route('/{record}/pr0post'),
         ];
     }
 }

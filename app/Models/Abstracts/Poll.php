@@ -115,9 +115,12 @@ abstract class Poll extends Model
 
     public function resultsArePublic(): bool
     {
-        //TODO: Implement
-        if ($this->published_at !== null && $this->closes_after !== null) {
-            return Carbon::make($this->published_at)?->add($this->closes_after)->isPast();
+        if ($this->original_content_link === null && Carbon::make($this->closes_at)?->addWeeks(2)->isPast()) {
+            return true;
+        }
+
+        if ($this->isClosed() && $this->original_content_link !== null) {
+            return true;
         }
 
         return false;

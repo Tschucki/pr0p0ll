@@ -44,7 +44,7 @@ class PollAcceptedEmailNotification extends Notification
             ->subject('📊 Deine Umfrage wurde genehmigt! #'.$this->poll->getKey())
             ->greeting('Hallo,')
             ->line('Deine Umfrage mit dem Titel "'.$this->poll->title.'" wurde genehmigt und ist nun öffentlich sichtbar.')
-            ->action('An Umfrage teilnehmen', url(route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
+            ->action('An Umfrage teilnehmen', url(route('filament.pr0p0ll.resources.umfragen.teilnehmen', [
                 'record' => $this->poll->getKey(),
             ])))
             ->line('Danke, dass du pr0p0ll nutzt.');

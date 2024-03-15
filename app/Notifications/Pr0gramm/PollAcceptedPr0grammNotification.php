@@ -37,7 +37,7 @@ class PollAcceptedPr0grammNotification extends Notification
 
     public function toPr0gramm($notifiable): string
     {
-        $url = route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
+        $url = route('filament.pr0p0ll.resources.umfragen.teilnehmen', [
             'record' => $this->poll->getKey(),
         ]);
         $title = $this->poll->title;

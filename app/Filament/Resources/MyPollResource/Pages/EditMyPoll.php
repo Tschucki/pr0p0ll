@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\MyPollResource\Pages;
 
+use App\Filament\Actions\AddOriginalContentLinkAction;
 use App\Filament\Actions\PollPreviewAction;
 use App\Filament\Actions\SubmitForReviewAction;
 use App\Filament\Resources\MyPollResource;
@@ -66,6 +67,7 @@ class EditMyPoll extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            AddOriginalContentLinkAction::make(),
             PollPreviewAction::make(),
             SubmitForReviewAction::make(),
             Actions\ActionGroup::make([

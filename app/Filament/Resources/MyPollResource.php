@@ -10,8 +10,6 @@ use App\Enums\Nationality;
 use App\Filament\Resources\MyPollResource\Pages\CreateMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\EditMyPoll;
 use App\Filament\Resources\MyPollResource\Pages\ListMyPolls;
-use App\Filament\Resources\MyPollResource\Pages\MyPollResults;
-use App\Filament\Resources\MyPollResource\Pages\Pr0PostCreator;
 use App\Filament\Resources\MyPollResource\Pages\ViewMyPoll;
 use App\Models\Category;
 use App\Models\Polls\MyPoll;
@@ -129,11 +127,11 @@ class MyPollResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('status')->icon('heroicon-o-cog')->label('Status')->state(function (MyPoll $myPoll) {
-                    if ($myPoll->isVisibleForPublic()) {
-                        return 'Öffentlich sichtbar';
-                    }
                     if ($myPoll->hasEnded()) {
                         return 'Beendet';
+                    }
+                    if ($myPoll->isVisibleForPublic()) {
+                        return 'Öffentlich sichtbar';
                     }
                     if ($myPoll->isApproved()) {
                         return 'Genehmigt';
@@ -144,11 +142,11 @@ class MyPollResource extends Resource
 
                     return 'Entwurf';
                 })->icon(function (MyPoll $myPoll) {
-                    if ($myPoll->isVisibleForPublic()) {
-                        return 'heroicon-o-eye';
-                    }
                     if ($myPoll->hasEnded()) {
                         return 'heroicon-o-lock-closed';
+                    }
+                    if ($myPoll->isVisibleForPublic()) {
+                        return 'heroicon-o-eye';
                     }
                     if ($myPoll->isApproved()) {
                         return 'heroicon-o-check-circle';
@@ -159,13 +157,13 @@ class MyPollResource extends Resource
 
                     return 'heroicon-o-pencil-square';
                 })->iconColor(function (MyPoll $myPoll) {
+                    if ($myPoll->hasEnded()) {
+                        return 'success';
+                    }
                     if ($myPoll->isVisibleForPublic()) {
                         return 'success';
                     }
                     if ($myPoll->isApproved()) {
-                        return 'success';
-                    }
-                    if ($myPoll->hasEnded()) {
                         return 'success';
                     }
 
@@ -183,7 +181,7 @@ class MyPollResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (MyPoll $poll) => route('filament.pr0p0ll.resources.my-polls.results', ['record' => $poll])),
+                Tables\Actions\Action::make('results')->visible(fn (MyPoll $poll) => $poll->visible_to_public === true)->button()->label('Ergebnisse ansehen')->url(fn (MyPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll])),
                 Tables\Actions\ViewAction::make()->iconButton(),
                 Tables\Actions\EditAction::make()->iconButton(),
             ])
@@ -232,9 +230,7 @@ class MyPollResource extends Resource
             'create' => CreateMyPoll::route('/create'),
             'index' => ListMyPolls::route('/'),
             'view' => ViewMyPoll::route('/{record}'),
-            'results' => MyPollResults::route('/{record}/auswertung'),
             'edit' => EditMyPoll::route('/{record}/edit'),
-            'pr0post' => Pr0PostCreator::route('/{record}/pr0post'),
         ];
     }
 }

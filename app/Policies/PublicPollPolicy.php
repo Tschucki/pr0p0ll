@@ -29,6 +29,19 @@ class PublicPollPolicy
         return $publicPoll->isVisibleForPublic();
     }
 
+    public function viewResults(User $user, PublicPoll $publicPoll): bool
+    {
+        if ($publicPoll->resultsArePublic()) {
+            return true;
+        }
+
+        if ($user->getKey() === $publicPoll->user->getKey()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function create(User $user): bool
     {
         return false;

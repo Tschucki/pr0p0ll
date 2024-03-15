@@ -37,7 +37,7 @@ class OwnPollClosedPr0grammNotification extends Notification
 
     public function toPr0gramm($notifiable): string
     {
-        $url = route('filament.pr0p0ll.resources.my-polls.results', [
+        $url = route('filament.pr0p0ll.resources.umfragen.results', [
             'record' => $this->poll->getKey(),
         ]);
         $title = $this->poll->title;

@@ -45,7 +45,7 @@ class OwnPollClosedEmailNotification extends Notification
             ->greeting('Hallo,')
             ->line('Deine Umfrage "'.$this->poll->title.'" ist zu Ende.')
             ->line('Du kannst jetzt einen pr0-Post mit den Ergebnissen erstellen.')
-            ->action('Zur Auswerung', url(route('filament.pr0p0ll.resources.my-polls.results', [
+            ->action('Zur Auswerung', url(route('filament.pr0p0ll.resources.umfragen.results', [
                 'record' => $this->poll->getKey(),
             ])))
             ->line('Danke, dass du pr0p0ll nutzt.');

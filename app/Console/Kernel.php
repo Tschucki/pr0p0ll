@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:check-for-closed-polls-command')->hourly();
         $schedule->command('app:login-to-pr0gramm')->hourly();
     }
 

@@ -39,7 +39,7 @@ class NewPollAvailableDiscordNotification extends Notification
 
     public function toDiscord($notifiable): DiscordMessage
     {
-        $url = route('filament.pr0p0ll.resources.public-polls.teilnehmen', [
+        $url = route('filament.pr0p0ll.resources.umfragen.teilnehmen', [
             'record' => $this->poll,
         ]);
         $title = $this->poll->title;

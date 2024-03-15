@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\MyPollResource\Pages;
+namespace App\Filament\Pages;
 
 use App\Enums\Gender;
 use App\Enums\Nationality;
 use App\Enums\Region;
-use App\Filament\Resources\MyPollResource;
+use App\Filament\Resources\PublicPollsResource;
+use App\Models\Polls\PublicPoll;
 use App\Services\PollResultService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
@@ -21,7 +22,7 @@ use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;
 use Livewire\Attributes\Url;
 
-class MyPollResults extends Page
+class PollResults extends Page
 {
     use InteractsWithForms;
     use InteractsWithRecord;
@@ -41,11 +42,13 @@ class MyPollResults extends Page
     #[Url(as: 'max_age')]
     public ?string $max_age = null;
 
+    protected static ?string $slug = 'ergebnisse';
+
     protected $listeners = ['updatedFilter' => '$refresh'];
 
-    protected static string $resource = MyPollResource::class;
+    protected static string $resource = PublicPollsResource::class;
 
-    protected static string $view = 'filament.resources.my-poll-resource.pages.my-poll-results';
+    protected static string $view = 'filament.pages.my-poll-results';
 
     protected static ?string $title = 'Ergebnisse';
 
@@ -57,7 +60,7 @@ class MyPollResults extends Page
     {
         $this->record = $this->resolveRecord($record);
         static::authorizeResourceAccess();
-        abort_unless(static::getResource()::canView($this->getRecord()), 403);
+        abort_unless(static::getResource()::canViewResults($this->getRecord()), 403);
         $this->fillForm();
     }
 
@@ -76,9 +79,9 @@ class MyPollResults extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('create_post')->label('Pr0-Post erstellen')->button()->url(route('filament.pr0p0ll.resources.my-polls.pr0post', [
+            Action::make('create_post')->label('Pr0-Post erstellen')->button()->url(route('filament.pr0p0ll.resources.umfragen.pr0post', [
                 'record' => $this->getRecord(),
-            ])),
+            ]))->visible(fn (PublicPoll $poll) => $poll->hasEnded()),
         ];
     }
 
@@ -114,7 +117,7 @@ class MyPollResults extends Page
 
     public function update(): void
     {
-        $this->redirectRoute('filament.pr0p0ll.resources.my-polls.results', [
+        $this->redirectRoute('filament.pr0p0ll.resources.umfragen.results', [
             'record' => $this->getRecord(),
             'gender' => $this->data['gender'] ?? null,
             'nationality' => $this->data['nationality'] ?? null,

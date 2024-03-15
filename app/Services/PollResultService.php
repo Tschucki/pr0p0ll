@@ -10,7 +10,7 @@ use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
-use App\Models\Polls\MyPoll;
+use App\Models\Polls\PublicPoll;
 use App\Models\Question;
 use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,13 +18,13 @@ use Illuminate\Support\Collection;
 
 class PollResultService
 {
-    private MyPoll $poll;
+    private PublicPoll $poll;
 
     private string $color;
 
     private array $filters;
 
-    public function __construct(MyPoll $poll, string $color = '#ee4d2e', $filters = [])
+    public function __construct(PublicPoll $poll, string $color = '#ee4d2e', $filters = [])
     {
         $this->poll = $poll;
         $this->color = $color;

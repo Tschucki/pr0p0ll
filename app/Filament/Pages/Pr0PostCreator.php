@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\MyPollResource\Pages;
+namespace App\Filament\Pages;
 
 use App\Filament\Resources\MyPollResource;
+use App\Filament\Resources\PublicPollsResource;
 use App\Models\Question;
 use App\Services\PollResultService;
 use Filament\Actions\Action;
@@ -26,11 +27,11 @@ class Pr0PostCreator extends Page
 {
     use InteractsWithRecord;
 
-    protected static string $resource = MyPollResource::class;
+    protected static string $resource = PublicPollsResource::class;
 
     protected static ?string $title = 'Pr0-Post erstellen';
 
-    protected static string $view = 'filament.resources.my-poll-resource.pages.pr0-post-creator';
+    protected static string $view = 'filament.pages.pr0-post-creator';
 
     public ?array $data = [];
 
@@ -44,6 +45,7 @@ class Pr0PostCreator extends Page
     public function mount(int|string $record)
     {
         $this->record = $this->resolveRecord($record);
+
         if (! $this->record->hasEnded()) {
             Notification::make('poll_not_ended')->danger()->title('Umfrage noch nicht beendet')->body('Die Umfrage ist noch nicht beendet.')->send();
 
@@ -58,7 +60,7 @@ class Pr0PostCreator extends Page
     {
         static::authorizeResourceAccess();
 
-        abort_unless(static::getResource()::canView($this->getRecord()), 403);
+        abort_unless(static::getResource()::canViewResults($this->getRecord()), 403);
     }
 
     protected function getHeaderActions(): array

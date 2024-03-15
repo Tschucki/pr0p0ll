@@ -166,7 +166,7 @@ class PollParticipation extends Page
 
     public function getRedirectUrl(): string
     {
-        return route('filament.pr0p0ll.resources.public-polls.index');
+        return route('filament.pr0p0ll.resources.umfragen.index');
     }
 
     public function form(Form $form): Form
@@ -217,7 +217,7 @@ class PollParticipation extends Page
     {
         return Action::make('back')
             ->label('Zurück zur Übersicht')
-            ->url(route('filament.pr0p0ll.resources.public-polls.index'))
+            ->url(route('filament.pr0p0ll.resources.umfragen.index'))
             ->color('gray');
     }
 

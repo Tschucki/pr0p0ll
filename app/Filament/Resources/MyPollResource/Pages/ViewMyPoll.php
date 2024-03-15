@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\MyPollResource\Pages;
 
+use App\Filament\Actions\AddOriginalContentLinkAction;
 use App\Filament\Actions\PollPreviewAction;
 use App\Filament\Actions\SubmitForReviewAction;
 use App\Filament\Resources\MyPollResource;
@@ -20,6 +21,7 @@ class ViewMyPoll extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            AddOriginalContentLinkAction::make(),
             PollPreviewAction::make(fullPreview: false),
             SubmitForReviewAction::make(),
             ActionGroup::make([
