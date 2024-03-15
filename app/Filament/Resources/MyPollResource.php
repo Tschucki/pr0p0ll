@@ -132,11 +132,11 @@ class MyPollResource extends Resource
                     if ($myPoll->isVisibleForPublic()) {
                         return 'Öffentlich sichtbar';
                     }
+                    if ($myPoll->hasEnded()) {
+                        return 'Beendet';
+                    }
                     if ($myPoll->isApproved()) {
                         return 'Genehmigt';
-                    }
-                    if ($myPoll->hasEnded()) {
-
                     }
                     if ($myPoll->isInReview()) {
                         return 'In Überprüfung';
@@ -147,11 +147,11 @@ class MyPollResource extends Resource
                     if ($myPoll->isVisibleForPublic()) {
                         return 'heroicon-o-eye';
                     }
-                    if ($myPoll->isApproved()) {
-                        return 'heroicon-o-check-circle';
-                    }
                     if ($myPoll->hasEnded()) {
                         return 'heroicon-o-lock-closed';
+                    }
+                    if ($myPoll->isApproved()) {
+                        return 'heroicon-o-check-circle';
                     }
                     if ($myPoll->isInReview()) {
                         return 'heroicon-o-scale';
@@ -171,6 +171,7 @@ class MyPollResource extends Resource
 
                     return 'warning';
                 }),
+                Tables\Columns\TextColumn::make('closes_at')->label('Ende')->dateTime('d.m.Y H:i')->sortable()->toggleable(),
                 Tables\Columns\TextColumn::make('title')->label('Titel')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('answers_count')->counts('answers')->label('Anzahl Antworten')->sortable()->toggleable(),
                 Tables\Columns\TextColumn::make('participants_count')->counts('participants')->label('Anzahl Teilnehmer')->sortable()->toggleable(),
