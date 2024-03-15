@@ -74,7 +74,7 @@ class PollParticipation extends Page
             $data = $this->form->getState();
 
             $anonymousUser = Auth::user()?->createAnonymousUser();
-dd($anonymousUser);
+
             if (! $anonymousUser) {
                 Notification::make('error')->danger()->title('Fehler beim Speichern')->body('Es konnte kein anonymer User angelegt werden.')->send();
                 throw new Halt('Es konnte kein anonymer User angelegt werden.');
