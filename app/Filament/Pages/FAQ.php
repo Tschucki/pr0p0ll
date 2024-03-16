@@ -6,6 +6,7 @@ namespace App\Filament\Pages;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Infolist;
 use Filament\Pages\Page;
@@ -31,13 +32,8 @@ class FAQ extends Page
     {
         return $infolist
             ->schema([
-                Section::make('WIP')->schema([
-                ])->collapsible(),
-                Section::make('Wie lege ich eine Umfrage an?')->schema([
-                ])->collapsible(),
-                Section::make('Wie lösche ich meinen Account?')->schema([
-                ])->collapsible(),
-                Section::make('Wann kann ich einen pr0gramm-Post erstellen?')->schema([
+                Section::make('Warum kann ich meine demographischen Daten nicht ändern?')->schema([
+                    TextEntry::make('demographic_data_info')->state('Du kannst deine demographischen Daten nur alle 2 Monate ändern. Das soll verhindern, dass Leute ihre Daten ständig ändern um an Umfragen teilzunehmen bei denen ihr Profil eigentlich nicht in die Zielgruppe fallen würden. Du siehst aber wie lange es dauert, bis du deine Daten wieder ändern kannst auf der "Einstellungen"-Seite.')->label(''),
                 ])->collapsible(),
             ]);
     }
