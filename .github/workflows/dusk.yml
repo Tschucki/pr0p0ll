@@ -10,6 +10,9 @@ jobs:
       DB_PASSWORD: root
       MAIL_MAILER: log
     steps:
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.2'
       - uses: actions/checkout@v4
       - name: Prepare The Environment
         run: cp .env.example .env
