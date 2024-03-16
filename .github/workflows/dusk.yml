@@ -1,5 +1,5 @@
 name: Dusk Tests
-on: [ push ]
+on: workflow_dispatch
 
 permissions:
   contents: write
