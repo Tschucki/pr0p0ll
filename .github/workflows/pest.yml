@@ -17,8 +17,12 @@ jobs:
         run: |
           sudo systemctl start mysql
           mysql --user="root" --password="root" -e "CREATE DATABASE \`pr0poll\` character set UTF8mb4 collate utf8mb4_bin;"
-      - name: Install Composer Dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Install Composer
+        uses: php-actions/composer@v6
+        with:
+          php_extensions: intl zip sodium pcntl bcmath
+          php_version: "8.2"
+          args: --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-bcmath --no-progress --prefer-dist --optimize-autoloader
       - name: Generate Application Key
         run: php artisan key:generate
       - name: Directory Permissions
