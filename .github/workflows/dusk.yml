@@ -1,5 +1,9 @@
 name: Dusk Tests
 on: [push]
+
+permissions:
+  contents: write
+
 jobs:
 
   dusk-php:
