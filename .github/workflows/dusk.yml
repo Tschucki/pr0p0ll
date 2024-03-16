@@ -1,5 +1,5 @@
 name: Dusk Tests
-on: [push]
+on: [ push ]
 
 permissions:
   contents: write
@@ -31,17 +31,25 @@ jobs:
           php_version: "8.2"
           args: --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-bcmath --no-progress --prefer-dist --optimize-autoloader
       - name: Change Permissions
+        id: change_permissions
         run: sudo chmod -R 755 vendor
       - name: Generate Application Key
+        id: generate_key
         run: php artisan key:generate
-      - name: Run dusk tests
-        run: |
-          sudo php artisan dusk:chrome-driver
-          sudo nohup bash -c './vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &'
-          sudo nohup bash -c 'php artisan serve > /dev/null 2>&1 &'
-          sudo php artisan dusk
+      - name: Upgrade Chrome Driver
+        id: upgrade_chrome_driver
+        run: sudo php artisan dusk:chrome-driver --detect
+      - name: Start Chrome Driver
+        id: start_chrome_driver
+        run: sudo ./vendor/laravel/dusk/bin/chromedriver-linux &
+      - name: Run Laravel Server
+        if: success() && steps.change_permissions.outcome == 'success' && steps.generate_key.outcome == 'success' && steps.upgrade_chrome_driver.outcome == 'success' && steps.start_chrome_driver.outcome == 'success'
+        run: sudo php artisan serve --no-reload &
+      - name: Run Dusk Tests
+        if: success() && steps.change_permissions.outcome == 'success' && steps.generate_key.outcome == 'success' && steps.upgrade_chrome_driver.outcome == 'success' && steps.start_chrome_driver.outcome == 'success'
+        run: sudo php artisan dusk
       - name: Upload Screenshots
-        if: failure()
+        if: failure() && steps.change_permissions.outcome == 'success' && steps.generate_key.outcome == 'success' && steps.upgrade_chrome_driver.outcome == 'success' && steps.start_chrome_driver.outcome == 'success'
         uses: actions/upload-artifact@v2
         with:
           name: screenshots
