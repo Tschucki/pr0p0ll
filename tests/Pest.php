@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 uses(
     Tests\DuskTestCase::class,
-    // Illuminate\Foundation\Testing\DatabaseMigrations::class,
+    Illuminate\Foundation\Testing\DatabaseMigrations::class,
 )->in('Browser');
 
 uses(

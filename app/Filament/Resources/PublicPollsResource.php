@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Enums\Gender;
+use App\Enums\Nationality;
 use App\Filament\Pages\PollResults;
 use App\Filament\Pages\Pr0PostCreator;
 use App\Filament\Resources\PublicPollsResource\Pages;
 use App\Models\Polls\PublicPoll;
 use Carbon\Carbon;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -69,6 +73,17 @@ class PublicPollsResource extends Resource
                 Tables\Grouping\Group::make('category.title')->label('Kategorie'),
             ])
             ->actions([
+                Tables\Actions\Action::make('target_group')->visible(fn (PublicPoll $poll) => $poll->target_group !== null)->infolist(function (PublicPoll $poll) {
+
+                    return [
+                        Grid::make()->schema([
+                            TextEntry::make('min_age')->label('Mindestalter')->state($poll->target_group[0]['data']['min_age'] ?? 'Egal'),
+                            TextEntry::make('max_age')->label('Höchstalter')->state($poll->target_group[0]['data']['max_age'] ?? 'Egal'),
+                            TextEntry::make('nationality')->label('Nationalität')->state(isset($poll->target_group[0]['data']['nationality']) ? Nationality::from($poll->target_group[0]['data']['nationality'])->getLabel() : 'Egal'),
+                            TextEntry::make('gender')->label('Geschlecht')->state(isset($poll->target_group[0]['data']['gender']) ? Gender::from($poll->target_group[0]['data']['gender'])->getLabel() : 'Egal'),
+                        ]),
+                    ];
+                })->modalSubmitAction(false)->button()->label('Zielgruppe')->modalHeading('Zielgruppe'),
                 Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic()),
                 Tables\Actions\Action::make('participate')
                     ->icon('heroicon-o-plus-circle')
