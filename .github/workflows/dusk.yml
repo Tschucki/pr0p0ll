@@ -37,9 +37,9 @@ jobs:
       - name: Upgrade Chrome Driver
         run: sudo php artisan dusk:chrome-driver --detect
       - name: Start Chrome Driver
-        run: sudo ./vendor/laravel/dusk/bin/chromedriver-linux &
+        run: sudo ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
       - name: Run Laravel Server
-        run: php artisan serve --no-reload &
+        run: php artisan serve --no-reload > /dev/null 2>&1 &
       - name: Run Dusk Tests
         run: sudo php artisan dusk
       - name: Upload Screenshots
