@@ -2,7 +2,7 @@ name: Dusk Tests
 on: [push]
 jobs:
 
-  dusk-php:
+  pest-php:
     runs-on: ubuntu-latest
     env:
       APP_URL: "http://127.0.0.1:8000"
