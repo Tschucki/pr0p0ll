@@ -22,6 +22,7 @@ class Login extends \Filament\Pages\Auth\Login
     protected function getAuthenticateFormAction(): Action
     {
         return Action::make('authenticate')
+            ->extraAttributes(['id' => 'loginButton'])
             ->label('Mit pr0gramm anmelden')
             ->submit('login');
     }

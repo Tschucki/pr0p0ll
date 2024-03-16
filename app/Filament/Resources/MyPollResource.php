@@ -104,7 +104,7 @@ class MyPollResource extends Resource
                                     return Block::make((string) $questionType->getKey())->label($questionType->title)->schema([
                                         Components\Hidden::make('question_type_id')->default($questionType->getKey()),
                                         Components\Hidden::make('uuid')->default(\Str::uuid()->toString()),
-                                        TextInput::make('title')->label('Titel')->maxLength(255)->required()->live(true),
+                                        TextInput::make('title')->extraAttributes(['class' => $questionType->getKey().'Input'])->label('Titel')->maxLength(255)->required()->live(true),
                                         Textarea::make('description')->label('Beschreibung')->nullable(),
                                         Components\Repeater::make('options')->label('Auswahlmöglichkeiten')->schema([
                                             TextInput::make('title')->required()->label('Titel')->maxLength(255),
