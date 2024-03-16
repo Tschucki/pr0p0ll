@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
-use App\Filament\Widgets\NeedsDataReviewWidget;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Filament\Enums\ThemeMode;
 use Filament\Facades\Filament;
@@ -54,9 +53,6 @@ class Pr0p0llPanelProvider extends PanelProvider
             ])
             ->login(Login::class)
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                NeedsDataReviewWidget::class,
-            ])
             ->plugins([FilamentApexChartsPlugin::make()])
             ->userMenuItems([
                 MenuItem::make()->label('Startseite')->url('/')->icon('heroicon-o-home'),

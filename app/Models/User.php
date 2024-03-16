@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements BannableInterface, FilamentUser, HasAvatar, MustVerifyEmail
@@ -43,6 +44,7 @@ class User extends Authenticatable implements BannableInterface, FilamentUser, H
         'region',
         'banned_at',
         'pr0gramm_identifier',
+        'last_data_change',
     ];
 
     /**
@@ -70,6 +72,7 @@ class User extends Authenticatable implements BannableInterface, FilamentUser, H
         'password' => 'hashed',
         'birthday' => 'date',
         'banned_at' => 'date',
+        'last_data_change' => 'datetime',
     ];
 
     public function notificationPreference(): HasOne
@@ -184,5 +187,16 @@ class User extends Authenticatable implements BannableInterface, FilamentUser, H
             ->withPivot([
                 'rating',
             ]);
+    }
+
+    public function canUpdateDemographicData(): bool
+    {
+        $dLastChange = Carbon::make($this->last_data_change);
+
+        if ($dLastChange === null) {
+            return true;
+        }
+
+        return $dLastChange->addMonths(2)->isPast();
     }
 }

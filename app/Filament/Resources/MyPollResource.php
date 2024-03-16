@@ -31,6 +31,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Yepsua\Filament\Tables\Components\RatingColumn;
 
 class MyPollResource extends Resource
@@ -64,6 +65,7 @@ class MyPollResource extends Resource
                                 try {
                                     return TargetGroupService::calculateTargetGroupFromBuilder($get('target_group')).' Teilnehmer';
                                 } catch (\Throwable $throwable) {
+                                    Log::info($throwable->getMessage());
                                     Notification::make('target_group_error')->title('Fehler')->body('Beim berechnen der Zielgruppe ist ein Fehler aufgetreten.')->danger()->actions([
                                         Action::make('target_group_error_action')->label('Melden')->button()->url('https://github.com/pr0p0ll/pr0p0ll/issues/new', true),
                                     ])->send();

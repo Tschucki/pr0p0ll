@@ -21,8 +21,8 @@ class UserResource extends Resource
     protected static ?string $slug = 'benutzer';
 
     protected static ?string $label = 'Benutzer';
-    protected static ?string $pluralLabel = 'Benutzer';
 
+    protected static ?string $pluralLabel = 'Benutzer';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 

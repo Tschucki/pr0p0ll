@@ -19,6 +19,7 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action as FormAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -32,6 +33,7 @@ use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Exceptions\Halt;
+use Illuminate\Support\Carbon;
 
 class UserSettingsPage extends Page implements HasForms
 {
@@ -108,14 +110,38 @@ class UserSettingsPage extends Page implements HasForms
         return $form->schema([
             Grid::make(2)->schema([
                 Section::make('Demografische Daten')->schema([
-                    Select::make('gender')->label('Geschlecht')->options(Gender::class),
-                    DatePicker::make('birthday')
+
+                    Select::make('gender')->disabled(fn () => ! \Auth::user()->canUpdateDemographicData())->label('Geschlecht')->options(Gender::class),
+                    DatePicker::make('birthday')->disabled(fn () => ! \Auth::user()->canUpdateDemographicData())
                         ->label('Geburtstag')
                         ->nullable()
                         ->before('today')
                         ->displayFormat('d.m.Y'),
-                    Select::make('nationality')->label('Nationalität')->options(Nationality::class),
-                    Select::make('region')->label('Region')->options(Region::class),
+                    Select::make('nationality')->disabled(fn () => ! \Auth::user()->canUpdateDemographicData())->searchable()->label('Nationalität')->options(Nationality::class),
+                    Select::make('region')->disabled(fn () => ! \Auth::user()->canUpdateDemographicData())->searchable()->label('Region')->options(Region::class),
+                    Placeholder::make('info')->label('')->content('Demografische Daten können nur alle 2 Monate geändert werden um zu verhindern, dass man sich für Umfragen als andere Zielgruppe ausgibt.')->extraAttributes(['class' => 'text-justify']),
+                    Placeholder::make('next_change')->label('')->content(function () {
+                        $sText = 'Deine nächste Änderung ist möglich in: ';
+                        $dLastChange = Carbon::make(\Auth::user()->last_data_change);
+
+                        if ($dLastChange === null) {
+                            $sText .= 'Sofort';
+
+                            return $sText;
+                        }
+
+                        $dNextChange = $dLastChange->addMonths(2);
+
+                        if ($dNextChange->isPast()) {
+                            $sText .= 'Sofort';
+
+                            return $sText;
+                        }
+
+                        $sText .= $dNextChange->diffInDays().' Tagen'." ({$dNextChange->format('d.m.Y H:i')} Uhr)";
+
+                        return $sText;
+                    })->extraAttributes(['class' => 'text-justify']),
                 ])->columnSpan(1),
                 Section::make('Benutzerdaten')->schema([
                     TextInput::make('name')->label('Benutzername')->disabled(),
@@ -163,11 +189,21 @@ class UserSettingsPage extends Page implements HasForms
             }
 
             $data = $this->form->getState();
-            $demoGraphicDataKeys = array_keys($user->getDemographicData());
+            $aOriginalDemographicData = $user->getDemographicData();
+            ksort($aOriginalDemographicData);
+            $demoGraphicDataKeys = array_keys($aOriginalDemographicData);
             $demographicData = array_filter($data, static fn ($key) => in_array($key, $demoGraphicDataKeys, true), ARRAY_FILTER_USE_KEY);
+            ksort($demographicData);
 
-            // Update demographic data
-            $user->update($demographicData);
+            if ($user->last_data_change === null || Carbon::make($user->last_data_change)->addMonths(2)->isPast()) {
+                // Check if dirty ignore array order and compare
+                if ($aOriginalDemographicData !== $demographicData) {
+                    $user->update($demographicData);
+                    $user->update([
+                        'last_data_change' => Carbon::now(),
+                    ]);
+                }
+            }
             if ($user->email !== $data['email']) {
                 $user->update([
                     'email_verified_at' => null,
@@ -195,7 +231,7 @@ class UserSettingsPage extends Page implements HasForms
     /**
      * @throws Exception
      */
-    protected function resendEmailVerificationEmail()
+    protected function resendEmailVerificationEmail(): void
     {
         try {
             $this->rateLimit(2);
