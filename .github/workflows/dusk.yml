@@ -2,7 +2,7 @@ name: Dusk Tests
 on: [push]
 jobs:
 
-  pest-php:
+  dusk-php:
     runs-on: ubuntu-latest
     env:
       APP_URL: "http://127.0.0.1:8000"
@@ -28,6 +28,10 @@ jobs:
           args: --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-bcmath --no-progress --prefer-dist --optimize-autoloader
       - name: Generate Application Key
         run: php artisan key:generate
+      - name: Install Dusk
+        run: php artisan dusk:install
+      - name: Update File Permissions
+        run: chmod -R 0755 vendor/laravel/dusk/bin/
       - name: Upgrade Chrome Driver
         run: php artisan dusk:chrome-driver --detect
       - name: Start Chrome Driver
