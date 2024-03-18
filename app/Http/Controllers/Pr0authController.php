@@ -30,10 +30,6 @@ class Pr0authController extends Controller
             ]
         ];*/
 
-        if (! in_array($user->name, config('pr0p0ll.beta_users'), true)) {
-            abort(403);
-        }
-
         $user = User::updateOrCreate([
             'pr0gramm_identifier' => $user->user['identifier'],
         ], [

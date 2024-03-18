@@ -17,7 +17,7 @@
 <body class="font-sans antialiased">
 @inertia
 <script>
-    console.log("Wenn du schon hier bist, schau doch mal auf Github vorbei: https://github.com/pr0p0ll/pr0p0ll");
+    console.log("Wenn du schon hier bist, schau doch mal auf Github vorbei: https://github.com/Tschucki/pr0p0ll");
 </script>
 </body>
 </html>

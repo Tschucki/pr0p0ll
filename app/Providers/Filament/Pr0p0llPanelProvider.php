@@ -32,9 +32,6 @@ class Pr0p0llPanelProvider extends PanelProvider
         Filament::registerRenderHook('panels::global-search.after',
             static fn (): View => view('filament.header.aftersearch'),
         );
-        Filament::registerRenderHook('panels::body.start',
-            static fn (): View => view('filament.beta.beta-feedback'),
-        );
 
         return $panel
             ->default()
