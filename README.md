@@ -78,7 +78,7 @@ contributions you make are **greatly appreciated**.
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/Tschucki/pr0p0ll/blob/main/LICENSE.md) for more
+Distributed under the AGPL-3.0 License. See [LICENSE](https://github.com/Tschucki/pr0p0ll/blob/main/LICENSE) for more
 information.
 
 ## Authors
