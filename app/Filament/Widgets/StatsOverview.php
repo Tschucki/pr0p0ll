@@ -32,14 +32,6 @@ class StatsOverview extends BaseWidget
             \Cache::put('questions_count', $questions, now()->addHours(12));
         }
 
-        $visitors = (int) Plausible::realtime();
-
-        $aggregates = Plausible::aggregates(
-            period: 'day',
-            metrics: ['visitors'],
-        );
-        $todayVisitors = $aggregates['visitors']['value'];
-
         $answerTypeCounts = QuestionType::where('disabled', false)->get()->map(function (QuestionType $type) {
 
             $cacheKey = $type->title.'answers_count';
@@ -58,8 +50,6 @@ class StatsOverview extends BaseWidget
             Stat::make('Benutzer', Number::abbreviate(User::count())),
             Stat::make('Antworten', Number::abbreviate($answers)),
             Stat::make('Fragen', Number::abbreviate($questions)),
-            Stat::make('Aktuelle Besucher', Number::abbreviate($visitors)),
-            Stat::make('Heutige Besucher', Number::abbreviate($todayVisitors)),
             ...$answerTypeCounts,
         ];
     }
