@@ -142,7 +142,7 @@ class PollParticipation extends Page
             });
 
             $this->getPoll()->participants()->attach(Auth::id(), [
-                'rating' => (int) $data['rating'],
+                'rating' => $data['rating'],
             ]);
 
             $this->callHook('afterSave');
