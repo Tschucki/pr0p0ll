@@ -357,7 +357,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     initial: { opacity: 0, y: 100 },
     enter: { opacity: 1, y: 0, scale: 1 },
     delay: 150
-  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"> Coming Soon! </h1><p class="mt-6 text-xl text-[#f2f5f4]/80"> Ein Reboot der alten pr0p0ll-Plattform für <a href="https://pr0gramm.com">pr0gramm</a>-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist komplett Open-Source und ist auf <a href="https://github.com/tschucki/pr0p0ll" target="_blank">GitHub</a> einsehbar </p></div></div><div class="mx-auto mt-16 max-w-7xl lg:px-8"><div class="mx-auto max-w-2xl lg:max-w-none"><div><dl class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:grid-cols-none"><a${ssrRenderAttrs(mergeProps({
+  }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"> pr0p0ll ist zurück! </h1><p class="mt-6 text-xl text-[#f2f5f4]/80"> Ein Reboot der alten pr0p0ll-Plattform für <a href="https://pr0gramm.com">pr0gramm</a>-Nutzer, um Umfragen zu erstellen und zu beantworten. Das Projekt ist komplett Open-Source und ist auf <a href="https://github.com/tschucki/pr0p0ll" target="_blank">GitHub</a> einsehbar </p></div></div><div class="mx-auto mt-16 max-w-7xl lg:px-8"><div class="mx-auto max-w-2xl lg:max-w-none"><div><dl class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:grid-cols-none"><a${ssrRenderAttrs(mergeProps({
     href: "https://github.com/Tschucki",
     target: "_blank",
     initial: { opacity: 0, y: 100 },
