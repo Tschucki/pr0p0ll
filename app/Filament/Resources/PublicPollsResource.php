@@ -79,7 +79,7 @@ class PublicPollsResource extends Resource
                         Grid::make()->schema([
                             TextEntry::make('min_age')->label('Mindestalter')->state($poll->target_group[0]['data']['min_age'] ?? 'Egal'),
                             TextEntry::make('max_age')->label('Höchstalter')->state($poll->target_group[0]['data']['max_age'] ?? 'Egal'),
-                            TextEntry::make('nationality')->label('Nationalität')->state(isset($poll->target_group[0]['data']['nationality']) ? Nationality::from($poll->target_group[0]['data']['nationality'])->getLabel() : 'Egal'),
+                            TextEntry::make('nationality')->label('Nationalität')->state(isset($poll->target_group[0]['data']['nationality']) ? collect($poll->target_group[0]['data']['nationality'])->filter(fn($n) =>$n !== null)->map(fn(string $n) => Nationality::from($n)->getLabel())->implode(', ') : 'Egal'),
                             TextEntry::make('gender')->label('Geschlecht')->state(isset($poll->target_group[0]['data']['gender']) ? Gender::from($poll->target_group[0]['data']['gender'])->getLabel() : 'Egal'),
                         ]),
                     ];
