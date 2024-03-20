@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             NotificationTypeSeeder::class,
         ]);
 
-        if(config('app.env') === 'local') {
+        if (config('app.env') === 'local') {
             $this->call([
                 UserSeeder::class,
                 PollSeeder::class,

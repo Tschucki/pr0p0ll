@@ -12,7 +12,6 @@ use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Number;
-use NjoguAmos\Plausible\Facades\Plausible;
 
 class StatsOverview extends BaseWidget
 {
