@@ -9,9 +9,11 @@ use App\Models\Polls\Poll;
 use App\Models\Question;
 use App\Models\QuestionType;
 use App\Models\User;
+use Filament\Notifications\Notification;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Number;
+use NjoguAmos\Plausible\Facades\Plausible;
 
 class StatsOverview extends BaseWidget
 {
@@ -33,7 +35,7 @@ class StatsOverview extends BaseWidget
 
         $answerTypeCounts = QuestionType::where('disabled', false)->get()->map(function (QuestionType $type) {
 
-            $cacheKey = $type->title.'answers_count';
+            $cacheKey = $type->title . 'answers_count';
             if (\Cache::has($cacheKey)) {
                 $count = \Cache::get($cacheKey);
             } else {
@@ -41,15 +43,32 @@ class StatsOverview extends BaseWidget
                 \Cache::put($cacheKey, $count, now()->addHours(12));
             }
 
-            return Stat::make('Antworten '.$type->title, Number::abbreviate($count));
+            return Stat::make('Antworten ' . $type->title, Number::abbreviate($count));
         });
 
+        try {
+            $visitors = (int)Plausible::realtime();
+
+            $aggregates = Plausible::aggregates(
+                period: 'day',
+                metrics: ['visitors'],
+            );
+            $todayVisitors = $aggregates['visitors']['value'];
+        } catch (\Exception $e) {
+            Notification::make('plausible_error')->danger()->title('Plausible Fehler')->body('Es gab einen Fehler beim Abrufen der Besucherzahlen.')->send();
+            $visitors = 'Unbekannt';
+            $todayVisitors = 'Unbekannt';
+        }
+
         return [
-            Stat::make('Umfragen', Number::abbreviate(Poll::count())),
-            Stat::make('Benutzer', Number::abbreviate(User::count())),
-            Stat::make('Antworten', Number::abbreviate($answers)),
-            Stat::make('Fragen', Number::abbreviate($questions)),
+            Stat::make('Umfragen', Poll::count()),
+            Stat::make('Benutzer', User::count()),
+            Stat::make('Antworten', $answers),
+            Stat::make('Fragen', $questions),
+            Stat::make('Aktuelle Besucher', $visitors),
+            Stat::make('Heutige Besucher', $todayVisitors),
             ...$answerTypeCounts,
+            Stat::make('Noch eine Idee?', 'Schreib mir!')->url('https://pr0gramm.com/inbox/messages/PimmelmannJones')->openUrlInNewTab(),
         ];
     }
 }
