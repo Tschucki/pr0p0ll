@@ -17,13 +17,14 @@
     <div class="space-y-3 mt-6 w-full">
         @foreach($questions as $key => $question)
             @php
-                $newKey = $key . $data['description_' . $question->properties['answerData']['questionId']] . $data['color']
+                $newKey = $key . $data['description_' . $question->properties['answerData']['questionId']] . $data['color'] . now()->timestamp;
             @endphp
             @if($data['display_' . $question->properties['answerData']['questionId']])
                 @livewire($question->widget, [
                     'subHeading' => $data['description_' . $question->properties['answerData']['questionId']],
                     'answerData' => $question->properties['answerData'],
                     'color' => $data['color'],
+                    'data' => $data,
                 ], key($newKey))
             @endif
         @endforeach

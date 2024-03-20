@@ -13,6 +13,8 @@ class TextAnswersWidget extends Widget
 
     public array $answerData;
 
+    public array $data;
+
     public Question $question;
 
     public ?string $subHeading = null;

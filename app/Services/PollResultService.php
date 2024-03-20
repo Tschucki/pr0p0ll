@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Filament\Resources\MyPollResource\Widgets\ApexAnswerChart;
 use App\Filament\Resources\MyPollResource\Widgets\TextAnswersWidget;
+use App\Models\Answer;
 use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
@@ -60,8 +61,9 @@ class PollResultService
             $query->whereNotNull('answer_value')->where('answer_value', '!=', '');
         })->get();
 
-        $answerValues = $answers->map(function ($answer) {
-            return $answer->answerable->answer_value;
+        // get all answer values with their id
+        $answerValues = $answers->mapWithKeys(function (Answer $answer) {
+            return [$answer->getKey() => $answer->answerable->answer_value];
         })->toArray();
 
         $answersCount = $answers->count();

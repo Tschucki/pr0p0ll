@@ -6,9 +6,11 @@ namespace App\Filament\Pages;
 
 use App\Filament\Resources\MyPollResource;
 use App\Filament\Resources\PublicPollsResource;
+use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Question;
 use App\Services\PollResultService;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -112,10 +114,17 @@ class Pr0PostCreator extends Page
                         TextInput::make('title')->label('Titel')->required(),
                         Textarea::make('description')->label('Beschreibung')->nullable(),
                         ...collect($this->record->questions)->map(function (Question $question) {
-                            return Section::make($question->title)->schema([
+                            $formFields = [
                                 Toggle::make('display_'.$question->getKey())->label('Anzeigen')->inline(),
                                 Textarea::make('description_'.$question->getKey())->label('Beschreibung')->nullable(),
-                            ]);
+                            ];
+                            if ($question->answerType() instanceof TextAnswer) {
+                                $question->answers()->each(function ($answer) use (&$formFields) {
+                                    $formFields[] = Checkbox::make('display_answer_'.$answer->getKey())->label($answer->answerable->answer_value)->inline();
+                                });
+                            }
+
+                            return Section::make($question->title)->schema($formFields);
                         })->toArray(),
                     ])->columnSpan(1),
                 Grid::make()
@@ -151,6 +160,7 @@ class Pr0PostCreator extends Page
             ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['question_title_'.$question->getKey() => $question->title])->toArray(),
             ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'.$question->getKey() => true])->toArray(),
             ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['description_'.$question->getKey() => $question->description])->toArray(),
+            ...collect($this->record->questions)->filter(fn (Question $question) => $question->answerType() instanceof TextAnswer)->mapWithKeys(fn (Question $question) => $question->answers->mapWithKeys(fn ($answer) => ['display_answer_'.$answer->getKey() => true])->toArray())->toArray(),
         ];
         $this->form->fill($this->data);
     }

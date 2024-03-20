@@ -12,10 +12,12 @@
                     </div>
                 @endif
 
-                @foreach($this->getAnswers() as $answer)
+                @foreach($this->getAnswers() as $key => $answer)
+                    @if($data['display_answer_' . $key] ?? true)
                     <div class="text-left mt-2 text-sm tracking-tight text-gray-950 dark:text-white p-2 border border-gray-600 rounded-lg">
                         {{$answer}}
                     </div>
+                    @endif
                 @endforeach
 
                 @if($footerText = $this->getFooterText())
