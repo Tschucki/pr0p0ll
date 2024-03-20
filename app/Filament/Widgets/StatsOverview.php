@@ -35,7 +35,7 @@ class StatsOverview extends BaseWidget
 
         $answerTypeCounts = QuestionType::where('disabled', false)->get()->map(function (QuestionType $type) {
 
-            $cacheKey = $type->title . 'answers_count';
+            $cacheKey = $type->title.'answers_count';
             if (\Cache::has($cacheKey)) {
                 $count = \Cache::get($cacheKey);
             } else {
@@ -43,11 +43,11 @@ class StatsOverview extends BaseWidget
                 \Cache::put($cacheKey, $count, now()->addHours(12));
             }
 
-            return Stat::make('Antworten ' . $type->title, Number::abbreviate($count));
+            return Stat::make('Antworten '.$type->title, Number::abbreviate($count));
         });
 
         try {
-            $visitors = (int)Plausible::realtime();
+            $visitors = (int) Plausible::realtime();
 
             $aggregates = Plausible::aggregates(
                 period: 'day',
