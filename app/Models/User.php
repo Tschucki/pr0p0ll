@@ -199,4 +199,9 @@ class User extends Authenticatable implements BannableInterface, FilamentUser, H
 
         return $dLastChange->addMonths(2)->isPast();
     }
+
+    public function approvedPolls(): HasMany
+    {
+        return $this->hasMany(Poll::class, 'user_id')->where('approved', true);
+    }
 }

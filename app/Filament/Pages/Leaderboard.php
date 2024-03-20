@@ -37,6 +37,7 @@ class Leaderboard extends Page implements HasTable
                 ),
                 TextColumn::make('name')->label('Name'),
                 TextColumn::make('participations_count')->label('Anzahl Teilnahmen')->counts('participations'),
+                TextColumn::make('approved_polls_count')->label('Anzahl Umfragen')->counts('approvedPolls'),
             ])
             ->paginated([10, 25, 50]);
     }
