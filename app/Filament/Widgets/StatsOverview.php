@@ -12,7 +12,6 @@ use App\Models\User;
 use Filament\Notifications\Notification;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\Number;
 use NjoguAmos\Plausible\Facades\Plausible;
 
 class StatsOverview extends BaseWidget
@@ -43,7 +42,7 @@ class StatsOverview extends BaseWidget
                 \Cache::put($cacheKey, $count, now()->addHours(12));
             }
 
-            return Stat::make('Antworten '.$type->title, Number::abbreviate($count));
+            return Stat::make('Antworten '.$type->title, $count);
         });
 
         try {
