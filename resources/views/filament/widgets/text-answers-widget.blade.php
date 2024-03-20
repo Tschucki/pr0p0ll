@@ -1,14 +1,14 @@
 <x-filament-widgets::widget>
     <x-filament::section>
         <div class="sm:flex gap-4 justify-center py-2 relative">
-            <div>
+            <div class="w-full">
                 <div style="color: {{$this->color}}"
                      class="filament-apex-charts-heading text-xl text-center font-semibold leading-6">
                     {{$this->getQuestionTitle()}}
                 </div>
-                @if($description = $this->getQuestionDescription())
+                @if($subHeading)
                     <div class="text-base text-center mt-2 font-medium tracking-tight text-gray-950 dark:text-white">
-                        {{$description}}
+                        {{$subHeading}}
                     </div>
                 @endif
 

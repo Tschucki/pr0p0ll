@@ -15,6 +15,8 @@ class TextAnswersWidget extends Widget
 
     public Question $question;
 
+    public ?string $subHeading = null;
+
     public ?string $color = '#ee4d2e';
 
     public function mount(): void
