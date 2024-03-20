@@ -16,11 +16,16 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             QuestionTypeSeeder::class,
-            //UserSeeder::class,
-            //PollSeeder::class,
             CategorySeeder::class,
             NotificationChannelSeeder::class,
             NotificationTypeSeeder::class,
         ]);
+
+        if(config('app.env') === 'local') {
+            $this->call([
+                UserSeeder::class,
+                PollSeeder::class,
+            ]);
+        }
     }
 }
