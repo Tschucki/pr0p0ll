@@ -1,4 +1,9 @@
 <x-filament-panels::page>
+    @if($description = $this->getDescription())
+        <p>
+            {{ $description }}
+        </p>
+    @endif
     <x-filament-panels::form wire:submit="participate">
         <x-filament::section>
             {{$this->form}}

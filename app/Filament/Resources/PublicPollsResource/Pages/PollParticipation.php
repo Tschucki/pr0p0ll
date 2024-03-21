@@ -49,6 +49,11 @@ class PollParticipation extends Page
         return 'An '.'"'.$this->record->title.'"'.' teilnehmen';
     }
 
+    public function getDescription()
+    {
+        return $this->record->description;
+    }
+
     public function mount(int|string $record)
     {
         $this->record = $this->resolveRecord($record);
