@@ -52,13 +52,13 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\Action::make('reset_data_lock')->label('Daten entsperren')->visible(fn(User $record) => $record->last_data_change?->isPast() ?? false)->action(function (User $user) {
+                Tables\Actions\Action::make('reset_data_lock')->label('Daten entsperren')->visible(fn (User $record) => $record->last_data_change?->isPast() ?? false)->action(function (User $user) {
                     $user->last_data_change = null;
                     $user->save();
                     Notification::make('data_lock_removed')->success()->title('Datensperre entfernt')->body('Die Datensperre wurde entfernt.')->send();
                 })->requiresConfirmation(),
-                BanAction::make()->visible(fn($record) => !$record->isBanned()),
-                UnbanAction::make()->visible(fn($record) => $record->isBanned()),
+                BanAction::make()->visible(fn ($record) => ! $record->isBanned()),
+                UnbanAction::make()->visible(fn ($record) => $record->isBanned()),
 
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -84,7 +84,7 @@ class UserResource extends Resource
                 TextEntry::make('answerable.answer_value')->label('Antwort'),
                 TextEntry::make('poll.title')->label('Umfrage'),
                 TextEntry::make('created_at')->label('Erstellt am')->dateTime('d.m.Y H:i')->suffix(' Uhr'),
-            ])->columns(2)
+            ])->columns(2),
         ])->columns(1);
     }
 

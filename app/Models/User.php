@@ -88,7 +88,7 @@ class User extends Authenticatable implements BannableInterface, FilamentUser, H
 
     public function isAdmin(): bool
     {
-        return (bool)$this->admin;
+        return (bool) $this->admin;
     }
 
     public function getFilamentAvatarUrl(): ?string
