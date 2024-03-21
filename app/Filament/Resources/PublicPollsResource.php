@@ -85,7 +85,7 @@ class PublicPollsResource extends Resource
                         ]),
                     ];
                 })->modalSubmitAction(false)->button()->label('Zielgruppe')->modalHeading('Zielgruppe'),
-                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic()),
+                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic() || \Auth::user()?->isAdmin()),
                 Tables\Actions\Action::make('participate')
                     ->icon('heroicon-o-plus-circle')
                     ->button()
@@ -151,7 +151,19 @@ class PublicPollsResource extends Resource
 
     public static function canViewResults(PublicPoll $poll): bool
     {
-        return static::can('viewAny');
+        if (\Auth::user()?->isAdmin()) {
+            return true;
+        }
+
+        if ($poll->resultsArePublic()) {
+            return true;
+        }
+
+        if (\Auth::user()?->getKey() === $poll->user->getKey()) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function getPages(): array

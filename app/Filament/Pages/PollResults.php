@@ -58,6 +58,7 @@ class PollResults extends Page
 
     public function mount(int|string $record): void
     {
+
         $this->record = $this->resolveRecord($record);
         static::authorizeResourceAccess();
         abort_unless(static::getResource()::canViewResults($this->getRecord()), 403);
