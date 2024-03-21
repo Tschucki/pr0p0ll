@@ -41,7 +41,9 @@ class NewPollAvailablePr0grammNotification extends Notification
             'record' => $this->poll,
         ]);
 
-        return "Hallo, es wurde eine neue Umfrage veröffentlicht.\n".$url;
+        $title = $this->poll->title;
+
+        return "Hallo, es wurde eine neue Umfrage veröffentlicht.\nTitel: {$title}\n\n".$url;
     }
 
     /**
