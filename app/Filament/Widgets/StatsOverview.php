@@ -12,6 +12,7 @@ use App\Models\User;
 use Filament\Notifications\Notification;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Number;
 use NjoguAmos\Plausible\Facades\Plausible;
 
 class StatsOverview extends BaseWidget
@@ -42,7 +43,7 @@ class StatsOverview extends BaseWidget
                 \Cache::put($cacheKey, $count, now()->addHours(12));
             }
 
-            return Stat::make('Antworten '.$type->title, $count);
+            return Stat::make('Antworten '.$type->title, Number::format(number: $count, precision: 0, locale: 'de'));
         });
 
         try {
@@ -55,17 +56,17 @@ class StatsOverview extends BaseWidget
             $todayVisitors = $aggregates['visitors']['value'];
         } catch (\Exception $e) {
             Notification::make('plausible_error')->danger()->title('Plausible Fehler')->body('Es gab einen Fehler beim Abrufen der Besucherzahlen.')->send();
-            $visitors = 'Unbekannt';
-            $todayVisitors = 'Unbekannt';
+            $visitors = 0;
+            $todayVisitors = 0;
         }
 
         return [
-            Stat::make('Umfragen', Poll::count()),
-            Stat::make('Benutzer', User::count()),
-            Stat::make('Antworten', $answers),
-            Stat::make('Fragen', $questions),
-            Stat::make('Aktuelle Besucher', $visitors),
-            Stat::make('Heutige Besucher', $todayVisitors),
+            Stat::make('Umfragen', Number::format(number: Poll::where('approved', true)->count(), precision: 0, locale: 'de')),
+            Stat::make('Benutzer', Number::format(number: User::count(), precision: 0, locale: 'de')),
+            Stat::make('Antworten', Number::format(number: $answers, precision: 0, locale: 'de')),
+            Stat::make('Fragen', Number::format(number: $questions, precision: 0, locale: 'de')),
+            Stat::make('Aktuelle Besucher', Number::format(number: $visitors, precision: 0, locale: 'de')),
+            Stat::make('Heutige Besucher', Number::format(number: $todayVisitors, precision: 0, locale: 'de')),
             ...$answerTypeCounts,
             Stat::make('Noch eine Idee?', 'Schreib mir!')->url('https://pr0gramm.com/inbox/messages/PimmelmannJones')->openUrlInNewTab(),
         ];

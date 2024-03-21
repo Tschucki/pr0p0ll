@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Polls\Poll;
 use App\Models\User;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,8 +17,8 @@ class FrontendController extends Controller
     public function landing(): Response
     {
         return Inertia::render('Frontend/Landing', [
-            'userCount' => (string) User::count(),
-            'pollCount' => (string) Poll::count(),
+            'userCount' => (string) Number::format(number: User::count(), precision: 0, locale: 'de'),
+            'pollCount' => (string) Number::format(number: Poll::where('approved', true)->count(), precision: 0, locale: 'de'),
         ]);
     }
 
