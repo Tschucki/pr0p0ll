@@ -88,7 +88,7 @@ class User extends Authenticatable implements BannableInterface, FilamentUser, H
 
     public function isAdmin(): bool
     {
-        return (bool) $this->admin;
+        return (bool)$this->admin;
     }
 
     public function getFilamentAvatarUrl(): ?string
@@ -203,5 +203,10 @@ class User extends Authenticatable implements BannableInterface, FilamentUser, H
     public function approvedPolls(): HasMany
     {
         return $this->hasMany(Poll::class, 'user_id')->where('approved', true);
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class);
     }
 }
