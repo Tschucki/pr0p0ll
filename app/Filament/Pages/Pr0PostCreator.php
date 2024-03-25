@@ -6,6 +6,8 @@ namespace App\Filament\Pages;
 
 use App\Filament\Resources\MyPollResource;
 use App\Filament\Resources\PublicPollsResource;
+use App\Models\AnswerTypes\MultipleChoiceAnswer;
+use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Question;
 use App\Services\PollResultService;
@@ -124,6 +126,10 @@ class Pr0PostCreator extends Page
                                 });
                             }
 
+                            if ($question->answerType() instanceof SingleOptionAnswer || $question->answerType() instanceof MultipleChoiceAnswer) {
+                                $formFields[] = Toggle::make('horizontal_'.$question->getKey())->label('Als Balkendiagramm')->inline();
+                            }
+
                             return Section::make($question->title)->schema($formFields);
                         })->toArray(),
                     ])->columnSpan(1),
@@ -139,7 +145,18 @@ class Pr0PostCreator extends Page
 
     public function getResults(): array
     {
-        return (new PollResultService($this->record, $this->data['color']))->getAllWidgets();
+        return (new PollResultService($this->record, $this->data['color'], horizontalQuestions: $this->getHorizontalQuestions()))->getAllWidgets();
+    }
+
+    private function getHorizontalQuestions()
+    {
+        $form = $this->data;
+
+        return collect($this->record->questions)->filter(function (Question $question) use ($form) {
+            return $form['horizontal_'.$question->getKey()];
+        })->mapWithKeys(function (Question $question) {
+            return [$question->getKey() => true];
+        })->toArray();
     }
 
     public function getQuestionAnswerCount(string $questionId): int|string
@@ -158,7 +175,7 @@ class Pr0PostCreator extends Page
             'color' => '#ee4d2e',
             'title' => $this->record->title,
             ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['question_title_'.$question->getKey() => $question->title])->toArray(),
-            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'.$question->getKey() => true])->toArray(),
+            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'.$question->getKey() => true, 'horizontal_'.$question->getKey() => false])->toArray(),
             ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['description_'.$question->getKey() => $question->description])->toArray(),
             ...collect($this->record->questions)->filter(fn (Question $question) => $question->answerType() instanceof TextAnswer)->mapWithKeys(fn (Question $question) => $question->answers->mapWithKeys(fn ($answer) => ['display_answer_'.$answer->getKey() => true])->toArray())->toArray(),
         ];

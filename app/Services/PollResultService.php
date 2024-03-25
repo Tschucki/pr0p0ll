@@ -23,13 +23,16 @@ class PollResultService
 
     private string $color;
 
+    private array $horizontalQuestions;
+
     private array $filters;
 
-    public function __construct(PublicPoll $poll, string $color = '#ee4d2e', $filters = [])
+    public function __construct(PublicPoll $poll, string $color = '#ee4d2e', $filters = [], $horizontalQuestions = [])
     {
         $this->poll = $poll;
         $this->color = $color;
         $this->filters = $filters;
+        $this->horizontalQuestions = $horizontalQuestions;
     }
 
     public function getAllWidgets(): array
@@ -146,6 +149,11 @@ class PollResultService
             'poll' => $question->poll,
             'footerText' => $footerText,
             'chartOptions' => [
+                'plotOptions' => [
+                    'bar' => [
+                        'horizontal' => $this->horizontalQuestions[$question->getKey()] ?? false,
+                    ],
+                ],
                 'chart' => [
                     'fontFamily' => 'var(--font-family),ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
                     'type' => 'bar',
