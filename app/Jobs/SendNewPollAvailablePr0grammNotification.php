@@ -40,6 +40,10 @@ class SendNewPollAvailablePr0grammNotification implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->poll->userIsWithinTargetGroup($this->user) === false) {
+            return;
+        }
+
         if (in_array('pr0gramm', $this->user->getNotificationRoutesForType(NotificationType::where('identifier', \App\Enums\NotificationType::NEWPOLLPUBLISHED)->first()), true)) {
             $this->user->notify(new NewPollAvailablePr0grammNotification($this->poll));
         }
