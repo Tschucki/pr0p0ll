@@ -12,6 +12,7 @@ use App\Models\User;
 use Filament\Notifications\Notification;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Flowframe\Trend\Trend;
 use Illuminate\Support\Number;
 use NjoguAmos\Plausible\Facades\Plausible;
 
@@ -60,10 +61,41 @@ class StatsOverview extends BaseWidget
             $todayVisitors = 0;
         }
 
+        $trends = [];
+        $trends['polls'] = Trend::query(Poll::where('approved', true))
+            ->between(
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
+            )
+            ->perMonth()
+            ->count()
+            ->pluck('aggregate')
+            ->toArray();
+
+        $trends['users'] = Trend::model(User::class)
+            ->between(
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
+            )
+            ->perMonth()
+            ->count()
+            ->pluck('aggregate')
+            ->toArray();
+
+        $trends['answers'] = Trend::model(Answer::class)
+            ->between(
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
+            )
+            ->perMonth()
+            ->count()
+            ->pluck('aggregate')
+            ->toArray();
+
         return [
-            Stat::make('Umfragen', Number::format(number: Poll::where('approved', true)->count(), precision: 0, locale: 'de')),
-            Stat::make('Benutzer', Number::format(number: User::count(), precision: 0, locale: 'de')),
-            Stat::make('Antworten', Number::format(number: $answers, precision: 0, locale: 'de')),
+            Stat::make('Umfragen', Number::format(number: Poll::where('approved', true)->count(), precision: 0, locale: 'de'))->chart($trends['polls'])->chartColor('primary'),
+            Stat::make('Benutzer', Number::format(number: User::count(), precision: 0, locale: 'de'))->chart($trends['users'])->chartColor('primary'),
+            Stat::make('Antworten', Number::format(number: $answers, precision: 0, locale: 'de'))->chart($trends['answers'])->chartColor('primary'),
             Stat::make('Fragen', Number::format(number: $questions, precision: 0, locale: 'de')),
             Stat::make('Aktuelle Besucher', Number::format(number: $visitors, precision: 0, locale: 'de')),
             Stat::make('Heutige Besucher', Number::format(number: $todayVisitors, precision: 0, locale: 'de')),
