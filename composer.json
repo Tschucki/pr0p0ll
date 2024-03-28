@@ -30,7 +30,7 @@
         "leandrocfe/filament-apex-charts": "^3.1",
         "njoguamos/laravel-plausible": "^1.2",
         "socialiteproviders/pr0gramm": "^5.0",
-        "tightenco/ziggy": "^1.8",
+        "tightenco/ziggy": "^2.1",
         "tschucki/laravel-notification-channel-pr0gramm": "^0.0.1",
         "widiu7omo/filament-bandel": "^2.0",
         "yepsua/filament-rating-field": "^0.3.0"
