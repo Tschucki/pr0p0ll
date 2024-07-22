@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "344c20cbe4e19b626e2a81c45b5e4488",
+    "content-hash": "3dca1e4e965a0b1d2e9f30547403fd52",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -4679,16 +4679,16 @@
         },
         {
             "name": "njoguamos/laravel-plausible",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/njoguamos/laravel-plausible.git",
-                "reference": "aff1ee3bd89eed2370db3642461bfa92413a4538"
+                "reference": "df618ef938d8ae8e774d93aee42853127f56e8aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/njoguamos/laravel-plausible/zipball/aff1ee3bd89eed2370db3642461bfa92413a4538",
-                "reference": "aff1ee3bd89eed2370db3642461bfa92413a4538",
+                "url": "https://api.github.com/repos/njoguamos/laravel-plausible/zipball/df618ef938d8ae8e774d93aee42853127f56e8aa",
+                "reference": "df618ef938d8ae8e774d93aee42853127f56e8aa",
                 "shasum": ""
             },
             "require": {
@@ -4749,9 +4749,9 @@
             ],
             "support": {
                 "issues": "https://github.com/njoguamos/laravel-plausible/issues",
-                "source": "https://github.com/njoguamos/laravel-plausible/tree/v1.2.0"
+                "source": "https://github.com/njoguamos/laravel-plausible/tree/v1.3.0"
             },
-            "time": "2024-01-27T21:32:02+00:00"
+            "time": "2024-04-07T19:00:33+00:00"
         },
         {
             "name": "nunomaduro/termwind",
