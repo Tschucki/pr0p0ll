@@ -32,7 +32,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
-use Yepsua\Filament\Tables\Components\RatingColumn;
 
 class MyPollResource extends Resource
 {
@@ -175,7 +174,6 @@ class MyPollResource extends Resource
                 Tables\Columns\TextColumn::make('title')->label('Titel')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('answers_count')->counts('answers')->label('Anzahl Antworten')->sortable()->toggleable(),
                 Tables\Columns\TextColumn::make('participants_count')->counts('participants')->label('Anzahl Teilnehmer')->sortable()->toggleable(),
-                RatingColumn::make('rating')->state(fn (MyPoll $myPoll) => $myPoll->participants()->avg('rating'))->label('Bewertung')->toggleable(),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime('d.m.Y H:i')->suffix(' Uhr')->label('Änderungsdatum')->sortable()->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d.m.Y H:i')->suffix(' Uhr')->label('Erstelldatum')->sortable()->toggleable()->toggledHiddenByDefault(),
             ])
