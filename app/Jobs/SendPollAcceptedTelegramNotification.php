@@ -7,6 +7,7 @@ namespace App\Jobs;
 use App\Models\Polls\Poll;
 use App\Models\User;
 use App\Notifications\Telegram\NewPollAvailableTelegramNotification;
+use DragonCode\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,7 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 
-class SendPollAcceptedTelegramNotification implements ShouldQueue
+class SendPollAcceptedTelegramNotification implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -40,5 +41,15 @@ class SendPollAcceptedTelegramNotification implements ShouldQueue
     public function handle(): void
     {
         Notification::route('telegram', config('services.telegram-bot-api.channel'))->notify(new NewPollAvailableTelegramNotification($this->poll));
+    }
+
+    public function uniqueId()
+    {
+        return $this->poll->getKey();
+    }
+
+    public function uniqueFor(): int
+    {
+        return 3600;
     }
 }

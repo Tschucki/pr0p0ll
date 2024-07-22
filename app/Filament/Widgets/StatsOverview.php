@@ -13,6 +13,7 @@ use Filament\Notifications\Notification;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Flowframe\Trend\Trend;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Number;
 use NjoguAmos\Plausible\Facades\Plausible;
 
@@ -20,28 +21,28 @@ class StatsOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        if (\Cache::has('answers_count')) {
-            $answers = \Cache::get('answers_count');
+        if (Cache::has('answers_count')) {
+            $answers = Cache::get('answers_count');
         } else {
             $answers = Answer::count();
-            \Cache::put('answers_count', $answers, now()->addHours(12));
+            Cache::put('answers_count', $answers, now()->addHours(12));
         }
 
-        if (\Cache::has('questions_count')) {
-            $questions = \Cache::get('questions_count');
+        if (Cache::has('questions_count')) {
+            $questions = Cache::get('questions_count');
         } else {
             $questions = Question::count();
-            \Cache::put('questions_count', $questions, now()->addHours(12));
+            Cache::put('questions_count', $questions, now()->addHours(12));
         }
 
         $answerTypeCounts = QuestionType::where('disabled', false)->get()->map(function (QuestionType $type) {
 
             $cacheKey = $type->title.'answers_count';
-            if (\Cache::has($cacheKey)) {
-                $count = \Cache::get($cacheKey);
+            if (Cache::has($cacheKey)) {
+                $count = Cache::get($cacheKey);
             } else {
                 $count = Answer::where('answerable_type', $type->answerType()->getMorphClass())->count();
-                \Cache::put($cacheKey, $count, now()->addHours(12));
+                Cache::put($cacheKey, $count, now()->addHours(12));
             }
 
             return Stat::make('Antworten '.$type->title, Number::format(number: $count, precision: 0, locale: 'de'));
@@ -64,8 +65,8 @@ class StatsOverview extends BaseWidget
         $trends = [];
         $trends['polls'] = Trend::query(Poll::where('approved', true))
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: now()->startOfMonth(),
+                end: now()->endOfMonth(),
             )
             ->perMonth()
             ->count()
@@ -74,8 +75,8 @@ class StatsOverview extends BaseWidget
 
         $trends['users'] = Trend::model(User::class)
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: now()->startOfMonth(),
+                end: now()->endOfMonth(),
             )
             ->perMonth()
             ->count()
@@ -84,8 +85,8 @@ class StatsOverview extends BaseWidget
 
         $trends['answers'] = Trend::model(Answer::class)
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: now()->startOfMonth(),
+                end: now()->endOfMonth(),
             )
             ->perMonth()
             ->count()
