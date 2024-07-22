@@ -64,8 +64,8 @@ class StatsOverview extends BaseWidget
         $trends = [];
         $trends['polls'] = Trend::query(Poll::where('approved', true))
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: now()->startOfMonth(),
+                end: now()->endOfMonth(),
             )
             ->perMonth()
             ->count()
@@ -74,8 +74,8 @@ class StatsOverview extends BaseWidget
 
         $trends['users'] = Trend::model(User::class)
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: now()->startOfMonth(),
+                end: now()->endOfMonth(),
             )
             ->perMonth()
             ->count()
@@ -84,8 +84,8 @@ class StatsOverview extends BaseWidget
 
         $trends['answers'] = Trend::model(Answer::class)
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: now()->startOfMonth(),
+                end: now()->endOfMonth(),
             )
             ->perMonth()
             ->count()
