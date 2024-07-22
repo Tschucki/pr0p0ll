@@ -42,7 +42,7 @@ class TargetGroupService
             ->when($aTargetGroupData['gender'], fn (Builder $query) => $query->where('gender', $aTargetGroupData['gender']))
             ->when($aTargetGroupData['nationality'], fn (Builder $query) => $query->whereIn('nationality', $aTargetGroupData['nationality']))
             ->when($aTargetGroupData['minAge'], fn (Builder $query) => $query->whereDate('birthday', '<=', Carbon::now()->subYears($aTargetGroupData['minAge'])))
-            ->when($aTargetGroupData['maxAge'], fn (Builder $query) => $query->whereDate('birthday', '>', Carbon::now()->subYears($aTargetGroupData['maxAge'])))
+            ->when($aTargetGroupData['maxAge'], fn (Builder $query) => $query->whereDate('birthday', '>=', Carbon::now()->subYears($aTargetGroupData['maxAge'])))
             ->when($aTargetGroupData['region'], fn (Builder $query) => $query->whereIn('region', $aTargetGroupData['region']));
 
         return $query;
