@@ -21,6 +21,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Number;
 
 class PublicPollsResource extends Resource
 {
@@ -58,15 +60,15 @@ class PublicPollsResource extends Resource
                     Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->prefix('Von: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : ''),
                     Tables\Columns\TextColumn::make('participants_count')->counts('participants')->prefix('Teilnehmer: ')->label('Teilnehmerzahl'),
                     Tables\Columns\TextColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->icon(function (PublicPoll $poll) {
-                        return $poll->userIsWithinTargetGroup(\Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
+                        return $poll->userIsWithinTargetGroup(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
                     })->iconColor(function (PublicPoll $poll) {
-                        return $poll->userIsWithinTargetGroup(\Auth::user()) ? 'success' : 'danger';
-                    })->prefix('In Zielgruppe: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user()) ? 'Ja' : 'Nein'),
+                        return $poll->userIsWithinTargetGroup(Auth::user()) ? 'success' : 'danger';
+                    })->prefix('In Zielgruppe: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(Auth::user()) ? 'Ja' : 'Nein'),
                     Tables\Columns\TextColumn::make('participated')->label('Teilgenommen')->icon(function (PublicPoll $poll) {
-                        return $poll->userParticipated(\Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
+                        return $poll->userParticipated(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
                     })->iconColor(function (PublicPoll $poll) {
-                        return $poll->userParticipated(\Auth::user()) ? 'success' : 'danger';
-                    })->state(fn (PublicPoll $poll) => $poll->userParticipated(\Auth::user()) ? 'Ja' : 'Nein')->prefix('Teilgenommen: '),
+                        return $poll->userParticipated(Auth::user()) ? 'success' : 'danger';
+                    })->state(fn (PublicPoll $poll) => $poll->userParticipated(Auth::user()) ? 'Ja' : 'Nein')->prefix('Teilgenommen: '),
                 ]),
             ])
             ->filters([])
@@ -85,13 +87,13 @@ class PublicPollsResource extends Resource
                         ]),
                     ];
                 })->modalSubmitAction(false)->button()->label('Zielgruppe')->modalHeading('Zielgruppe'),
-                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic() || \Auth::user()?->isAdmin()),
+                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic() || Auth::user()?->isAdmin()),
                 Tables\Actions\Action::make('participate')
                     ->icon('heroicon-o-plus-circle')
                     ->button()
                     ->label('Teilnehmen')
                     ->url(fn (PublicPoll $publicPoll): string => route('filament.pr0p0ll.resources.umfragen.teilnehmen', ['record' => $publicPoll]))
-                    ->disabled(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(\Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(\Auth::user()) || $publicPoll->hasEnded()),
+                    ->disabled(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(Auth::user()) || $publicPoll->hasEnded()),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('in_target_group')
@@ -103,11 +105,11 @@ class PublicPollsResource extends Resource
                     ->default(fn (Page $livewire) => $livewire->activeTab === 'offene-umfragen' ? '1' : null)
                     ->query(function (Builder $query, $data) {
                         if ($data['value'] === '1') {
-                            $pollIdsWithinTargetGroup = PublicPoll::all()->filter(fn ($poll) => $poll->userIsWithinTargetGroup(\Auth::user()) === true)->pluck('id');
+                            $pollIdsWithinTargetGroup = PublicPoll::all()->filter(fn ($poll) => $poll->userIsWithinTargetGroup(Auth::user()) === true)->pluck('id');
                             $query->whereIn('id', $pollIdsWithinTargetGroup);
                         }
                         if ($data['value'] === '0') {
-                            $pollIdsWithinTargetGroup = PublicPoll::all()->filter(fn ($poll) => $poll->userIsWithinTargetGroup(\Auth::user()) === false)->pluck('id');
+                            $pollIdsWithinTargetGroup = PublicPoll::all()->filter(fn ($poll) => $poll->userIsWithinTargetGroup(Auth::user()) === false)->pluck('id');
                             $query->whereIn('id', $pollIdsWithinTargetGroup);
                         }
                     }),
@@ -134,7 +136,7 @@ class PublicPollsResource extends Resource
     {
         // TODO: Add Cache
         $notParticipatedPolls = PublicPoll::whereDoesntHave('participants', static function (Builder $query) {
-            $query->where('participant_id', \Auth::id());
+            $query->where('participant_id', Auth::id());
         })
             ->where('original_content_link', null)
             ->where('visible_to_public', true)
@@ -144,14 +146,14 @@ class PublicPollsResource extends Resource
             ->withoutGlobalScope(SoftDeletingScope::class)
             ->get();
 
-        $inTargetGroup = $notParticipatedPolls->filter(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user()));
+        $inTargetGroup = $notParticipatedPolls->filter(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(Auth::user()));
 
-        return \Number::abbreviate($inTargetGroup->count());
+        return Number::abbreviate($inTargetGroup->count());
     }
 
     public static function canViewResults(PublicPoll $poll): bool
     {
-        if (\Auth::user()?->isAdmin()) {
+        if (Auth::user()?->isAdmin()) {
             return true;
         }
 
@@ -159,7 +161,7 @@ class PublicPollsResource extends Resource
             return true;
         }
 
-        if (\Auth::user()?->getKey() === $poll->user->getKey()) {
+        if (Auth::user()?->getKey() === $poll->user->getKey()) {
             return true;
         }
 
