@@ -16,7 +16,7 @@
         "ext-sodium": "*",
         "ext-zip": "*",
         "cybercog/laravel-ban": "^4.9",
-        "filament/filament": "3.2.15",
+        "filament/filament": "^3.2",
         "flowframe/laravel-trend": "^0.2.0",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.11",
@@ -33,7 +33,7 @@
         "tightenco/ziggy": "^1.8",
         "tschucki/laravel-notification-channel-pr0gramm": "^0.0.1",
         "widiu7omo/filament-bandel": "^2.0",
-        "yepsua/filament-rating-field": "^0.3.0"
+        "yepsua/filament-rating-field": "^0.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
