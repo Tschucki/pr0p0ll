@@ -42,7 +42,7 @@
         </svg>
     </a>
 
-    <a href="https://github.com/tschucki/pr0p0ll"
+    <a href="https://github.com/Tschucki/pr0p0ll/releases/tag/{{ \Illuminate\Support\Str::remove('v', config('app.version')) }}"
        class="block transition duration-200 text-stone-800 hover:text-black dark:text-gray-300 dark:hover:text-white"
        aria-label="GitHub" target="_blank"
        rel="noopener">
