@@ -2,6 +2,13 @@
     use App\Enums\ClosesAfter;$data = $this->data;
     $color = $data['color'];
     $questions = $this->getResults();
+    /**
+    * @var PublicPoll $record
+     * */
+    $record = $this->record;
+    $femaleParticipants = $record->getAmountOfParticipantsByGender(Gender::FEMALE);
+    $maleParticipants = $record->getAmountOfParticipantsByGender(Gender::MALE);
+    $averageAge = $record->getAverageAgeOfParticipants();
 @endphp
 
 <div
@@ -43,6 +50,23 @@
             </tr>
         </table>
     </div>
+    <div class="border-t border-white/10 p-4">
+        <div class="text-center">Teilnehmer Informationen</div>
+        <table class="table-fixed w-full">
+            <tr>
+                <td class="text-center">Männer: {{ $maleParticipants }}</td>
+                <td class="text-center">Frauen: {{ $femaleParticipants }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    Durchschnittsalter: {{ $averageAge }} Jahre
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="border-t border-white/10 py-4 px-20 text-center">
+        <span>Die Ergebnisse sind nun auch auf der Webseite einsehbar. Dort ist auch das Filtern nach demografischen Daten möglich.</span>
+    </div>
     <div class="border-t border-white/10 pt-2 px-2 w-full">
         <div class="flex items-center justify-center flex-col">
             <div style="height: auto;" class="fi-logo inline-flex">
@@ -60,26 +84,26 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
-    const delay = ms => new Promise(res => setTimeout(res, ms));
-    downloadImage = () => {
-        html2canvas(document.getElementById('pr0post'), {
-            backgroundColor: '#161618',
-            logging: true,
-            useCORS: true,
-            onclone: function(document) {
-                const post = document.getElementById('pr0post')
-                post.style.backgroundColor = '#161618';
-                post.style.borderRadius = 0;
-                post.style.maxWidth = '1052px';
-                post.style.boxShadow = 'none';
-            }
-        }).then(function(canvas) {
-            let a = document.createElement('a');
-            a.href = canvas.toDataURL('image/png');
-            a.download = '{{$data['title']}}' + '.png';
-            a.click();
-        });
-    }
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  downloadImage = () => {
+    html2canvas(document.getElementById('pr0post'), {
+      backgroundColor: '#161618',
+      logging: true,
+      useCORS: true,
+      onclone: function(document) {
+        const post = document.getElementById('pr0post')
+        post.style.backgroundColor = '#161618';
+        post.style.borderRadius = 0;
+        post.style.maxWidth = '1052px';
+        post.style.boxShadow = 'none';
+      }
+    }).then(function(canvas) {
+      let a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = '{{$data['title']}}' + '.png';
+      a.click();
+    });
+  }
 </script>
 
 <style>

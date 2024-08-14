@@ -16,6 +16,7 @@ use App\Models\Question;
 use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class PollResultService
 {
@@ -177,7 +178,7 @@ class PollResultService
                     ],
                 ],
                 'xaxis' => [
-                    'categories' => $options->toArray(),
+                    'categories' => $this->createOptionsLabels($options),
                     'labels' => [
                         'style' => [
                             'colors' => '#f2f5f4',
@@ -200,6 +201,19 @@ class PollResultService
         ];
 
         return ApexAnswerChart::make(['answerData' => $answerData]);
+    }
+
+    private function createOptionsLabels(Collection $options)
+    {
+        // options consist of multiple strings
+        // wrap each string in a separate array
+        // inside of each array i want always wrap 2 strings in another array within the array
+        // remove the keys and return the array
+        return $options->map(function ($option) {
+            return explode(' ', $option);
+        })->map(function ($option) {
+            return array_values($option);
+        })->values()->toArray();
     }
 
     private function getOptionsAnswerCounts(Question $question, Collection $options, string $answerType): Collection

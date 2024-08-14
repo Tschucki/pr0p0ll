@@ -12,6 +12,7 @@ use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Question;
 use App\Services\PollResultService;
 use Filament\Actions\Action;
+use Filament\Actions\StaticAction;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
@@ -26,6 +27,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\HtmlString;
+use Filament\Notifications\Actions\Action as NotificationAction;
 
 class Pr0PostCreator extends Page
 {
@@ -70,6 +72,13 @@ class Pr0PostCreator extends Page
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('note_action_bars')
+                ->label('Kleiner Hinweis')
+                ->modalWidth('xl')
+                ->modalSubmitAction(false)
+                ->modalCancelAction(fn (StaticAction $action) => $action->label('Ja okay'))
+                ->modalDescription('Sollten einige Antworten nicht ordentlich lesbar sein, dann versuche es mit einem Balkendiagramm.')
+                ->modalHeading('Test'),
             Action::make('download')->label('Herunterladen')->extraAttributes([
                 'onclick' => new HtmlString('downloadImage()'),
             ])->action(fn () => Notification::make('converting_started')->warning()->title('Post wird erstellt')->body('Dein Post wird erstellt. Dies kann einige Sekunden dauern.')->send()),

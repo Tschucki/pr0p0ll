@@ -4,12 +4,12 @@
     "src": "resources/assets/imgs/pr0p0ll.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CAUMM98o.css",
+    "file": "assets/app-6eSZABeh.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/filament/pr0p0ll/theme.css": {
-    "file": "assets/theme-d1gT3UYY.css",
+    "file": "assets/theme-viXpF10F.css",
     "src": "resources/css/filament/pr0p0ll/theme.css",
     "isEntry": true
   },
@@ -22,11 +22,11 @@
     "src": "resources/fonts/Mona-Sans.var.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-gLCS4brl.js",
+    "file": "assets/app-hh4Yx_yL.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-CAUMM98o.css"
+      "assets/app-6eSZABeh.css"
     ],
     "assets": [
       "assets/pr0p0ll-fRda7U6F.png",
