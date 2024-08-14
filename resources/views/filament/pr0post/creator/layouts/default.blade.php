@@ -1,5 +1,9 @@
 @php
-    use App\Enums\ClosesAfter;$data = $this->data;
+    use App\Enums\ClosesAfter;
+    use App\Enums\Gender;
+    use App\Models\Polls\PublicPoll;
+
+    $data = $this->data;
     $color = $data['color'];
     $questions = $this->getResults();
     /**
@@ -12,12 +16,12 @@
 @endphp
 
 <div
-    class="bg-[#161618] py-2 fi-section rounded-xl shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10"
-    id="pr0post">
+        class="bg-[#161618] py-2 fi-section rounded-xl shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10"
+        id="pr0post">
     <h1 class="text-center text-3xl font-medium" @if($data['color'])style="color: {{$data['color']}}"@endif>pr0p0ll
         Umfrageauswertung</h1>
     <h1 class="text-center text-3xl mt-2 font-medium">Thema: <span
-            @if($data['color'])style="color: {{$data['color']}}"@endif>{{$data['title']}}</span></h1>
+                @if($data['color'])style="color: {{$data['color']}}"@endif>{{$data['title']}}</span></h1>
     @if($data['description'])
         <p class="text-center text-xl mt-2 font-medium">{{$data['description']}}</span></p>
     @endif
