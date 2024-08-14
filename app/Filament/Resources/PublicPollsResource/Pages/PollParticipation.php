@@ -201,6 +201,17 @@ class PollParticipation extends Page
         ];
     }
 
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('participate_header')
+                ->label('Antworten abgeben')
+                ->action(fn () => $this->participate()),
+
+            $this->getCancelFormAction(),
+        ];
+    }
+
     protected function getCancelFormAction(): Action
     {
         return $this->backAction();
