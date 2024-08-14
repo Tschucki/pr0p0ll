@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Number;
 
 abstract class Poll extends Model
 {
@@ -220,10 +221,10 @@ abstract class Poll extends Model
 
     public function getAverageAgeOfParticipants()
     {
-        return $this->answers()->whereHas('anonymousUser', function (Builder $query) {
+        return Number::format($this->answers()->whereHas('anonymousUser', function (Builder $query) {
             $query->whereNotNull('birthday');
         })->distinct('anonymous_user_id')->get()->map(function (Answer $answer) {
             return Carbon::make($answer->anonymousUser->birthday)->age;
-        })->average();
+        })->average(), 0);
     }
 }
