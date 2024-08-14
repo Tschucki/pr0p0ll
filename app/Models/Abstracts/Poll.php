@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Abstracts;
 
+use App\Enums\Gender;
 use App\Jobs\SendNewPollAvailableEmailNotification;
 use App\Jobs\SendNewPollAvailablePr0grammNotification;
 use App\Jobs\SendPollAcceptedEmailNotification;
@@ -208,5 +209,21 @@ abstract class Poll extends Model
         }
 
         return TargetGroupService::userIsWithinTargetGroup($this->target_group, $user);
+    }
+
+    public function getAmountOfParticipantsByGender(Gender $gender)
+    {
+        return $this->answers()->whereHas('anonymousUser', function (Builder $query) use ($gender) {
+            $query->where('gender', $gender);
+        })->distinct('anonymous_user_id')->count();
+    }
+
+    public function getAverageAgeOfParticipants()
+    {
+        return $this->answers()->whereHas('anonymousUser', function (Builder $query) {
+            $query->whereNotNull('birthday');
+        })->distinct('anonymous_user_id')->get()->map(function (Answer $answer) {
+            return Carbon::make($answer->anonymousUser->birthday)->age;
+        })->average();
     }
 }
