@@ -24,7 +24,7 @@
         "laravel-notification-channels/telegram": "^4.0",
         "laravel/framework": "^10.10",
         "laravel/horizon": "^5.23",
-        "laravel/pulse": "^1.0@beta",
+        "laravel/pulse": "^1.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "^3.1",
@@ -33,7 +33,7 @@
         "tightenco/ziggy": "^1.8",
         "tschucki/laravel-notification-channel-pr0gramm": "^0.0.1",
         "widiu7omo/filament-bandel": "^2.0",
-        "yepsua/filament-rating-field": "^0.4"
+        "yepsua/filament-rating-field": "^0.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
