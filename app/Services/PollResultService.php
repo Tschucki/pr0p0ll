@@ -16,7 +16,6 @@ use App\Models\Question;
 use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 class PollResultService
 {
