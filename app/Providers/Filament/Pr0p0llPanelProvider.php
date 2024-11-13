@@ -56,6 +56,7 @@ class Pr0p0llPanelProvider extends PanelProvider
                 MenuItem::make()->label('Impressum')->url('/impressum')->icon('heroicon-o-home-modern'),
                 MenuItem::make()->label('Datenschutz')->url('/datenschutz')->icon('heroicon-o-shield-check'),
             ])
+            ->darkMode(isForced: true)
             ->font('Inter')
             ->middleware([
                 EncryptCookies::class,
