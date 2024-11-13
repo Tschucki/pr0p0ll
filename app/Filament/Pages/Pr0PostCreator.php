@@ -27,7 +27,6 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\HtmlString;
-use Filament\Notifications\Actions\Action as NotificationAction;
 
 class Pr0PostCreator extends Page
 {

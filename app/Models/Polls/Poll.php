@@ -6,6 +6,4 @@ namespace App\Models\Polls;
 
 use App\Models\Abstracts\Poll as AbstractPoll;
 
-class Poll extends AbstractPoll
-{
-}
+class Poll extends AbstractPoll {}
