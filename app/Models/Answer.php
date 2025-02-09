@@ -8,32 +8,34 @@ use App\Models\Polls\MyPoll;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Answer extends Model
 {
     protected $guarded = [];
 
-    public function poll(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function poll(): BelongsTo
     {
         return $this->belongsTo(MyPoll::class);
     }
 
-    public function question(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
     }
 
-    public function answerable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    public function answerable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function anonymousUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function anonymousUser(): BelongsTo
     {
         return $this->belongsTo(AnonymousUser::class);
     }

@@ -29,8 +29,8 @@ class AnonymousUser extends Model
         return $this->hasMany(Answer::class, 'anonymous_user_id');
     }
 
-    public function getAgeAttribute()
+    public function getAgeAttribute(): ?int
     {
-        return $this->birthday->age;
+        return $this->birthday?->age;
     }
 }
