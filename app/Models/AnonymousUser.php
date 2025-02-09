@@ -20,8 +20,17 @@ class AnonymousUser extends Model
         'birthday' => 'date',
     ];
 
+    protected $appends = [
+        'age',
+    ];
+
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class, 'anonymous_user_id');
+    }
+
+    public function getAgeAttribute()
+    {
+        return $this->birthday->age;
     }
 }

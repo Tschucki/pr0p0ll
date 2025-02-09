@@ -7,10 +7,13 @@ namespace App\Filament\Pages;
 use App\Enums\Gender;
 use App\Enums\Nationality;
 use App\Enums\Region;
+use App\Filament\Exports\AnswerExporter;
 use App\Filament\Resources\PublicPollsResource;
 use App\Models\Polls\PublicPoll;
 use App\Services\PollResultService;
+use Auth;
 use Filament\Actions\Action;
+use Filament\Actions\ExportAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -20,6 +23,7 @@ use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 
 class PollResults extends Page
@@ -83,6 +87,12 @@ class PollResults extends Page
             Action::make('create_post')->label('Pr0-Post erstellen')->button()->url(route('filament.pr0p0ll.resources.umfragen.pr0post', [
                 'record' => $this->getRecord(),
             ]))->visible(fn (PublicPoll $poll) => $poll->hasEnded()),
+            ExportAction::make('export')
+                ->label('Exportieren')
+                ->button()
+                ->exporter(AnswerExporter::class)
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('poll_id', $this->getRecord()->id))
+                ->visible(fn (PublicPoll $poll) => $poll->hasEnded() || Auth::user()?->isAdmin() || $poll->user_id === Auth::user()->id),
         ];
     }
 
