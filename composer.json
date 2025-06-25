@@ -25,6 +25,7 @@
         "laravel-notification-channels/telegram": "^4.0",
         "laravel/framework": "^10.10",
         "laravel/horizon": "^5.23",
+        "laravel/nightwatch": "^1.8",
         "laravel/pulse": "^1.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
