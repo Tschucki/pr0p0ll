@@ -31,7 +31,7 @@ class EditMyPoll extends EditRecord
                 'title' => $question['data']['title'],
                 'description' => $question['data']['description'],
                 'question_type_id' => $question['data']['question_type_id'],
-                'options' => collect($question['data']['options'])->filter(function ($option) {
+                'options' => collect($question['data']['options'] ?? [])->filter(function ($option) {
                     return $option['title'] !== null;
                 })->map(function ($option) {
                     return [
