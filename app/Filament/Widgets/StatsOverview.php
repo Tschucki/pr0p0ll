@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Widgets;
 
+use Exception;
 use App\Models\Answer;
 use App\Models\Polls\Poll;
 use App\Models\Question;
@@ -56,7 +57,7 @@ class StatsOverview extends BaseWidget
                 metrics: ['visitors'],
             );
             $todayVisitors = $aggregates['visitors']['value'];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Notification::make('plausible_error')->danger()->title('Plausible Fehler')->body('Es gab einen Fehler beim Abrufen der Besucherzahlen.')->send();
             $visitors = 0;
             $todayVisitors = 0;

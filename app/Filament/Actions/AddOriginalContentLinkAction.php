@@ -13,7 +13,7 @@ class AddOriginalContentLinkAction
 {
     public static function make(): Action
     {
-        return Action::make('add_original_content')->form([
+        return Action::make('add_original_content')->schema([
             TextInput::make('original_content_link')->label('Original Content Link')->required()->url()->activeUrl()->startsWith('https://pr0gramm.com')->placeholder('https://pr0gramm.com/new/6092537'),
         ])->action(function (MyPoll $poll, array $data) {
             $link = $data['original_content_link'];

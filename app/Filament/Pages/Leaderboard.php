@@ -16,9 +16,9 @@ class Leaderboard extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-table-cells';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-table-cells';
 
-    protected static string $view = 'filament.pages.leaderboard';
+    protected string $view = 'filament.pages.leaderboard';
 
     public function table(Table $table): Table
     {

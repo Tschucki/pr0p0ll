@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Filament\Resources\MyPollResource\Widgets\ApexAnswerChart;
-use App\Filament\Resources\MyPollResource\Widgets\TextAnswersWidget;
+use App\Filament\Resources\MyPolls\Widgets\ApexAnswerChart;
+use App\Filament\Resources\MyPolls\Widgets\TextAnswersWidget;
 use App\Models\Answer;
 use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
