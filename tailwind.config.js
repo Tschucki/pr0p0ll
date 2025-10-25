@@ -1,17 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [
-        './app/Filament/**/*.php',
+  content: [
+    './app/Filament/**/*.php',
         './resources/views/filament/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
-        "./resources/**/*.vue",
+        './resources/**/*.js',
+        './resources/**/*.vue',
+        './resources/**/*.vue',
     ],
     theme: {
         fontFamily: {
             'sans': ['Mona Sans', 'system-ui'],
-            'serif': ['Mona Sans', 'Georgia',],
+            'serif': ['Mona Sans', 'Georgia'],
         },
         extend: {
             colors: {
@@ -69,4 +69,4 @@ export default {
             }),
         },
     },
-}
+};

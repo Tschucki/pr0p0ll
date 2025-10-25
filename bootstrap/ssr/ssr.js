@@ -1,5 +1,5 @@
-import { useSSRContext, mergeProps, withCtx, unref, createVNode, createTextVNode, openBlock, createBlock, createCommentVNode, resolveDirective, toDisplayString, resolveComponent, createSSRApp, h } from "vue";
-import { ssrRenderAttrs, ssrRenderSlot, ssrRenderComponent, ssrRenderAttr, ssrGetDirectiveProps, ssrRenderStyle, ssrInterpolate } from "vue/server-renderer";
+import { mergeProps, useSSRContext, withCtx, unref, createVNode, createTextVNode, createBlock, createCommentVNode, openBlock, resolveDirective, toDisplayString, resolveComponent, createSSRApp, h } from "vue";
+import { ssrRenderAttrs, ssrRenderSlot, ssrRenderComponent, ssrRenderAttr, ssrRenderStyle, ssrGetDirectiveProps, ssrInterpolate } from "vue/server-renderer";
 import { Link, Head, createInertiaApp } from "@inertiajs/vue3";
 import createServer from "@inertiajs/vue3/server";
 import { renderToString } from "@vue/server-renderer";
@@ -41,7 +41,7 @@ _sfc_main$8.setup = (props, ctx) => {
   return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
 const Pr0Button = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$2]]);
-const pr0p0llImage = "/build/assets/pr0p0ll-fRda7U6F.png";
+const pr0p0llImage = "/build/assets/pr0p0ll-B9F1rtTo.png";
 const _sfc_main$7 = {
   __name: "Header",
   __ssrInlineRender: true,
@@ -286,7 +286,7 @@ const _sfc_main$4 = /* @__PURE__ */ Object.assign({
         initial: { opacity: 0, y: 100 },
         enter: { opacity: 1, y: 0, scale: 1 },
         delay: 150
-      }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"> Impressum </h1></div></div><div class="prose prose-invert mt-16 prose-p:text-[#f2f5f4]/80">${__props.imprint}</div></div>`);
+      }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"> Impressum </h1></div></div><div class="prose prose-invert prose-p:text-[#f2f5f4]/80 mt-16">${__props.imprint ?? ""}</div></div>`);
     };
   }
 });
@@ -632,7 +632,7 @@ const _sfc_main$1 = /* @__PURE__ */ Object.assign({
         initial: { opacity: 0, y: 100 },
         enter: { opacity: 1, y: 0, scale: 1 },
         delay: 150
-      }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"><span class="hidden sm:flex">Datenschutzerklärung</span><span class="flex sm:hidden">Datenschutz-erklärung</span></h1></div></div><div class="prose prose-invert mt-16 prose-p:text-[#f2f5f4]/80">${__props.privacy}</div></div>`);
+      }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"><span class="hidden sm:flex">Datenschutzerklärung</span><span class="flex sm:hidden">Datenschutz-erklärung</span></h1></div></div><div class="prose prose-invert prose-p:text-[#f2f5f4]/80 mt-16">${__props.privacy ?? ""}</div></div>`);
     };
   }
 });
@@ -668,7 +668,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({
         initial: { opacity: 0, y: 100 },
         enter: { opacity: 1, y: 0, scale: 1 },
         delay: 150
-      }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"><span class="hidden sm:flex">Nutzungsbedingungen</span><span class="flex sm:hidden">Nutzungs-bedingungen</span></h1></div></div><div class="prose prose-invert mt-16 prose-p:text-[#f2f5f4]/80">${__props.terms}</div></div>`);
+      }, ssrGetDirectiveProps(_ctx, _directive_motion)))}><h1 class="font-display text-5xl font-medium tracking-tight text-[#f2f5f4] [text-wrap:balance] sm:text-7xl"><span class="hidden sm:flex">Nutzungsbedingungen</span><span class="flex sm:hidden">Nutzungs-bedingungen</span></h1></div></div><div class="prose prose-invert prose-p:text-[#f2f5f4]/80 mt-16">${__props.terms ?? ""}</div></div>`);
     };
   }
 });
