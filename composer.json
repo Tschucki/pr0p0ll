@@ -38,7 +38,6 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
         "fakerphp/faker": "^1.9.1",
-        "filament/upgrade": "^4.0",
         "laravel-lang/common": "^6.1",
         "laravel/dusk": "^8.0",
         "laravel/pint": "^1.0",
