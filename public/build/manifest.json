@@ -1,36 +1,37 @@
 {
   "resources/assets/imgs/pr0p0ll.png": {
-    "file": "assets/pr0p0ll-fRda7U6F.png",
+    "file": "assets/pr0p0ll-B9F1rtTo.png",
     "src": "resources/assets/imgs/pr0p0ll.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-yrwtiMrs.css",
+    "file": "assets/app-CY8IUxli.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/filament/pr0p0ll/theme.css": {
-    "file": "assets/theme-3OxXUwP2.css",
+    "file": "assets/theme-45S20WPM.css",
     "src": "resources/css/filament/pr0p0ll/theme.css",
     "isEntry": true
   },
   "resources/fonts/Inter.ttf": {
-    "file": "assets/Inter-peAEB6fa.ttf",
+    "file": "assets/Inter-Cl4AQHp9.ttf",
     "src": "resources/fonts/Inter.ttf"
   },
   "resources/fonts/Mona-Sans.var.woff2": {
-    "file": "assets/Mona-Sans.var-8VeH-Hlu.woff2",
+    "file": "assets/Mona-Sans.var-DxV4f4eW.woff2",
     "src": "resources/fonts/Mona-Sans.var.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-pcN2fUab.js",
+    "file": "assets/app-BIVdan48.js",
+    "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-yrwtiMrs.css"
+      "assets/app-CY8IUxli.css"
     ],
     "assets": [
-      "assets/pr0p0ll-fRda7U6F.png",
-      "assets/Mona-Sans.var-8VeH-Hlu.woff2"
+      "assets/pr0p0ll-B9F1rtTo.png",
+      "assets/Mona-Sans.var-DxV4f4eW.woff2"
     ]
   }
 }

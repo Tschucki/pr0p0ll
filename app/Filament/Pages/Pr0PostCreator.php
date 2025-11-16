@@ -4,25 +4,24 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
-use App\Filament\Resources\MyPollResource;
-use App\Filament\Resources\PublicPollsResource;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
+use App\Filament\Resources\MyPolls\MyPollResource;
+use App\Filament\Resources\PublicPolls\PublicPollsResource;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Question;
 use App\Services\PollResultService;
 use Filament\Actions\Action;
-use Filament\Actions\StaticAction;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ViewField;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
@@ -36,7 +35,7 @@ class Pr0PostCreator extends Page
 
     protected static ?string $title = 'Pr0-Post erstellen';
 
-    protected static string $view = 'filament.pages.pr0-post-creator';
+    protected string $view = 'filament.pages.pr0-post-creator';
 
     public ?array $data = [];
 
@@ -75,7 +74,7 @@ class Pr0PostCreator extends Page
                 ->label('Kleiner Hinweis')
                 ->modalWidth('xl')
                 ->modalSubmitAction(false)
-                ->modalCancelAction(fn (StaticAction $action) => $action->label('Ja okay'))
+                ->modalCancelAction(fn (Action $action) => $action->label('Ja okay'))
                 ->modalDescription('Sollten einige Antworten nicht ordentlich lesbar sein, dann versuche es mit einem Balkendiagramm.')
                 ->modalHeading('Test'),
             Action::make('download')->label('Herunterladen')->extraAttributes([
@@ -84,11 +83,11 @@ class Pr0PostCreator extends Page
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->live(true)
-            ->schema([
+            ->components([
                 $this->getPr0PostCreator(),
             ])
             ->model($this->record)

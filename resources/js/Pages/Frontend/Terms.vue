@@ -33,7 +33,7 @@ defineOptions({
       </div>
     </div>
     <div
-      class="prose prose-invert mt-16 prose-p:text-[#f2f5f4]/80"
+      class="prose prose-invert prose-p:text-[#f2f5f4]/80 mt-16"
       v-html="terms"></div>
   </div>
 </template>

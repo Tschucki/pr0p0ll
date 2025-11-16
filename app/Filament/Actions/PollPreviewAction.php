@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions;
 
+use Filament\Schemas\Components\Section;
 use App\Models\Abstracts\Poll;
 use App\Services\PollFormService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
@@ -17,7 +17,7 @@ class PollPreviewAction
 {
     public static function make($fullPreview = true): Action
     {
-        return Action::make('Vorschau anzeigen')->form(function (Model $poll) use ($fullPreview) {
+        return Action::make('Vorschau anzeigen')->schema(function (Model $poll) use ($fullPreview) {
             if (! ($poll instanceof Poll)) {
                 Notification::make('invalid_poll_given')->title('Ungültige Umfrage')->body('Die Umfrage konnte nicht aufgelöst werden')->danger()->send();
 

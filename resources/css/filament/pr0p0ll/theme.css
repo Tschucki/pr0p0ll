@@ -1,6 +1,7 @@
-@import '/vendor/filament/filament/resources/css/theme.css';
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
 
-@config 'tailwind.config.js';
+@source '../../../../app/Filament';
+@source '../../../../resources/views/filament';
 
 @font-face {
   font-family: 'Inter';
@@ -12,7 +13,7 @@
 .fi-sidebar,
 .fi-main,
 .fi-main-ctn {
-  @apply bg-[#161618] !important;
+  @apply !bg-[#161618];
 }
 
 .fi-theme-switcher {

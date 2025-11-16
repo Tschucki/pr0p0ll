@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Hash;
+use Str;
 use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +37,7 @@ class Pr0authController extends Controller
         ], [
             'name' => $user->name,
             'pr0gramm_identifier' => $user->user['identifier'],
-            'password' => \Hash::make(\Str::password(24)),
+            'password' => Hash::make(Str::password(24)),
         ]);
 
         Auth::login($user, true);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use SocialiteProviders\Manager\SocialiteWasCalled;
+use SocialiteProviders\Pr0gramm\Pr0grammExtendSocialite;
 use App\Models\Polls\MyPoll;
 use App\Observers\MyPollObserver;
 use Illuminate\Auth\Events\Registered;
@@ -22,8 +24,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            \SocialiteProviders\Pr0gramm\Pr0grammExtendSocialite::class.'@handle',
+        SocialiteWasCalled::class => [
+            Pr0grammExtendSocialite::class.'@handle',
         ],
     ];
 

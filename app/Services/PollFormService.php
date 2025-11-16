@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use InvalidArgumentException;
 use App\Enums\QuestionType;
 use App\Models\Abstracts\Poll;
 use App\Models\Question;
@@ -67,7 +68,7 @@ class PollFormService
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getComponent(\App\Models\QuestionType $questionType, Question $question): Field
     {
@@ -85,7 +86,7 @@ class PollFormService
             QuestionType::DATETIME->value => DateTimePicker::make((string) $questionKey)->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
             QuestionType::COLOR->value => ColorPicker::make((string) $questionKey),
             QuestionType::NUMBER->value => TextInput::make((string) $questionKey)->numeric(),
-            default => throw new \InvalidArgumentException('Unknown question type'),
+            default => throw new InvalidArgumentException('Unknown question type'),
         };
     }
 

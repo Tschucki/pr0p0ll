@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
 use App\Enums\Gender;
 use App\Enums\Nationality;
 use App\Enums\Region;
 use App\Filament\Exports\AnswerExporter;
-use App\Filament\Resources\PublicPollsResource;
+use App\Filament\Resources\PublicPolls\PublicPollsResource;
 use App\Models\Polls\PublicPoll;
 use App\Services\PollResultService;
 use Auth;
@@ -17,8 +19,6 @@ use Filament\Actions\ExportAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Filament\Widgets\Widget;
@@ -52,7 +52,7 @@ class PollResults extends Page
 
     protected static string $resource = PublicPollsResource::class;
 
-    protected static string $view = 'filament.pages.my-poll-results';
+    protected string $view = 'filament.pages.my-poll-results';
 
     protected static ?string $title = 'Ergebnisse';
 
@@ -96,11 +96,11 @@ class PollResults extends Page
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->live(true)
-            ->schema([
+            ->components([
                 Select::make('gender')->afterStateUpdated(function (Get $get) {
                     $this->gender = $get('gender');
                     $this->update();
