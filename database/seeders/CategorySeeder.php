@@ -142,12 +142,9 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            $categoryModel = Category::create(['title' => $category['title']]);
+            $categoryModel = Category::firstOrCreate(['title' => $category['title'], 'parent_id' => null]);
             foreach ($category['children'] as $child) {
-                Category::create([
-                    'title' => $child['title'],
-                    'parent_id' => $categoryModel->getKey(),
-                ]);
+                Category::firstOrCreate(['title' => $child['title'], 'parent_id' => $categoryModel->getKey()]);
             }
         }
     }

@@ -46,7 +46,7 @@ class NotificationTypeSeeder extends Seeder
         ];
 
         foreach ($types as $type) {
-            NotificationType::create($type);
+            NotificationType::firstOrCreate(['identifier' => $type['identifier']], $type);
         }
     }
 }

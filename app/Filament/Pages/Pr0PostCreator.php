@@ -6,11 +6,14 @@ namespace App\Filament\Pages;
 
 use App\Filament\Resources\MyPollResource;
 use App\Filament\Resources\PublicPollsResource;
+use App\Jobs\GenerateResultPostScreenshot;
+use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Question;
 use App\Services\PollResultService;
+use App\Support\ResultPostConfig;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
@@ -25,13 +28,11 @@ use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Auth;
 
 class Pr0PostCreator extends Page
 {
     use InteractsWithRecord;
-
-    protected static string $resource = PublicPollsResource::class;
 
     protected static ?string $title = 'Pr0-Post erstellen';
 
@@ -40,6 +41,8 @@ class Pr0PostCreator extends Page
     public ?array $data = [];
 
     public int $participants = 0;
+
+    protected static string $resource = PublicPollsResource::class;
 
     public function getTitle(): string
     {
@@ -70,16 +73,27 @@ class Pr0PostCreator extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('note_action_bars')
-                ->label('Kleiner Hinweis')
-                ->modalWidth('xl')
-                ->modalSubmitAction(false)
-                ->modalCancelAction(fn (Action $action) => $action->label('Ja okay'))
-                ->modalDescription('Sollten einige Antworten nicht ordentlich lesbar sein, dann versuche es mit einem Balkendiagramm.')
-                ->modalHeading('Test'),
-            Action::make('download')->label('Herunterladen')->extraAttributes([
-                'onclick' => new HtmlString('downloadImage()'),
-            ])->action(fn () => Notification::make('converting_started')->warning()->title('Post wird erstellt')->body('Dein Post wird erstellt. Dies kann einige Sekunden dauern.')->send()),
+            Action::make('save')
+                ->label('Konfiguration speichern')
+                ->icon('heroicon-o-check')
+                ->action(function (): void {
+                    $config = ResultPostConfig::fromFlatForm($this->data, $this->record);
+                    $this->record->update(['result_post_config' => $config->toArray()]);
+                    Notification::make('config_saved')->success()->title('Gespeichert')->body('Deine Auswertungs-Konfiguration wurde gespeichert.')->send();
+                }),
+            Action::make('download')
+                ->label('Bild generieren')
+                ->icon('heroicon-o-photo')
+                ->action(function (): void {
+                    $config = ResultPostConfig::fromFlatForm($this->data, $this->record);
+                    GenerateResultPostScreenshot::dispatch($this->record, Auth::user(), $config->toArray());
+
+                    Notification::make('screenshot_queued')
+                        ->info()
+                        ->title('Bild wird erstellt')
+                        ->body('Dein Auswertungs-Bild wird im Hintergrund erzeugt. Du erhältst eine Benachrichtigung mit dem Download-Link, sobald es fertig ist.')
+                        ->send();
+                }),
         ];
     }
 
@@ -97,8 +111,10 @@ class Pr0PostCreator extends Page
     protected function getPr0PostCreator(): Component
     {
         return Section::make()
+            ->columns(3)
             ->schema([
                 Grid::make(1)
+                    ->columnSpan(1)
                     ->schema([
                         Select::make('color')->options([
                             '#ee4d2e' => 'Bewährtes Orange',
@@ -122,70 +138,63 @@ class Pr0PostCreator extends Page
                         ])->default('#ee4d2e')->prefixIcon('heroicon-o-swatch')->label('Farbe'),
                         TextInput::make('title')->label('Titel')->required(),
                         Textarea::make('description')->label('Beschreibung')->nullable(),
-                        ...collect($this->record->questions)->map(function (Question $question) {
-                            $formFields = [
-                                Toggle::make('display_'.$question->getKey())->label('Anzeigen')->inline(),
-                                Textarea::make('description_'.$question->getKey())->label('Beschreibung')->nullable(),
-                            ];
-                            if ($question->answerType() instanceof TextAnswer) {
-                                $question->answers()->each(function ($answer) use (&$formFields) {
-                                    $formFields[] = Checkbox::make('display_answer_'.$answer->getKey())->label($answer->answerable->answer_value)->inline();
-                                });
-                            }
-
-                            if ($question->answerType() instanceof SingleOptionAnswer || $question->answerType() instanceof MultipleChoiceAnswer) {
-                                $formFields[] = Toggle::make('horizontal_'.$question->getKey())->label('Als Balkendiagramm')->inline();
-                            }
-
-                            return Section::make($question->title)->schema($formFields);
-                        })->toArray(),
-                    ])->columnSpan(1),
+                        Toggle::make('show_demographics')->label('Teilnehmer-Informationen anzeigen')->default(true),
+                        ...$this->getQuestionConfigFields(),
+                    ]),
                 Grid::make()
+                    ->columnSpan(2)
                     ->schema([
-                        ViewField::make('preview.default')
-                            ->columnSpan(2)
+                        ViewField::make('preview')
+                            ->columnSpanFull()
                             ->hiddenLabel()
                             ->view('filament.pr0post.creator.layouts.default'),
-                    ])->columnSpan(2),
-            ])->columns(3);
+                    ]),
+            ]);
     }
 
-    public function getResults(): array
+    protected function getQuestionConfigFields(): array
     {
-        return (new PollResultService($this->record, $this->data['color'], horizontalQuestions: $this->getHorizontalQuestions()))->getAllWidgets();
-    }
+        return collect($this->record->questions)->map(function (Question $question) {
+            $key = $question->getKey();
+            $type = $question->answerType();
 
-    private function getHorizontalQuestions()
-    {
-        $form = $this->data;
+            $aFields = [
+                Toggle::make('display_'.$key)->label('Anzeigen')->default(true),
+                TextInput::make('title_'.$key)->label('Titel'),
+                Textarea::make('description_'.$key)->label('Beschreibung')->nullable(),
+            ];
 
-        return collect($this->record->questions)->filter(function (Question $question) use ($form) {
-            return $form['horizontal_'.$question->getKey()];
-        })->mapWithKeys(function (Question $question) {
-            return [$question->getKey() => true];
+            if ($type instanceof SingleOptionAnswer || $type instanceof MultipleChoiceAnswer || $type instanceof BoolAnswer) {
+                $aFields[] = Select::make('chart_'.$key)->label('Diagramm')->options([
+                    ResultPostConfig::CHART_BAR => 'Balken',
+                    ResultPostConfig::CHART_DONUT => 'Donut',
+                ]);
+            }
+
+            if ($type instanceof TextAnswer) {
+                foreach ($question->answers as $answer) {
+                    if (filled($answer->answerable?->answer_value)) {
+                        $aFields[] = Checkbox::make('answer_'.$answer->getKey())->label($answer->answerable->answer_value);
+                    }
+                }
+            }
+
+            return Section::make($question->title)->schema($aFields)->collapsible()->collapsed();
         })->toArray();
     }
 
-    public function getQuestionAnswerCount(string $questionId): int|string
+    // Render-Model für die Live-Vorschau aus dem aktuellen Form-State.
+    public function getEvaluation(): array
     {
-        $question = Question::find($questionId);
-        if ($question) {
-            return $question->answers()->count();
-        }
+        $config = ResultPostConfig::fromFlatForm($this->data, $this->record);
 
-        return '¯\_(ツ)_/¯';
+        return (new PollResultService($this->record))->buildEvaluation($config);
     }
 
     public function fillForm(): void
     {
-        $this->data = [
-            'color' => '#ee4d2e',
-            'title' => $this->record->title,
-            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['question_title_'.$question->getKey() => $question->title])->toArray(),
-            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['display_'.$question->getKey() => true, 'horizontal_'.$question->getKey() => false])->toArray(),
-            ...collect($this->record->questions)->mapWithKeys(fn (Question $question) => ['description_'.$question->getKey() => $question->description])->toArray(),
-            ...collect($this->record->questions)->filter(fn (Question $question) => $question->answerType() instanceof TextAnswer)->mapWithKeys(fn (Question $question) => $question->answers->mapWithKeys(fn ($answer) => ['display_answer_'.$answer->getKey() => true])->toArray())->toArray(),
-        ];
+        $config = ResultPostConfig::fromArray($this->record->result_post_config, $this->record);
+        $this->data = $config->toFlatForm();
         $this->form->fill($this->data);
     }
 }

@@ -116,6 +116,8 @@ class QuestionTypeSeeder extends Seeder
             ],
         ];
 
-        QuestionType::insert($questionTypes);
+        foreach ($questionTypes as $questionType) {
+            QuestionType::firstOrCreate(['component' => $questionType['component']], $questionType);
+        }
     }
 }

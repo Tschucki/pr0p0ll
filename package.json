@@ -29,6 +29,7 @@
         "@vitejs/plugin-vue": "^5.0.3",
         "@vue/server-renderer": "^3.4.15",
         "@vueuse/motion": "^2.0.0",
+        "puppeteer": "^25.1.0",
         "vue": "^3.4.15"
     }
 }

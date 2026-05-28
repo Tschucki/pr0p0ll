@@ -7,7 +7,6 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Login;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Filament\Enums\ThemeMode;
-use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -15,6 +14,7 @@ use Filament\Navigation\MenuItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -25,18 +25,17 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class Pr0p0llPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        Filament::registerRenderHook(
+        FilamentView::registerRenderHook(
             PanelsRenderHook::USER_MENU_BEFORE,
             static fn (): View => view('filament.header.aftersearch'),
         );
 
-        Filament::registerRenderHook(
+        FilamentView::registerRenderHook(
             PanelsRenderHook::HEAD_END,
             static fn (): HtmlString => new HtmlString(<<<'HTML'
                 <style>
@@ -66,7 +65,6 @@ class Pr0p0llPanelProvider extends PanelProvider
             ])
             ->login(Login::class)
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->plugins([FilamentApexChartsPlugin::make()])
             ->userMenuItems([
                 MenuItem::make()->label('Startseite')->url('/')->icon('heroicon-o-home'),
                 MenuItem::make()->label('Impressum')->url('/impressum')->icon('heroicon-o-home-modern'),
