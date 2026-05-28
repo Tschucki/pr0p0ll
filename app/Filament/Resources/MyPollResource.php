@@ -219,6 +219,7 @@ class MyPollResource extends Resource
                 ->description('Hinweise des Teams zu deiner Umfrage')
                 ->icon('heroicon-o-chat-bubble-left-ellipsis')
                 ->collapsible()
+                ->columnSpanFull()
                 ->schema([
                     TextEntry::make('admin_notes')->hiddenLabel()->markdown(),
                 ])
@@ -227,6 +228,7 @@ class MyPollResource extends Resource
             Section::make(fn (MyPoll $record): string => $record->title)
                 ->description(fn (MyPoll $record): ?string => $record->isInReview() ? 'Diese Umfrage befindet sich in der Überprüfung.' : null)
                 ->icon('heroicon-o-document-text')
+                ->columnSpanFull()
                 ->schema([
                     TextEntry::make('description')
                         ->label('Beschreibung')
@@ -234,11 +236,11 @@ class MyPollResource extends Resource
                         ->columnSpanFull()
                         ->visible(fn (MyPoll $record): bool => filled($record->description)),
 
-                    Grid::make(['sm' => 1, 'md' => 2, 'lg' => 3])->schema([
+                    Grid::make(['sm' => 1, 'md' => 3])->schema([
                         TextEntry::make('not_anonymous')
                             ->label('Anonymität')
                             ->icon(fn (MyPoll $record): string => $record->not_anonymous ? 'heroicon-o-lock-open' : 'heroicon-o-lock-closed')
-                            ->state(fn (MyPoll $record): string => $record->not_anonymous ? 'Dein Name wird angezeigt' : 'Dein Name wird nicht angezeigt'),
+                            ->state(fn (MyPoll $record): string => $record->not_anonymous ? 'Sichtbar' : 'Anonym'),
 
                         TextEntry::make('closes_after')
                             ->label('Ende der Umfrage')
@@ -258,7 +260,7 @@ class MyPollResource extends Resource
                 ->icon('heroicon-o-chart-bar')
                 ->columnSpanFull()
                 ->schema([
-                    Grid::make(['sm' => 2, 'md' => 4])->schema([
+                    Grid::make(['sm' => 2, 'lg' => 4])->schema([
                         TextEntry::make('answers_count')
                             ->label('Antworten')
                             ->icon('heroicon-o-check-badge')
@@ -290,7 +292,7 @@ class MyPollResource extends Resource
                     ]),
                 ])
                 ->visible(fn (MyPoll $record): bool => $record->isApproved()),
-        ]);
+        ])->columns(1);
     }
 
     public static function getRelations(): array

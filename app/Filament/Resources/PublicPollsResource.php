@@ -20,6 +20,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\TextSize;
+use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -67,24 +68,28 @@ class PublicPollsResource extends Resource
                     TextColumn::make('description')
                         ->label('Beschreibung')
                         ->color('gray')
-                        ->limit(140)
+                        ->limit(180)
                         ->searchable(),
 
-                    Stack::make([
-                        TextColumn::make('category.title')
-                            ->label('Kategorie')
-                            ->icon('heroicon-o-tag')
-                            ->color('gray')
-                            ->searchable(),
+                    Split::make([
                         TextColumn::make('user.name')
                             ->label('Ersteller')
                             ->icon('heroicon-o-user')
                             ->color('gray')
+                            ->grow(false)
                             ->state(fn (PublicPoll $record): string => $record->not_anonymous ? $record->user->name : 'Anonym'),
+                        TextColumn::make('category.title')
+                            ->label('Kategorie')
+                            ->icon('heroicon-o-tag')
+                            ->color('gray')
+                            ->grow(false)
+                            ->placeholder('Allgemein')
+                            ->searchable(),
                         TextColumn::make('participants_count')
                             ->label('Teilnehmer')
                             ->icon('heroicon-o-users')
                             ->color('gray')
+                            ->grow(false)
                             ->counts('participants'),
                         TextColumn::make('closes_after')
                             ->label('Endet')
@@ -92,23 +97,25 @@ class PublicPollsResource extends Resource
                             ->color('gray')
                             ->state(fn (PublicPoll $record): string => $record->hasEnded()
                                 ? 'Geschlossen'
-                                : Carbon::make($record->published_at)?->add($record->closes_after)->diffForHumans().' ('.$record->closes_at->format('d.m.Y H:i').' Uhr)'),
-                    ])->space(1),
+                                : Carbon::make($record->published_at)?->add($record->closes_after)->diffForHumans()),
+                    ]),
 
-                    Stack::make([
+                    Split::make([
                         TextColumn::make('within_target_group')
                             ->label('Zielgruppe')
                             ->badge()
+                            ->grow(false)
                             ->icon(fn (PublicPoll $record): string => $record->userIsWithinTargetGroup(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
                             ->color(fn (PublicPoll $record): string => $record->userIsWithinTargetGroup(Auth::user()) ? 'success' : 'danger')
                             ->state(fn (PublicPoll $record): string => $record->userIsWithinTargetGroup(Auth::user()) ? 'In Zielgruppe' : 'Außerhalb Zielgruppe'),
                         TextColumn::make('participated')
                             ->label('Teilnahme')
                             ->badge()
+                            ->grow(false)
                             ->icon(fn (PublicPoll $record): string => $record->userParticipated(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
                             ->color(fn (PublicPoll $record): string => $record->userParticipated(Auth::user()) ? 'success' : 'gray')
                             ->state(fn (PublicPoll $record): string => $record->userParticipated(Auth::user()) ? 'Teilgenommen' : 'Noch nicht'),
-                    ])->space(1),
+                    ]),
                 ])->space(2),
             ])
             ->groups([

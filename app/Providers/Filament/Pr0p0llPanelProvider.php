@@ -42,6 +42,9 @@ class Pr0p0llPanelProvider extends PanelProvider
                 <style>
                     .fi-sidebar, .fi-main, .fi-main-ctn { background-color: #161618 !important; }
                     .fi-theme-switcher { display: none; }
+                    .fi-grid > .fi-grid-col > .fi-sc-component > div { height: 100%; }
+                    .fi-grid > .fi-grid-col .fi-sc-section { height: 100%; }
+                    .fi-grid > .fi-grid-col .fi-section { height: 100%; }
                 </style>
             HTML),
         );
