@@ -1,0 +1,14 @@
+{
+    "mcpServers": {
+        "context-mode": {
+            "command": "context-mode"
+        },
+        "laravel-boost": {
+            "command": "php",
+            "args": [
+                "artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
