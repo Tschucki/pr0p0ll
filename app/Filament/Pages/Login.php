@@ -26,13 +26,18 @@ class Login extends \Filament\Auth\Pages\Login
     {
         return Action::make('authenticate')
             ->extraAttributes(['id' => 'loginButton'])
-            ->label('Mit pr0gramm anmelden')
+            ->label('Anmelden')
+            ->size('lg')
             ->submit('login');
     }
 
-    protected function getBackAction()
+    protected function getBackAction(): Action
     {
-        return Action::make('back')->link()->label('Zurück zur Startseite')->url(route('frontend.landing'));
+        return Action::make('back')
+            ->link()
+            ->label('Zurück zur Startseite')
+            ->color('gray')
+            ->url(route('frontend.landing'));
     }
 
     public function mount(): void

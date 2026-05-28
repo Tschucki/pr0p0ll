@@ -27,6 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 | Request::HEADER_X_FORWARDED_PROTO
                 | Request::HEADER_X_FORWARDED_AWS_ELB,
         );
+
+        $middleware->redirectUsersTo('/pr0p0ll');
     })
     ->withSchedule(function (Schedule $schedule): void {
         $schedule->command('app:login-to-pr0gramm')->hourly();
