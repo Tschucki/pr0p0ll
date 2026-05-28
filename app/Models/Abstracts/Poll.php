@@ -42,6 +42,7 @@ abstract class Poll extends Model
         'not_anonymous' => 'boolean',
         'target_group' => 'array',
         'closes_at' => 'datetime',
+        'result_post_config' => 'array',
     ];
 
     public function user(): BelongsTo

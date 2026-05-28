@@ -11,6 +11,7 @@ use App\Filament\Exports\AnswerExporter;
 use App\Filament\Resources\PublicPollsResource;
 use App\Models\Polls\PublicPoll;
 use App\Services\PollResultService;
+use App\Support\ResultPostConfig;
 use Auth;
 use Filament\Actions\Action;
 use Filament\Actions\ExportAction;
@@ -21,8 +22,6 @@ use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Filament\Widgets\Widget;
-use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 
@@ -57,8 +56,6 @@ class PollResults extends Page
     protected static ?string $title = 'Ergebnisse';
 
     public ?array $data = [];
-
-    protected array $widgets = [];
 
     public function mount(int|string $record): void
     {
@@ -102,24 +99,24 @@ class PollResults extends Page
             ->live(true)
             ->schema([
                 Select::make('gender')->afterStateUpdated(function (Get $get) {
-                    $this->gender = $get('gender');
+                    $this->gender = $this->toScalar($get('gender'));
                     $this->update();
                 }
                 )->label('Geschlecht')->options(Gender::class)->columnSpan(1),
                 TextInput::make('min_age')->afterStateUpdated(function (Get $get) {
-                    $this->min_age = $get('min_age');
+                    $this->min_age = $this->toScalar($get('min_age'));
                     $this->update();
                 })->label('Mindestalter')->type('number')->columnSpan(1)->default(0)->minValue(0)->maxValue(99)->default(0),
                 TextInput::make('max_age')->afterStateUpdated(function (Get $get) {
-                    $this->max_age = $get('max_age');
+                    $this->max_age = $this->toScalar($get('max_age'));
                     $this->update();
                 })->label('Maximalalter')->type('number')->columnSpan(1)->default(0)->minValue(0)->maxValue(99)->default(0),
                 Select::make('nationality')->afterStateUpdated(function (Get $get) {
-                    $this->nationality = $get('nationality');
+                    $this->nationality = $this->toScalarArray($get('nationality'));
                     $this->update();
                 })->columnSpan(1)->multiple()->label('Nationalität')->options(Nationality::class)->native(false),
                 Select::make('region')->afterStateUpdated(function (Get $get) {
-                    $this->region = $get('region');
+                    $this->region = $this->toScalarArray($get('region'));
                     $this->update();
                 })->columnSpan(1)->multiple()->label('Region')->options(Region::class)->native(false),
             ])->columns(2)
@@ -130,39 +127,40 @@ class PollResults extends Page
     {
         $this->redirectRoute('filament.pr0p0ll.resources.umfragen.results', [
             'record' => $this->getRecord(),
-            'gender' => $this->data['gender'] ?? null,
-            'nationality' => $this->data['nationality'] ?? null,
-            'min_age' => $this->data['min_age'] ?? null,
-            'max_age' => $this->data['max_age'] ?? null,
-            'region' => $this->data['region'] ?? null,
+            'gender' => $this->gender ?: null,
+            'nationality' => $this->nationality ?: null,
+            'min_age' => $this->min_age ?: null,
+            'max_age' => $this->max_age ?: null,
+            'region' => $this->region ?: null,
         ]);
     }
 
-    public function getWidgetData(): array
+    // Render-Model mit Default-Config + aktiven Demografie-Filtern.
+    public function getEvaluation(): array
     {
-        return [
-            'poll' => $this->record,
+        $aFilters = [
+            'gender' => $this->gender ?: null,
+            'nationality' => $this->nationality ?: null,
+            'region' => $this->region ?: null,
+            'min_age' => $this->min_age ?: null,
+            'max_age' => $this->max_age ?: null,
         ];
+
+        return (new PollResultService($this->record, $aFilters))
+            ->buildEvaluation(ResultPostConfig::default($this->record));
     }
 
-    public function getColumns(): int
+    private function toScalar(mixed $value): ?string
     {
-        return 1;
+        if ($value instanceof \BackedEnum) {
+            return (string) $value->value;
+        }
+
+        return $value === null || $value === '' ? null : (string) $value;
     }
 
-    /**
-     * @return array<class-string<Widget> | WidgetConfiguration>
-     */
-    public function getWidgets(): array
+    private function toScalarArray(mixed $value): array
     {
-        return (new PollResultService($this->record, filters: $this->data))->getAllWidgets();
-    }
-
-    /**
-     * @return array<class-string<Widget> | WidgetConfiguration>
-     */
-    public function getVisibleWidgets(): array
-    {
-        return $this->filterVisibleWidgets($this->getWidgets());
+        return collect($value)->map(fn ($item) => $this->toScalar($item))->filter()->values()->all();
     }
 }

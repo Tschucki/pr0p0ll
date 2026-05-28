@@ -29,9 +29,9 @@
         "laravel/pulse": "^1.4",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
-        "leandrocfe/filament-apex-charts": "^5.1",
         "livewire/livewire": "^4.1",
         "socialiteproviders/pr0gramm": "^5.0",
+        "spatie/browsershot": "^5.4",
         "tightenco/ziggy": "^2.0",
         "tschucki/laravel-notification-channel-pr0gramm": "^0.0.4"
     },

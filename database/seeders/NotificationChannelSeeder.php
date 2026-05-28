@@ -25,7 +25,7 @@ class NotificationChannelSeeder extends Seeder
         ];
 
         foreach ($channels as $channel) {
-            NotificationChannel::create($channel);
+            NotificationChannel::firstOrCreate(['route' => $channel['route']], $channel);
         }
     }
 }
