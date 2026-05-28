@@ -23,7 +23,6 @@ class Leaderboard extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->heading('Rangliste')
             ->description(function (): string {
                 $users = User::withCount(['participations', 'approvedPolls'])
                     ->orderByDesc('participations_count')

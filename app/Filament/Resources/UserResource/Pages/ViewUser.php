@@ -14,6 +14,6 @@ class ViewUser extends ViewRecord
 
     public function getTitle(): string|Htmlable
     {
-        return $this->getRecord()->name.' - Ansehen';
+        return $this->getRecord()->name;
     }
 }

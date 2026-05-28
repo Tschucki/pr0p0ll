@@ -12,6 +12,7 @@ use Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
@@ -47,7 +48,8 @@ class AllPollsResource extends Resource
                     ->icon('heroicon-o-clipboard-document-list')
                     ->sortable()
                     ->searchable()
-                    ->wrap(),
+                    ->limit(50)
+                    ->tooltip(fn (Poll $record): string => $record->title),
                 TextColumn::make('user.name')
                     ->label('Ersteller')
                     ->icon('heroicon-o-user')
@@ -121,6 +123,7 @@ class AllPollsResource extends Resource
         return $schema->components([
             Section::make(fn (Poll $record): string => $record->title)
                 ->icon('heroicon-o-document-text')
+                ->columnSpanFull()
                 ->schema([
                     TextEntry::make('description')
                         ->label('Beschreibung')
@@ -136,7 +139,7 @@ class AllPollsResource extends Resource
                         TextEntry::make('not_anonymous')
                             ->label('Anonymität')
                             ->icon(fn (Poll $record): string => $record->not_anonymous ? 'heroicon-o-lock-open' : 'heroicon-o-lock-closed')
-                            ->state(fn (Poll $record): string => $record->not_anonymous ? 'Sein Name wird angezeigt' : 'Sein Name wird nicht angezeigt'),
+                            ->state(fn (Poll $record): string => $record->not_anonymous ? 'Sichtbar' : 'Anonym'),
 
                         TextEntry::make('closes_after')
                             ->label('Ende der Umfrage')
@@ -144,7 +147,43 @@ class AllPollsResource extends Resource
                             ->state(fn (Poll $record): string => ClosesAfter::from($record->closes_after)->getLabel()),
                     ]),
                 ]),
-        ]);
+
+            Section::make('Statistiken')
+                ->icon('heroicon-o-chart-bar')
+                ->columnSpanFull()
+                ->schema([
+                    Grid::make(['sm' => 2, 'lg' => 4])->schema([
+                        TextEntry::make('answers_count')
+                            ->label('Antworten')
+                            ->icon('heroicon-o-check-badge')
+                            ->state(fn (Poll $record): int => $record->answers()->count()),
+
+                        TextEntry::make('participants_count')
+                            ->label('Teilnehmer')
+                            ->icon('heroicon-o-users')
+                            ->state(fn (Poll $record): int => $record->participants()->count()),
+
+                        TextEntry::make('questions_count')
+                            ->label('Fragen')
+                            ->icon('heroicon-o-question-mark-circle')
+                            ->state(fn (Poll $record): int => $record->questions()->count()),
+
+                        IconEntry::make('approved')
+                            ->label('Status')
+                            ->icon(fn (Poll $record): string => match (true) {
+                                $record->visible_to_public => 'heroicon-o-eye',
+                                $record->in_review => 'heroicon-o-scale',
+                                $record->approved => 'heroicon-o-check-circle',
+                                default => 'heroicon-o-pencil-square',
+                            })
+                            ->color(fn (Poll $record): string => match (true) {
+                                $record->visible_to_public, $record->approved => 'success',
+                                $record->in_review => 'warning',
+                                default => 'gray',
+                            }),
+                    ]),
+                ]),
+        ])->columns(1);
     }
 
     public static function getRelations(): array

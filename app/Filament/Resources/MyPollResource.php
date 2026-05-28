@@ -66,11 +66,33 @@ class MyPollResource extends Resource
             ->components([
                 Tabs::make()->tabs([
                     Tab::make('Allgemein')->schema([
-                        Toggle::make('not_anonymous')->label('Möchtest du die Umfrage so veröffentlichen, dass dein Name sichtbar ist?')->inline(false)->required()->default(true)->helperText('Es geht nur darum ob dein Name bei der Umfrage angezeigt wird. Das pr0p0ll-Team sieht natürlich, dass du diese Umfrage erstellt hast. Das soll dafür sorgen, dass Teilnehmer nicht beeinflusst werden.'),
-                        TextInput::make('title')->label('Titel')->maxLength(255)->required(),
-                        Select::make('category_id')->searchable()->label('Kategorie')->options(fn () => Category::where('enabled', true)->pluck('title', 'id'))->nullable()->native(false),
-                        Textarea::make('description')->label('Beschreibung')->nullable(),
-                        Select::make('closes_after')->label('Ende der Umfrage')->hint('Zeitraum beginnt nachdem die Umfrage genehmigt wurde.')->options(ClosesAfter::class)->default('+3 weeks')->required()->helperText('Es wird dir nicht möglich sein, die Umfrage frühzeitig zu beenden.'),
+                        Section::make('Umfrage-Details')
+                            ->description('Titel, Kategorie und Laufzeit der Umfrage.')
+                            ->icon('heroicon-o-document-text')
+                            ->schema([
+                                Toggle::make('not_anonymous')
+                                    ->label('Möchtest du die Umfrage so veröffentlichen, dass dein Name sichtbar ist?')
+                                    ->inline(false)
+                                    ->required()
+                                    ->default(true)
+                                    ->helperText('Es geht nur darum, ob dein Name bei der Umfrage angezeigt wird. Das pr0p0ll-Team sieht natürlich, dass du diese Umfrage erstellt hast. Das soll dafür sorgen, dass Teilnehmer nicht beeinflusst werden.'),
+                                Grid::make(['sm' => 1, 'md' => 2])->schema([
+                                    TextInput::make('title')->label('Titel')->maxLength(255)->required()->columnSpanFull(),
+                                    Select::make('category_id')
+                                        ->label('Kategorie')
+                                        ->searchable()
+                                        ->options(fn () => Category::where('enabled', true)->pluck('title', 'id'))
+                                        ->nullable()
+                                        ->native(false),
+                                    Select::make('closes_after')
+                                        ->label('Ende der Umfrage')
+                                        ->options(ClosesAfter::class)
+                                        ->default('+3 weeks')
+                                        ->required()
+                                        ->helperText('Zeitraum beginnt nachdem die Umfrage genehmigt wurde. Du kannst sie nicht frühzeitig beenden.'),
+                                ]),
+                                Textarea::make('description')->label('Beschreibung')->nullable()->rows(4)->columnSpanFull(),
+                            ]),
                     ]),
                     Tab::make('Zielgruppe')->schema([
                         Fieldset::make('target_group_count')->label('Potentielle Teilnehmerzahl')

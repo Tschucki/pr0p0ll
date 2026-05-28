@@ -140,8 +140,9 @@ class UserResource extends Resource
         return $schema->components([
             Section::make('Profil')
                 ->icon('heroicon-o-user-circle')
+                ->columnSpanFull()
                 ->schema([
-                    Grid::make(['sm' => 1, 'md' => 2, 'lg' => 4])->schema([
+                    Grid::make(['sm' => 1, 'md' => 2])->schema([
                         TextEntry::make('name')
                             ->label('Name')
                             ->icon('heroicon-o-user'),
@@ -160,8 +161,9 @@ class UserResource extends Resource
 
             Section::make('Aktivität')
                 ->icon('heroicon-o-chart-bar')
+                ->columnSpanFull()
                 ->schema([
-                    Grid::make(['sm' => 2, 'md' => 3])->schema([
+                    Grid::make(['sm' => 1, 'md' => 3])->schema([
                         TextEntry::make('polls_count')
                             ->label('Erstellte Umfragen')
                             ->icon('heroicon-o-clipboard-document-list')
@@ -173,8 +175,7 @@ class UserResource extends Resource
                         TextEntry::make('created_at')
                             ->label('Registriert')
                             ->icon('heroicon-o-calendar')
-                            ->dateTime('d.m.Y H:i')
-                            ->suffix(' Uhr'),
+                            ->date('d.m.Y'),
                     ]),
                 ]),
 
@@ -208,8 +209,9 @@ class UserResource extends Resource
                         ])
                         ->grid(['sm' => 1, 'md' => 2]),
                 ])
+                ->columnSpanFull()
                 ->visible(fn (User $record): bool => $record->answers()->exists()),
-        ]);
+        ])->columns(1);
     }
 
     public static function getPages(): array

@@ -196,7 +196,6 @@ class UserSettingsPage extends Page implements HasForms
                 ->collapsible()
                 ->schema([
                     Tabs::make('notification_channels')
-                        ->contained(false)
                         ->tabs(function (): array {
                             return NotificationChannel::all()->map(function (NotificationChannel $notificationChannel): Tab {
                                 return Tab::make($notificationChannel->title)
