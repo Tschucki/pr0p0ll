@@ -256,6 +256,7 @@ class MyPollResource extends Resource
 
             Section::make('Statistiken')
                 ->icon('heroicon-o-chart-bar')
+                ->columnSpanFull()
                 ->schema([
                     Grid::make(['sm' => 2, 'md' => 4])->schema([
                         TextEntry::make('answers_count')

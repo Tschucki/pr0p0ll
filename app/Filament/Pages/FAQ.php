@@ -59,7 +59,7 @@ class FAQ extends Page
                     ->schema([
                         TextEntry::make('anonymity_info')
                             ->hiddenLabel()
-                            ->state('Antworten werden über einen anonymen Identifier abgelegt. Der Umfrage-Ersteller sieht ausschließlich aggregierte Ergebnisse, nicht deinen Account. Eine Ausnahme bilden Freitext-Antworten — sie werden mit deinem Account verknüpft, damit Spam und Beleidigungen moderiert werden können.'),
+                            ->state('Antworten werden über einen anonymen Identifier abgelegt. Der Umfrage-Ersteller sieht ausschließlich aggregierte Ergebnisse, nicht deinen Account. Eine Ausnahme bilden Freitext-Antworten — sie werden mit deinem Account verknüpft, damit Spam und Beleidigungen moderiert werden können. Aber den Account sieht nur PimmelmannJones (Admin). Der Umfragen-Ersteller sieht deinen Account niemals!'),
                     ]),
 
                 Section::make('Wie melde ich einen Fehler oder eine Idee?')

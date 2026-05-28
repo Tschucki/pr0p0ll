@@ -56,8 +56,7 @@ class Leaderboard extends Page implements HasTable
                     )),
                 TextColumn::make('name')
                     ->label('Name')
-                    ->icon('heroicon-o-user')
-                    ->searchable(),
+                    ->icon('heroicon-o-user'),
                 TextColumn::make('participations_count')
                     ->label('Teilnahmen')
                     ->counts('participations')

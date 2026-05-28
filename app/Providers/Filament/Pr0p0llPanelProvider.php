@@ -31,7 +31,8 @@ class Pr0p0llPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        Filament::registerRenderHook('panels::global-search.after',
+        Filament::registerRenderHook(
+            PanelsRenderHook::USER_MENU_BEFORE,
             static fn (): View => view('filament.header.aftersearch'),
         );
 
