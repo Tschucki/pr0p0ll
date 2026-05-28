@@ -15,7 +15,9 @@ use Filament\Navigation\MenuItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\HtmlString;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -31,6 +33,16 @@ class Pr0p0llPanelProvider extends PanelProvider
     {
         Filament::registerRenderHook('panels::global-search.after',
             static fn (): View => view('filament.header.aftersearch'),
+        );
+
+        Filament::registerRenderHook(
+            PanelsRenderHook::HEAD_END,
+            static fn (): HtmlString => new HtmlString(<<<'HTML'
+                <style>
+                    .fi-sidebar, .fi-main, .fi-main-ctn { background-color: #161618 !important; }
+                    .fi-theme-switcher { display: none; }
+                </style>
+            HTML),
         );
 
         return $panel
