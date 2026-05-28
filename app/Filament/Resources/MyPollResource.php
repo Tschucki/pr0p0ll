@@ -29,11 +29,13 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Utilities\Get;
@@ -129,7 +131,7 @@ class MyPollResource extends Resource
                                         return $state['title'] ? $state['title'].' - '.$questionType->title : $questionType->title;
                                     });
                                 })->toArray();
-                            })->reorderable(false)->collapsible()->collapsed(fn (MyPoll $poll) => $poll)->reactive()->live(true)->blockNumbers(false),
+                            })->reorderable(false)->collapsible()->collapsed(fn (MyPoll $record): MyPoll => $record)->reactive()->live(true)->blockNumbers(false),
                     ]),
                 ])->columnSpanFull(),
             ]);
@@ -139,44 +141,44 @@ class MyPollResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('status')->icon('heroicon-o-cog')->label('Status')->state(function (MyPoll $myPoll) {
-                    if ($myPoll->hasEnded()) {
+                TextColumn::make('status')->icon('heroicon-o-cog')->label('Status')->state(function (MyPoll $record) {
+                    if ($record->hasEnded()) {
                         return 'Beendet';
                     }
-                    if ($myPoll->isVisibleForPublic()) {
+                    if ($record->isVisibleForPublic()) {
                         return 'Öffentlich sichtbar';
                     }
-                    if ($myPoll->isApproved()) {
+                    if ($record->isApproved()) {
                         return 'Genehmigt';
                     }
-                    if ($myPoll->isInReview()) {
+                    if ($record->isInReview()) {
                         return 'In Überprüfung';
                     }
 
                     return 'Entwurf';
-                })->icon(function (MyPoll $myPoll) {
-                    if ($myPoll->hasEnded()) {
+                })->icon(function (MyPoll $record) {
+                    if ($record->hasEnded()) {
                         return 'heroicon-o-lock-closed';
                     }
-                    if ($myPoll->isVisibleForPublic()) {
+                    if ($record->isVisibleForPublic()) {
                         return 'heroicon-o-eye';
                     }
-                    if ($myPoll->isApproved()) {
+                    if ($record->isApproved()) {
                         return 'heroicon-o-check-circle';
                     }
-                    if ($myPoll->isInReview()) {
+                    if ($record->isInReview()) {
                         return 'heroicon-o-scale';
                     }
 
                     return 'heroicon-o-pencil-square';
-                })->iconColor(function (MyPoll $myPoll) {
-                    if ($myPoll->hasEnded()) {
+                })->iconColor(function (MyPoll $record) {
+                    if ($record->hasEnded()) {
                         return 'success';
                     }
-                    if ($myPoll->isVisibleForPublic()) {
+                    if ($record->isVisibleForPublic()) {
                         return 'success';
                     }
-                    if ($myPoll->isApproved()) {
+                    if ($record->isApproved()) {
                         return 'success';
                     }
 
@@ -193,7 +195,11 @@ class MyPollResource extends Resource
                 //
             ])
             ->recordActions([
-                Action::make('results')->visible(fn (MyPoll $poll) => $poll->visible_to_public === true)->button()->label('Ergebnisse ansehen')->url(fn (MyPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll])),
+                Action::make('results')
+                    ->visible(fn (MyPoll $record) => $record->visible_to_public === true)
+                    ->button()
+                    ->label('Ergebnisse ansehen')
+                    ->url(fn (MyPoll $record) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $record])),
                 ViewAction::make()->iconButton(),
                 EditAction::make()->iconButton(),
             ])
@@ -209,23 +215,80 @@ class MyPollResource extends Resource
     public static function infolist(Schema $schema): Schema
     {
         return $schema->components([
-            \Filament\Schemas\Components\Section::make('Nachricht von Admin')->schema([
-                TextEntry::make('admin_notes')->label(''),
-            ])->visible(fn (MyPoll $myPoll) => $myPoll->admin_notes),
-            \Filament\Schemas\Components\Section::make($schema->getRecord()->title)->schema([
-                TextEntry::make('description')->visible(fn (MyPoll $myPoll) => $myPoll->description !== null)->columnSpanFull()->label('Beschreibung')->markdown(),
-                TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn (MyPoll $poll) => ! $poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn (MyPoll $poll) => $poll->not_anonymous ? 'Dein Name wird angezeigt' : 'Dein Name wird nicht angezeigt'),
-                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (MyPoll $poll) => $poll->isVisibleForPublic() ? Carbon::make($poll->closes_after)?->diffForHumans() : ClosesAfter::from($poll->closes_after)->getLabel()),
-                /*Section::make('Statistiken')->schema([
-                    // TODO: Add statistics (participation rate, etc.)
-                ])->columns([
-                    'sm' => 1,
-                    'md' => 2,
-                ]),*/
-            ])->columns([
-                'sm' => 1,
-                'md' => 2,
-            ]),
+            Section::make('Nachricht vom pr0p0ll-Team')
+                ->description('Hinweise des Teams zu deiner Umfrage')
+                ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                ->collapsible()
+                ->schema([
+                    TextEntry::make('admin_notes')->hiddenLabel()->markdown(),
+                ])
+                ->visible(fn (MyPoll $record): bool => filled($record->admin_notes)),
+
+            Section::make(fn (MyPoll $record): string => $record->title)
+                ->description(fn (MyPoll $record): ?string => $record->isInReview() ? 'Diese Umfrage befindet sich in der Überprüfung.' : null)
+                ->icon('heroicon-o-document-text')
+                ->schema([
+                    TextEntry::make('description')
+                        ->label('Beschreibung')
+                        ->markdown()
+                        ->columnSpanFull()
+                        ->visible(fn (MyPoll $record): bool => filled($record->description)),
+
+                    Grid::make(['sm' => 1, 'md' => 2, 'lg' => 3])->schema([
+                        TextEntry::make('not_anonymous')
+                            ->label('Anonymität')
+                            ->icon(fn (MyPoll $record): string => $record->not_anonymous ? 'heroicon-o-lock-open' : 'heroicon-o-lock-closed')
+                            ->state(fn (MyPoll $record): string => $record->not_anonymous ? 'Dein Name wird angezeigt' : 'Dein Name wird nicht angezeigt'),
+
+                        TextEntry::make('closes_after')
+                            ->label('Ende der Umfrage')
+                            ->icon('heroicon-o-clock')
+                            ->state(fn (MyPoll $record): string => $record->isVisibleForPublic()
+                                ? (Carbon::make($record->closes_after)?->diffForHumans() ?? '–')
+                                : ClosesAfter::from($record->closes_after)->getLabel()),
+
+                        TextEntry::make('category.title')
+                            ->label('Kategorie')
+                            ->icon('heroicon-o-tag')
+                            ->placeholder('Keine'),
+                    ]),
+                ]),
+
+            Section::make('Statistiken')
+                ->icon('heroicon-o-chart-bar')
+                ->schema([
+                    Grid::make(['sm' => 2, 'md' => 4])->schema([
+                        TextEntry::make('answers_count')
+                            ->label('Antworten')
+                            ->icon('heroicon-o-check-badge')
+                            ->state(fn (MyPoll $record): int => $record->answers()->count()),
+
+                        TextEntry::make('participants_count')
+                            ->label('Teilnehmer')
+                            ->icon('heroicon-o-users')
+                            ->state(fn (MyPoll $record): int => $record->participants()->count()),
+
+                        TextEntry::make('questions_count')
+                            ->label('Fragen')
+                            ->icon('heroicon-o-question-mark-circle')
+                            ->state(fn (MyPoll $record): int => $record->questions()->count()),
+
+                        IconEntry::make('approved')
+                            ->label('Status')
+                            ->icon(fn (MyPoll $record): string => match (true) {
+                                $record->hasEnded() => 'heroicon-o-lock-closed',
+                                $record->isVisibleForPublic() => 'heroicon-o-eye',
+                                $record->isApproved() => 'heroicon-o-check-circle',
+                                $record->isInReview() => 'heroicon-o-scale',
+                                default => 'heroicon-o-pencil-square',
+                            })
+                            ->color(fn (MyPoll $record): string => match (true) {
+                                $record->hasEnded(), $record->isVisibleForPublic(), $record->isApproved() => 'success',
+                                default => 'warning',
+                            }),
+                    ]),
+                ])
+                ->visible(fn (MyPoll $record): bool => $record->isApproved()),
         ]);
     }
 

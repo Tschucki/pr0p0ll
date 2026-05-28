@@ -86,13 +86,13 @@ class PollResults extends Page
         return [
             Action::make('create_post')->label('Pr0-Post erstellen')->button()->url(route('filament.pr0p0ll.resources.umfragen.pr0post', [
                 'record' => $this->getRecord(),
-            ]))->visible(fn (PublicPoll $poll) => $poll->hasEnded()),
+            ]))->visible(fn (PublicPoll $record) => $record->hasEnded()),
             ExportAction::make('export')
                 ->label('Exportieren')
                 ->button()
                 ->exporter(AnswerExporter::class)
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('poll_id', $this->getRecord()->id))
-                ->visible(fn (PublicPoll $poll) => $poll->hasEnded() || Auth::user()?->isAdmin() || $poll->user_id === Auth::user()->id),
+                ->visible(fn (PublicPoll $record) => $record->hasEnded() || Auth::user()?->isAdmin() || $record->user_id === Auth::user()->id),
         ];
     }
 

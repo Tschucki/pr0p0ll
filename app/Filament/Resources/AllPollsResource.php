@@ -7,7 +7,6 @@ namespace App\Filament\Resources;
 use App\Enums\ClosesAfter;
 use App\Filament\Resources\AllPollsResource\Pages\ListAllPolls;
 use App\Filament\Resources\AllPollsResource\Pages\ViewAllPolls;
-use App\Models\Polls\MyPoll;
 use App\Models\Polls\Poll;
 use Auth;
 use Filament\Actions\BulkActionGroup;
@@ -15,6 +14,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
@@ -70,15 +70,31 @@ class AllPollsResource extends Resource
     public static function infolist(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make($schema->getRecord()->title)->schema([
-                TextEntry::make('description')->columnSpanFull()->label('Beschreibung')->markdown(),
-                TextEntry::make('user.name')->label('Benutzer'),
-                TextEntry::make('not_anonymous')->label('Anonymität')->icon(fn (MyPoll $poll) => ! $poll->not_anonymous ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')->state(fn (MyPoll $poll) => $poll->not_anonymous ? 'Sein Name wird angezeigt' : 'Sein Name wird nicht angezeigt'),
-                TextEntry::make('closes_after')->label('Ende der Umfrage')->icon('heroicon-o-clock')->state(fn (Poll $poll) => ClosesAfter::from($poll->closes_after)->getLabel()),
-            ])->columns([
-                'sm' => 1,
-                'md' => 2,
-            ]),
+            Section::make(fn (Poll $record): string => $record->title)
+                ->icon('heroicon-o-document-text')
+                ->schema([
+                    TextEntry::make('description')
+                        ->label('Beschreibung')
+                        ->markdown()
+                        ->columnSpanFull()
+                        ->visible(fn (Poll $record): bool => filled($record->description)),
+
+                    Grid::make(['sm' => 1, 'md' => 3])->schema([
+                        TextEntry::make('user.name')
+                            ->label('Ersteller')
+                            ->icon('heroicon-o-user'),
+
+                        TextEntry::make('not_anonymous')
+                            ->label('Anonymität')
+                            ->icon(fn (Poll $record): string => $record->not_anonymous ? 'heroicon-o-lock-open' : 'heroicon-o-lock-closed')
+                            ->state(fn (Poll $record): string => $record->not_anonymous ? 'Sein Name wird angezeigt' : 'Sein Name wird nicht angezeigt'),
+
+                        TextEntry::make('closes_after')
+                            ->label('Ende der Umfrage')
+                            ->icon('heroicon-o-clock')
+                            ->state(fn (Poll $record): string => ClosesAfter::from($record->closes_after)->getLabel()),
+                    ]),
+                ]),
         ]);
     }
 

@@ -15,9 +15,9 @@ class DenyPollAction
     {
         return Action::make('Ablehnen')->schema([
             Textarea::make('reason')->required()->placeholder('Grund für die Ablehnung')->label('Grund'),
-        ])->color('danger')->action(function (Poll $poll, array $data) {
-            $poll->deny($data['reason']);
+        ])->color('danger')->action(function (Poll $record, array $data) {
+            $record->deny($data['reason']);
             Notification::make('approve')->success()->title('Abgelehnt')->body('Umfrage wurde abgelehnt')->send();
-        })->visible(fn (Poll $poll) => ! $poll->isApproved() && $poll->isInReview())->requiresConfirmation();
+        })->visible(fn (Poll $record) => ! $record->isApproved() && $record->isInReview())->requiresConfirmation();
     }
 }

@@ -17,13 +17,13 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\HtmlString;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
