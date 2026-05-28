@@ -13,10 +13,13 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -45,14 +48,46 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->searchable()->sortable()->toggleable()->label('ID'),
-                TextColumn::make('name')->searchable()->sortable()->toggleable()->label('Name'),
-                TextColumn::make('polls_count')->label('Anzahl Umfragen')->sortable()->toggleable()->counts('polls'),
-                TextColumn::make('participations_count')->sortable()->toggleable()->label('Anzahl Teilnahmen')->counts('participations'),
-                IconColumn::make('email_verified_at')->boolean()->sortable()->toggleable()->label('E-Mail verifiziert'),
-                IconColumn::make('admin')->boolean()->sortable()->toggleable()->label('Ist Admin'),
-                TextColumn::make('created_at')->sortable()->toggleable()->label('Registriert am')->dateTime('d.m.Y H:i')->suffix(' Uhr'),
+                TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                TextColumn::make('name')
+                    ->label('Name')
+                    ->icon('heroicon-o-user')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('polls_count')
+                    ->label('Umfragen')
+                    ->counts('polls')
+                    ->sortable()
+                    ->alignCenter(),
+                TextColumn::make('participations_count')
+                    ->label('Teilnahmen')
+                    ->counts('participations')
+                    ->sortable()
+                    ->alignCenter(),
+                IconColumn::make('email_verified_at')
+                    ->label('E-Mail verifiziert')
+                    ->boolean()
+                    ->sortable()
+                    ->toggleable(),
+                IconColumn::make('admin')
+                    ->label('Admin')
+                    ->boolean()
+                    ->sortable(),
+                TextColumn::make('created_at')
+                    ->label('Registriert am')
+                    ->dateTime('d.m.Y H:i')
+                    ->suffix(' Uhr')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->emptyStateHeading('Noch keine Benutzer')
+            ->emptyStateIcon('heroicon-o-users')
             ->filters([
                 //
             ])
@@ -103,13 +138,78 @@ class UserResource extends Resource
     public static function infolist(Schema $schema): Schema
     {
         return $schema->components([
-            RepeatableEntry::make('answers')->label('Antworten')->schema([
-                TextEntry::make('question.title')->label('Frage'),
-                TextEntry::make('answerable.answer_value')->label('Antwort'),
-                TextEntry::make('poll.title')->label('Umfrage'),
-                TextEntry::make('created_at')->label('Erstellt am')->dateTime('d.m.Y H:i')->suffix(' Uhr'),
-            ])->columns(2),
-        ])->columns(1);
+            Section::make('Profil')
+                ->icon('heroicon-o-user-circle')
+                ->schema([
+                    Grid::make(['sm' => 1, 'md' => 2, 'lg' => 4])->schema([
+                        TextEntry::make('name')
+                            ->label('Name')
+                            ->icon('heroicon-o-user'),
+                        TextEntry::make('email')
+                            ->label('E-Mail')
+                            ->icon('heroicon-o-envelope')
+                            ->placeholder('—'),
+                        IconEntry::make('email_verified_at')
+                            ->label('E-Mail verifiziert')
+                            ->boolean(),
+                        IconEntry::make('admin')
+                            ->label('Administrator')
+                            ->boolean(),
+                    ]),
+                ]),
+
+            Section::make('Aktivität')
+                ->icon('heroicon-o-chart-bar')
+                ->schema([
+                    Grid::make(['sm' => 2, 'md' => 3])->schema([
+                        TextEntry::make('polls_count')
+                            ->label('Erstellte Umfragen')
+                            ->icon('heroicon-o-clipboard-document-list')
+                            ->state(fn (User $record): int => $record->polls()->count()),
+                        TextEntry::make('participations_count')
+                            ->label('Teilnahmen')
+                            ->icon('heroicon-o-check-badge')
+                            ->state(fn (User $record): int => $record->participations()->count()),
+                        TextEntry::make('created_at')
+                            ->label('Registriert')
+                            ->icon('heroicon-o-calendar')
+                            ->dateTime('d.m.Y H:i')
+                            ->suffix(' Uhr'),
+                    ]),
+                ]),
+
+            Section::make('Antworten')
+                ->description('Alle abgegebenen Antworten dieses Benutzers.')
+                ->icon('heroicon-o-chat-bubble-left-right')
+                ->collapsible()
+                ->collapsed()
+                ->schema([
+                    RepeatableEntry::make('answers')
+                        ->hiddenLabel()
+                        ->schema([
+                            Grid::make(['sm' => 1, 'md' => 2])->schema([
+                                TextEntry::make('poll.title')
+                                    ->label('Umfrage')
+                                    ->icon('heroicon-o-clipboard-document-list')
+                                    ->columnSpanFull(),
+                                TextEntry::make('question.title')
+                                    ->label('Frage')
+                                    ->icon('heroicon-o-question-mark-circle'),
+                                TextEntry::make('answerable.answer_value')
+                                    ->label('Antwort')
+                                    ->icon('heroicon-o-chat-bubble-bottom-center-text'),
+                                TextEntry::make('created_at')
+                                    ->label('Abgegeben am')
+                                    ->icon('heroicon-o-calendar')
+                                    ->dateTime('d.m.Y H:i')
+                                    ->suffix(' Uhr')
+                                    ->columnSpanFull(),
+                            ]),
+                        ])
+                        ->grid(['sm' => 1, 'md' => 2]),
+                ])
+                ->visible(fn (User $record): bool => $record->answers()->exists()),
+        ]);
     }
 
     public static function getPages(): array

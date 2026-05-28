@@ -15,6 +15,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
@@ -37,16 +38,30 @@ class CategoryResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('')->schema([
-                    TextInput::make('title')
-                        ->autofocus()
-                        ->required()
-                        ->maxLength(255)
-                        ->label('Titel'),
-                    Toggle::make('enabled')->label('Aktiv')->default(true),
-                    Textarea::make('description')
-                        ->label('Beschreibung'),
-                ]),
+                Section::make('Kategorie-Details')
+                    ->description('Eine Kategorie hilft Teilnehmern, Umfragen schneller zu finden.')
+                    ->icon('heroicon-o-tag')
+                    ->schema([
+                        Grid::make(['sm' => 1, 'md' => 2])->schema([
+                            TextInput::make('title')
+                                ->label('Titel')
+                                ->autofocus()
+                                ->required()
+                                ->maxLength(255)
+                                ->columnSpan(['md' => 2]),
+                            Toggle::make('enabled')
+                                ->label('Aktiv')
+                                ->helperText('Inaktive Kategorien werden Teilnehmern nicht zur Auswahl angeboten.')
+                                ->default(true)
+                                ->inline(false)
+                                ->columnSpan(['md' => 2]),
+                        ]),
+                        Textarea::make('description')
+                            ->label('Beschreibung')
+                            ->rows(3)
+                            ->maxLength(1000)
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -54,9 +69,32 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')->label('Titel'),
-                IconColumn::make('enabled')->label('Aktiv')->boolean(),
+                TextColumn::make('title')
+                    ->label('Titel')
+                    ->icon('heroicon-o-tag')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('description')
+                    ->label('Beschreibung')
+                    ->limit(60)
+                    ->toggleable()
+                    ->wrap(),
+                IconColumn::make('enabled')
+                    ->label('Aktiv')
+                    ->boolean()
+                    ->sortable(),
+                TextColumn::make('created_at')
+                    ->label('Erstellt am')
+                    ->dateTime('d.m.Y H:i')
+                    ->suffix(' Uhr')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
             ])
+            ->defaultSort('title')
+            ->emptyStateHeading('Noch keine Kategorien')
+            ->emptyStateDescription('Lege die erste Kategorie an, damit Umfragen einsortiert werden können.')
+            ->emptyStateIcon('heroicon-o-tag')
             ->filters([
                 //
             ])

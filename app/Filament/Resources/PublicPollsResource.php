@@ -19,6 +19,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\TextSize;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -58,28 +59,64 @@ class PublicPollsResource extends Resource
         return $table
             ->columns([
                 Stack::make([
-                    TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->prefix('Titel: ')->searchable(),
-                    TextColumn::make('description')->label('Beschreibung')->searchable(),
-                    TextColumn::make('category.title')->prefix('Kategorie: ')->label('Kategorie')->searchable(),
-                    TextColumn::make('closes_after')->label('Ende')->prefix('Endet in: ')->state(fn (PublicPoll $record) => $record->hasEnded() ? 'Geschlossen' : Carbon::make($record->published_at)?->add($record->closes_after)->diffForHumans().' ('.$record->closes_at->format('d.m.Y H:i').' Uhr)'),
-                    TextColumn::make('user.name')->label('Ersteller')->prefix('Von: ')->state(fn (PublicPoll $record) => $record->not_anonymous ? $record->user->name : ''),
-                    TextColumn::make('participants_count')->counts('participants')->prefix('Teilnehmer: ')->label('Teilnehmerzahl'),
-                    TextColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->icon(function (PublicPoll $record) {
-                        return $record->userIsWithinTargetGroup(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
-                    })->iconColor(function (PublicPoll $record) {
-                        return $record->userIsWithinTargetGroup(Auth::user()) ? 'success' : 'danger';
-                    })->prefix('In Zielgruppe: ')->state(fn (PublicPoll $record) => $record->userIsWithinTargetGroup(Auth::user()) ? 'Ja' : 'Nein'),
-                    TextColumn::make('participated')->label('Teilgenommen')->icon(function (PublicPoll $record) {
-                        return $record->userParticipated(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
-                    })->iconColor(function (PublicPoll $record) {
-                        return $record->userParticipated(Auth::user()) ? 'success' : 'danger';
-                    })->state(fn (PublicPoll $record) => $record->userParticipated(Auth::user()) ? 'Ja' : 'Nein')->prefix('Teilgenommen: '),
-                ]),
+                    TextColumn::make('title')
+                        ->label('Titel')
+                        ->weight(FontWeight::ExtraBold)
+                        ->size(TextSize::Large)
+                        ->searchable(),
+                    TextColumn::make('description')
+                        ->label('Beschreibung')
+                        ->color('gray')
+                        ->limit(140)
+                        ->searchable(),
+
+                    Stack::make([
+                        TextColumn::make('category.title')
+                            ->label('Kategorie')
+                            ->icon('heroicon-o-tag')
+                            ->color('gray')
+                            ->searchable(),
+                        TextColumn::make('user.name')
+                            ->label('Ersteller')
+                            ->icon('heroicon-o-user')
+                            ->color('gray')
+                            ->state(fn (PublicPoll $record): string => $record->not_anonymous ? $record->user->name : 'Anonym'),
+                        TextColumn::make('participants_count')
+                            ->label('Teilnehmer')
+                            ->icon('heroicon-o-users')
+                            ->color('gray')
+                            ->counts('participants'),
+                        TextColumn::make('closes_after')
+                            ->label('Endet')
+                            ->icon('heroicon-o-clock')
+                            ->color('gray')
+                            ->state(fn (PublicPoll $record): string => $record->hasEnded()
+                                ? 'Geschlossen'
+                                : Carbon::make($record->published_at)?->add($record->closes_after)->diffForHumans().' ('.$record->closes_at->format('d.m.Y H:i').' Uhr)'),
+                    ])->space(1),
+
+                    Stack::make([
+                        TextColumn::make('within_target_group')
+                            ->label('Zielgruppe')
+                            ->badge()
+                            ->icon(fn (PublicPoll $record): string => $record->userIsWithinTargetGroup(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
+                            ->color(fn (PublicPoll $record): string => $record->userIsWithinTargetGroup(Auth::user()) ? 'success' : 'danger')
+                            ->state(fn (PublicPoll $record): string => $record->userIsWithinTargetGroup(Auth::user()) ? 'In Zielgruppe' : 'Außerhalb Zielgruppe'),
+                        TextColumn::make('participated')
+                            ->label('Teilnahme')
+                            ->badge()
+                            ->icon(fn (PublicPoll $record): string => $record->userParticipated(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
+                            ->color(fn (PublicPoll $record): string => $record->userParticipated(Auth::user()) ? 'success' : 'gray')
+                            ->state(fn (PublicPoll $record): string => $record->userParticipated(Auth::user()) ? 'Teilgenommen' : 'Noch nicht'),
+                    ])->space(1),
+                ])->space(2),
             ])
-            ->filters([])
             ->groups([
                 Group::make('category.title')->label('Kategorie'),
             ])
+            ->emptyStateHeading('Keine öffentlichen Umfragen')
+            ->emptyStateDescription('Es gibt aktuell keine Umfragen, die deine Kriterien erfüllen.')
+            ->emptyStateIcon('heroicon-o-clipboard-document-check')
             ->recordActions([
                 Action::make('target_group')->visible(fn (PublicPoll $record) => $record->target_group !== null)->schema(function (PublicPoll $record) {
 

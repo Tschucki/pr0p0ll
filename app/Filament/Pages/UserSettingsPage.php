@@ -109,68 +109,109 @@ class UserSettingsPage extends Page implements HasForms
     public function form(Schema $schema): Schema
     {
         return $schema->components([
-            Grid::make(2)->schema([
-                Section::make('Demografische Daten')->schema([
+            Grid::make(['sm' => 1, 'lg' => 2])->schema([
+                Section::make('Demografische Daten')
+                    ->description('Werden ausschließlich für die Zielgruppen-Auswahl von Umfragen verwendet.')
+                    ->icon('heroicon-o-identification')
+                    ->columnSpan(1)
+                    ->schema([
+                        Grid::make(['sm' => 1, 'md' => 2])->schema([
+                            Select::make('gender')
+                                ->label('Geschlecht')
+                                ->options(Gender::class)
+                                ->native(false)
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                            DatePicker::make('birthday')
+                                ->label('Geburtstag')
+                                ->nullable()
+                                ->before('today')
+                                ->displayFormat('d.m.Y')
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                            Select::make('nationality')
+                                ->label('Nationalität')
+                                ->searchable()
+                                ->options(Nationality::class)
+                                ->native(false)
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                            Select::make('region')
+                                ->label('Region')
+                                ->searchable()
+                                ->options(Region::class)
+                                ->native(false)
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                        ]),
+                        Placeholder::make('info')
+                            ->hiddenLabel()
+                            ->content('Demografische Daten können nur alle 2 Monate geändert werden, um zu verhindern, dass sich Teilnehmer für Umfragen als andere Zielgruppe ausgeben.'),
+                        Placeholder::make('next_change')
+                            ->hiddenLabel()
+                            ->content(function (): string {
+                                $dLastChange = Carbon::make(Auth::user()->last_data_change);
 
-                    Select::make('gender')->disabled(fn () => ! Auth::user()->canUpdateDemographicData())->label('Geschlecht')->options(Gender::class),
-                    DatePicker::make('birthday')->disabled(fn () => ! Auth::user()->canUpdateDemographicData())
-                        ->label('Geburtstag')
-                        ->nullable()
-                        ->before('today')
-                        ->displayFormat('d.m.Y'),
-                    Select::make('nationality')->disabled(fn () => ! Auth::user()->canUpdateDemographicData())->searchable()->label('Nationalität')->options(Nationality::class),
-                    Select::make('region')->disabled(fn () => ! Auth::user()->canUpdateDemographicData())->searchable()->label('Region')->options(Region::class),
-                    Placeholder::make('info')->label('')->content('Demografische Daten können nur alle 2 Monate geändert werden um zu verhindern, dass man sich für Umfragen als andere Zielgruppe ausgibt.')->extraAttributes(['class' => 'text-justify']),
-                    Placeholder::make('next_change')->label('')->content(function () {
-                        $sText = 'Deine nächste Änderung ist möglich in: ';
-                        $dLastChange = Carbon::make(Auth::user()->last_data_change);
+                                if ($dLastChange === null || $dLastChange->addMonths(2)->isPast()) {
+                                    return 'Nächste Änderung möglich: sofort';
+                                }
 
-                        if ($dLastChange === null) {
-                            $sText .= 'Sofort';
+                                $dNextChange = $dLastChange->addMonths(2);
 
-                            return $sText;
-                        }
+                                return sprintf(
+                                    'Nächste Änderung möglich in %d Tagen (%s Uhr)',
+                                    $dNextChange->diffInDays(),
+                                    $dNextChange->format('d.m.Y H:i'),
+                                );
+                            }),
+                    ]),
 
-                        $dNextChange = $dLastChange->addMonths(2);
-
-                        if ($dNextChange->isPast()) {
-                            $sText .= 'Sofort';
-
-                            return $sText;
-                        }
-
-                        $sText .= $dNextChange->diffInDays().' Tagen'." ({$dNextChange->format('d.m.Y H:i')} Uhr)";
-
-                        return $sText;
-                    })->extraAttributes(['class' => 'text-justify']),
-                ])->columnSpan(1),
-                Section::make('Benutzerdaten')->schema([
-                    TextInput::make('name')->label('Benutzername')->disabled(),
-                    TextInput::make('email')->label('E-Mail')->helperText('Für Benachrichtigungen')->unique(table: 'users', column: 'email', ignorable: Auth::user())->nullable()->email()->suffixIcon(fn () => Auth::user()->hasVerifiedEmail() ? 'heroicon-o-check-badge' : '')->suffixIconColor(fn () => Auth::user()->hasVerifiedEmail() ? 'success' : 'warning'),
-                    Actions::make([
-                        Action::make('resend_email_verification')->icon('heroicon-o-check-badge')->color('warning')->label('E-Mail-Verifizierung erneut senden')->action(fn () => $this->resendEmailVerificationEmail()),
-                    ])->fullWidth()->visible(fn () => Filament::auth()->user()?->email !== null && Filament::auth()->user()?->hasVerifiedEmail() === false),
-                ])->extraAttributes([
-                    'class' => 'h-full',
-                ])->columnSpan(1),
+                Section::make('Benutzerdaten')
+                    ->description('Anzeige­name und Kontakt für Benachrichtigungen.')
+                    ->icon('heroicon-o-user-circle')
+                    ->columnSpan(1)
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Benutzername')
+                            ->disabled(),
+                        TextInput::make('email')
+                            ->label('E-Mail')
+                            ->helperText('Wird ausschließlich für Benachrichtigungen verwendet.')
+                            ->unique(table: 'users', column: 'email', ignorable: Auth::user())
+                            ->nullable()
+                            ->email()
+                            ->suffixIcon(fn (): ?string => Auth::user()->hasVerifiedEmail() ? 'heroicon-o-check-badge' : null)
+                            ->suffixIconColor(fn (): string => Auth::user()->hasVerifiedEmail() ? 'success' : 'warning'),
+                        Actions::make([
+                            Action::make('resend_email_verification')
+                                ->icon('heroicon-o-check-badge')
+                                ->color('warning')
+                                ->label('E-Mail-Verifizierung erneut senden')
+                                ->action(fn () => $this->resendEmailVerificationEmail()),
+                        ])
+                            ->fullWidth()
+                            ->visible(fn (): bool => Filament::auth()->user()?->email !== null && Filament::auth()->user()?->hasVerifiedEmail() === false),
+                    ]),
             ]),
-            Section::make('Benachrichtigungs-Einstellungen')->schema([
-                Tabs::make('Test')->tabs(function () {
-                    $tabs = [];
-                    NotificationChannel::each(function (NotificationChannel $notificationChannel) use (&$tabs) {
-                        $tabs[] = Tab::make($notificationChannel->title)->label($notificationChannel->title)->icon($notificationChannel->icon)->schema(function () use ($notificationChannel) {
-                            $items = [];
-                            NotificationType::each(function (NotificationType $notificationType) use (&$items, $notificationChannel) {
-                                $items[] = Toggle::make('notification_settings.'.$notificationChannel->getKey().'.'.$notificationType->getKey())->label($notificationType->title)->helperText($notificationType->description);
-                            });
 
-                            return $items;
-                        });
-                    });
-
-                    return $tabs;
-                }),
-            ]),
+            Section::make('Benachrichtigungs-Einstellungen')
+                ->description('Wähle pro Kanal, welche Ereignisse dich erreichen sollen.')
+                ->icon('heroicon-o-bell')
+                ->collapsible()
+                ->schema([
+                    Tabs::make('notification_channels')
+                        ->contained(false)
+                        ->tabs(function (): array {
+                            return NotificationChannel::all()->map(function (NotificationChannel $notificationChannel): Tab {
+                                return Tab::make($notificationChannel->title)
+                                    ->label($notificationChannel->title)
+                                    ->icon($notificationChannel->icon)
+                                    ->schema(function () use ($notificationChannel): array {
+                                        return NotificationType::all()->map(function (NotificationType $notificationType) use ($notificationChannel): Toggle {
+                                            return Toggle::make('notification_settings.'.$notificationChannel->getKey().'.'.$notificationType->getKey())
+                                                ->label($notificationType->title)
+                                                ->helperText($notificationType->description);
+                                        })->all();
+                                    });
+                            })->all();
+                        }),
+                ]),
         ])->statePath('data');
     }
 

@@ -42,17 +42,66 @@ class AllPollsResource extends Resource
     {
         return $table
             ->columns([
-                IconColumn::make('approved')->label('Genehmigt')->boolean()->sortable()->toggleable(),
-                IconColumn::make('visible_to_public')->label('Sichtbar für Öffentlichkeit')->boolean()->sortable()->toggleable(),
-                IconColumn::make('in_review')->label('Prüfung nötig')->boolean()->sortable()->toggleable(),
-                TextColumn::make('published_at')->label('Veröffentlicht am')->dateTime('d.m.Y H:i')->sortable()->toggleable(),
-                TextColumn::make('title')->label('Titel')->sortable()->searchable(),
-                TextColumn::make('user.name')->label('Ersteller')->sortable()->searchable(),
-                TextColumn::make('questions_count')->counts('questions')->label('Anzahl Fragen')->sortable()->toggleable(),
-                TextColumn::make('answers_count')->counts('answers')->label('Anzahl Antworten')->sortable()->toggleable(),
-                TextColumn::make('updated_at')->dateTime('d.m.Y H:i')->suffix(' Uhr')->label('Änderungsdatum')->sortable()->toggleable(),
-                TextColumn::make('created_at')->dateTime('d.m.Y H:i')->suffix(' Uhr')->label('Erstelldatum')->sortable()->toggleable(),
+                TextColumn::make('title')
+                    ->label('Titel')
+                    ->icon('heroicon-o-clipboard-document-list')
+                    ->sortable()
+                    ->searchable()
+                    ->wrap(),
+                TextColumn::make('user.name')
+                    ->label('Ersteller')
+                    ->icon('heroicon-o-user')
+                    ->sortable()
+                    ->searchable(),
+                IconColumn::make('approved')
+                    ->label('Genehmigt')
+                    ->boolean()
+                    ->sortable(),
+                IconColumn::make('visible_to_public')
+                    ->label('Öffentlich')
+                    ->boolean()
+                    ->sortable(),
+                IconColumn::make('in_review')
+                    ->label('In Prüfung')
+                    ->boolean()
+                    ->sortable(),
+                TextColumn::make('questions_count')
+                    ->label('Fragen')
+                    ->counts('questions')
+                    ->alignCenter()
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('answers_count')
+                    ->label('Antworten')
+                    ->counts('answers')
+                    ->alignCenter()
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('published_at')
+                    ->label('Veröffentlicht')
+                    ->dateTime('d.m.Y H:i')
+                    ->suffix(' Uhr')
+                    ->placeholder('—')
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('created_at')
+                    ->label('Erstellt')
+                    ->dateTime('d.m.Y H:i')
+                    ->suffix(' Uhr')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                TextColumn::make('updated_at')
+                    ->label('Geändert')
+                    ->dateTime('d.m.Y H:i')
+                    ->suffix(' Uhr')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->emptyStateHeading('Keine Umfragen vorhanden')
+            ->emptyStateIcon('heroicon-o-clipboard-document-list')
             ->filters([
                 //
             ])
