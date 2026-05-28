@@ -12,9 +12,10 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-use Filament\Pages;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -22,6 +23,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
@@ -29,8 +31,22 @@ class Pr0p0llPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        Filament::registerRenderHook('panels::global-search.after',
+        Filament::registerRenderHook(
+            PanelsRenderHook::USER_MENU_BEFORE,
             static fn (): View => view('filament.header.aftersearch'),
+        );
+
+        Filament::registerRenderHook(
+            PanelsRenderHook::HEAD_END,
+            static fn (): HtmlString => new HtmlString(<<<'HTML'
+                <style>
+                    .fi-sidebar, .fi-main, .fi-main-ctn { background-color: #161618 !important; }
+                    .fi-theme-switcher { display: none; }
+                    .fi-grid > .fi-grid-col > .fi-sc-component > div { height: 100%; }
+                    .fi-grid > .fi-grid-col .fi-sc-section { height: 100%; }
+                    .fi-grid > .fi-grid-col .fi-section { height: 100%; }
+                </style>
+            HTML),
         );
 
         return $panel
@@ -43,11 +59,10 @@ class Pr0p0llPanelProvider extends PanelProvider
             ->colors([
                 'primary' => '#ee4d2e',
             ])
-            ->viteTheme('resources/css/filament/pr0p0ll/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                Dashboard::class,
             ])
             ->login(Login::class)
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')

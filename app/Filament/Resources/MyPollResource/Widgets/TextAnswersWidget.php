@@ -9,7 +9,7 @@ use Filament\Widgets\Widget;
 
 class TextAnswersWidget extends Widget
 {
-    protected static string $view = 'filament.widgets.text-answers-widget';
+    protected string $view = 'filament.widgets.text-answers-widget';
 
     public array $answerData;
 

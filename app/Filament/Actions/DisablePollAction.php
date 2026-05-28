@@ -13,11 +13,11 @@ class DisablePollAction
 {
     public static function make(): Action
     {
-        return Action::make('Deaktivieren')->form([
+        return Action::make('Deaktivieren')->schema([
             Textarea::make('reason')->required()->placeholder('Grund für die Deaktivierung')->label('Grund'),
-        ])->color('danger')->action(function (Poll $poll, array $data) {
-            $poll->disable($data['reason']);
+        ])->color('danger')->action(function (Poll $record, array $data) {
+            $record->disable($data['reason']);
             Notification::make('approve')->success()->title('Deaktiviert')->body('Umfrage wurde deaktiviert und ist nicht mehr öffentlich')->send();
-        })->visible(fn (Poll $poll) => $poll->isApproved())->requiresConfirmation();
+        })->visible(fn (Poll $record) => $record->isApproved())->requiresConfirmation();
     }
 }

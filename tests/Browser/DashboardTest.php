@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
+use Facebook\WebDriver\Exception\TimeoutException;
 use Laravel\Dusk\Browser;
 
 test('filament redirects if not logged in', function () {
@@ -15,9 +17,9 @@ test('dashboard works', function () {
     Artisan::call('db:seed');
 
     $this->browse(/**
-     * @throws \Facebook\WebDriver\Exception\TimeoutException
+     * @throws TimeoutException
      */ function (Browser $browser) {
-        $browser->loginAs(\App\Models\User::first());
+        $browser->loginAs(User::first());
 
         $browser->visit('/pr0p0ll')
             ->assertSee('Dashboard')

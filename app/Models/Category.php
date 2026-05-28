@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Polls\PublicPoll;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -15,7 +16,7 @@ class Category extends Model
         'enabled' => 'boolean',
     ];
 
-    public function publicPolls(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function publicPolls(): HasMany
     {
         return $this->hasMany(PublicPoll::class, 'category_id');
     }

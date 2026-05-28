@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use Laravel\Dusk\Browser;
 
 test('navigation is present', function () {
     Artisan::call('db:seed');
 
     $this->browse(function (Browser $browser) {
-        $browser->loginAs(\App\Models\User::first());
+        $browser->loginAs(User::first());
 
         $browser->visit('/pr0p0ll')
             ->assertSee('Dashboard')

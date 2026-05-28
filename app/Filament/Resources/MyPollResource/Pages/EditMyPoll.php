@@ -9,7 +9,8 @@ use App\Filament\Actions\PollPreviewAction;
 use App\Filament\Actions\SubmitForReviewAction;
 use App\Filament\Resources\MyPollResource;
 use App\Models\Question;
-use Filament\Actions;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditMyPoll extends EditRecord
@@ -70,8 +71,8 @@ class EditMyPoll extends EditRecord
             AddOriginalContentLinkAction::make(),
             PollPreviewAction::make(),
             SubmitForReviewAction::make(),
-            Actions\ActionGroup::make([
-                Actions\DeleteAction::make(),
+            ActionGroup::make([
+                DeleteAction::make(),
             ]),
         ];
     }

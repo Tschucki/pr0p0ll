@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use Laravel\Dusk\Browser;
 
 test('poll creation works', function () {
     Artisan::call('db:seed');
 
     $this->browse(function (Browser $browser) {
-        $browser->loginAs(\App\Models\User::first());
+        $browser->loginAs(User::first());
 
         $browser->visit('/pr0p0ll/my-polls');
         $browser->clickLink('Erstellen');

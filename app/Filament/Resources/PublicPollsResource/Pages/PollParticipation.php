@@ -12,22 +12,23 @@ use App\Models\Question;
 use App\Services\PollFormService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
+use Filament\Schemas\Schema;
 use Filament\Support\Exceptions\Halt;
 use Filament\Support\Facades\FilamentView;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Yepsua\Filament\Forms\Components\Rating;
 
 use function Filament\Support\is_app_url;
 
 /**
- * @property Form $form
+ * @property Schema $form
  */
 class PollParticipation extends Page
 {
@@ -37,14 +38,14 @@ class PollParticipation extends Page
 
     protected static string $resource = PublicPollsResource::class;
 
-    protected static string $view = 'filament.resources.public-polls-resource.pages.poll-participation';
+    protected string $view = 'filament.resources.public-polls-resource.pages.poll-participation';
 
     /**
      * @var array<string, mixed> | null
      */
     public ?array $data = [];
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return 'An '.'"'.$this->record->title.'"'.' teilnehmen';
     }
@@ -66,9 +67,18 @@ class PollParticipation extends Page
         $this->form->fill();
     }
 
-    protected function addRatingToForm(): Rating
+    protected function addRatingToForm(): Select
     {
-        return Rating::make('rating')->label('Wie würdest du die Umfrage bewerten?')->min(1)->max(5);
+        return Select::make('rating')
+            ->label('Wie würdest du die Umfrage bewerten?')
+            ->options([
+                1 => '1 / 5',
+                2 => '2 / 5',
+                3 => '3 / 5',
+                4 => '4 / 5',
+                5 => '5 / 5',
+            ])
+            ->native(false);
     }
 
     public function participate(): void
@@ -174,14 +184,14 @@ class PollParticipation extends Page
         return route('filament.pr0p0ll.resources.umfragen.index');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         $pollFormService = new PollFormService($this->record);
         $schema = $pollFormService->buildForm();
         $schema[] = $this->addRatingToForm();
 
         return $form
-            ->schema($schema)
+            ->components($schema)
             ->statePath('data');
     }
 
