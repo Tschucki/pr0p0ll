@@ -4,7 +4,7 @@
     "src": "resources/assets/imgs/pr0p0ll.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CZc_RtRd.css",
+    "file": "assets/app-CE_rJfKS.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -13,12 +13,12 @@
     "src": "resources/fonts/Mona-Sans.var.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-CNdcUTj0.js",
+    "file": "assets/app-Dez7A3HN.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-CZc_RtRd.css"
+      "assets/app-CE_rJfKS.css"
     ],
     "assets": [
       "assets/pr0p0ll-B9F1rtTo.png",
