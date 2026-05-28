@@ -8,16 +8,21 @@ use App\Enums\Gender;
 use App\Enums\Nationality;
 use App\Filament\Pages\PollResults;
 use App\Filament\Pages\Pr0PostCreator;
-use App\Filament\Resources\PublicPollsResource\Pages;
+use App\Filament\Resources\PublicPollsResource\Pages\ListPublicPolls;
+use App\Filament\Resources\PublicPollsResource\Pages\PollParticipation;
 use App\Models\Polls\PublicPoll;
 use Carbon\Carbon;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Grid;
+use Filament\Actions\Action;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,7 +33,7 @@ class PublicPollsResource extends Resource
 {
     protected static ?string $model = PublicPoll::class;
 
-    protected static ?string $navigationGroup = 'Umfragen';
+    protected static string|\UnitEnum|null $navigationGroup = 'Umfragen';
 
     protected static ?string $label = 'Öffentliche Umfrage';
 
@@ -38,12 +43,12 @@ class PublicPollsResource extends Resource
 
     protected static ?string $icon = 'heroicon-o-clipboard-list';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-check';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 //
             ]);
     }
@@ -52,19 +57,19 @@ class PublicPollsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->prefix('Titel: ')->searchable(),
-                    Tables\Columns\TextColumn::make('description')->label('Beschreibung')->searchable(),
-                    Tables\Columns\TextColumn::make('category.title')->prefix('Kategorie: ')->label('Kategorie')->searchable(),
-                    Tables\Columns\TextColumn::make('closes_after')->label('Ende')->prefix('Endet in: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->hasEnded() ? 'Geschlossen' : Carbon::make($publicPoll->published_at)?->add($publicPoll->closes_after)->diffForHumans().' ('.$publicPoll->closes_at->format('d.m.Y H:i').' Uhr)'),
-                    Tables\Columns\TextColumn::make('user.name')->label('Ersteller')->prefix('Von: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : ''),
-                    Tables\Columns\TextColumn::make('participants_count')->counts('participants')->prefix('Teilnehmer: ')->label('Teilnehmerzahl'),
-                    Tables\Columns\TextColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->icon(function (PublicPoll $poll) {
+                Stack::make([
+                    TextColumn::make('title')->weight(FontWeight::ExtraBold)->label('Titel')->prefix('Titel: ')->searchable(),
+                    TextColumn::make('description')->label('Beschreibung')->searchable(),
+                    TextColumn::make('category.title')->prefix('Kategorie: ')->label('Kategorie')->searchable(),
+                    TextColumn::make('closes_after')->label('Ende')->prefix('Endet in: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->hasEnded() ? 'Geschlossen' : Carbon::make($publicPoll->published_at)?->add($publicPoll->closes_after)->diffForHumans().' ('.$publicPoll->closes_at->format('d.m.Y H:i').' Uhr)'),
+                    TextColumn::make('user.name')->label('Ersteller')->prefix('Von: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->not_anonymous ? $publicPoll->user->name : ''),
+                    TextColumn::make('participants_count')->counts('participants')->prefix('Teilnehmer: ')->label('Teilnehmerzahl'),
+                    TextColumn::make('within_target_group')->label('Innerhalb deiner Zielgruppe')->icon(function (PublicPoll $poll) {
                         return $poll->userIsWithinTargetGroup(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
                     })->iconColor(function (PublicPoll $poll) {
                         return $poll->userIsWithinTargetGroup(Auth::user()) ? 'success' : 'danger';
                     })->prefix('In Zielgruppe: ')->state(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(Auth::user()) ? 'Ja' : 'Nein'),
-                    Tables\Columns\TextColumn::make('participated')->label('Teilgenommen')->icon(function (PublicPoll $poll) {
+                    TextColumn::make('participated')->label('Teilgenommen')->icon(function (PublicPoll $poll) {
                         return $poll->userParticipated(Auth::user()) ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle';
                     })->iconColor(function (PublicPoll $poll) {
                         return $poll->userParticipated(Auth::user()) ? 'success' : 'danger';
@@ -73,10 +78,10 @@ class PublicPollsResource extends Resource
             ])
             ->filters([])
             ->groups([
-                Tables\Grouping\Group::make('category.title')->label('Kategorie'),
+                Group::make('category.title')->label('Kategorie'),
             ])
-            ->actions([
-                Tables\Actions\Action::make('target_group')->visible(fn (PublicPoll $poll) => $poll->target_group !== null)->infolist(function (PublicPoll $poll) {
+            ->recordActions([
+                Action::make('target_group')->visible(fn (PublicPoll $poll) => $poll->target_group !== null)->schema(function (PublicPoll $poll) {
 
                     return [
                         Grid::make()->schema([
@@ -87,8 +92,8 @@ class PublicPollsResource extends Resource
                         ]),
                     ];
                 })->modalSubmitAction(false)->button()->label('Zielgruppe')->modalHeading('Zielgruppe'),
-                Tables\Actions\Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic() || Auth::user()?->isAdmin()),
-                Tables\Actions\Action::make('participate')
+                Action::make('results')->button()->label('Ergebnisse ansehen')->url(fn (PublicPoll $poll) => route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll]))->visible(fn (PublicPoll $poll) => $poll->resultsArePublic() || Auth::user()?->isAdmin()),
+                Action::make('participate')
                     ->icon('heroicon-o-plus-circle')
                     ->button()
                     ->label('Teilnehmen')
@@ -96,7 +101,7 @@ class PublicPollsResource extends Resource
                     ->disabled(fn (PublicPoll $publicPoll) => $publicPoll->userParticipated(Auth::user()) || ! $publicPoll->userIsWithinTargetGroup(Auth::user()) || $publicPoll->hasEnded()),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('in_target_group')
+                SelectFilter::make('in_target_group')
                     ->label('Zielgruppe')
                     ->options([
                         true => 'Innerhalb Zielgruppe',
@@ -114,7 +119,7 @@ class PublicPollsResource extends Resource
                         }
                     }),
             ])
-            ->bulkActions([])
+            ->toolbarActions([])
             ->query(
                 PublicPoll::query()
                     ->where('visible_to_public', true)
@@ -171,8 +176,8 @@ class PublicPollsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPublicPolls::route('/'),
-            'teilnehmen' => Pages\PollParticipation::route('/{record}/teilnehmen'),
+            'index' => ListPublicPolls::route('/'),
+            'teilnehmen' => PollParticipation::route('/{record}/teilnehmen'),
             'results' => PollResults::route('/{record}/auswertung'),
             'pr0post' => Pr0PostCreator::route('/{record}/pr0post'),
         ];

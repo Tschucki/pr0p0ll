@@ -10,6 +10,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class CreateMyPoll extends CreateRecord
 {
@@ -63,7 +64,7 @@ class CreateMyPoll extends CreateRecord
 
             $poll->questions()->createMany($validatedQuestions);
 
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             Notification::make()
                 ->title('Komisch. Beim Validieren deiner Fragen ist ein Fehler aufgetreten.')
                 ->danger()

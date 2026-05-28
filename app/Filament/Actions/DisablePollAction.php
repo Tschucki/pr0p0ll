@@ -13,7 +13,7 @@ class DisablePollAction
 {
     public static function make(): Action
     {
-        return Action::make('Deaktivieren')->form([
+        return Action::make('Deaktivieren')->schema([
             Textarea::make('reason')->required()->placeholder('Grund für die Deaktivierung')->label('Grund'),
         ])->color('danger')->action(function (Poll $poll, array $data) {
             $poll->disable($data['reason']);

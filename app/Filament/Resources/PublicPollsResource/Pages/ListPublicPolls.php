@@ -6,11 +6,13 @@ namespace App\Filament\Resources\PublicPollsResource\Pages;
 
 use App\Filament\Resources\PublicPollsResource;
 use App\Models\Polls\PublicPoll;
-use Filament\Actions;
-use Filament\Resources\Components\Tab;
+use Auth;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Number;
 
 class ListPublicPolls extends ListRecords
 {
@@ -19,7 +21,7 @@ class ListPublicPolls extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('create_own_poll')->label('Eigene Umfrage erstellen')->url(route('filament.pr0p0ll.resources.my-polls.create')),
+            Action::make('create_own_poll')->label('Eigene Umfrage erstellen')->url(route('filament.pr0p0ll.resources.my-polls.create')),
         ];
     }
 
@@ -32,7 +34,7 @@ class ListPublicPolls extends ListRecords
                 })->where('closes_at', '>', now())->orderBy('closes_at', 'DESC');
             })->badge(function () {
                 $notParticipatedPolls = PublicPoll::whereDoesntHave('participants', static function (Builder $query) {
-                    $query->where('participant_id', \Auth::id());
+                    $query->where('participant_id', Auth::id());
                 })
                     ->where('original_content_link', null)
                     ->where('visible_to_public', true)
@@ -42,9 +44,9 @@ class ListPublicPolls extends ListRecords
                     ->withoutGlobalScope(SoftDeletingScope::class)
                     ->get();
 
-                $inTargetGroup = $notParticipatedPolls->filter(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(\Auth::user()));
+                $inTargetGroup = $notParticipatedPolls->filter(fn (PublicPoll $publicPoll) => $publicPoll->userIsWithinTargetGroup(Auth::user()));
 
-                return \Number::abbreviate($inTargetGroup->count());
+                return Number::abbreviate($inTargetGroup->count());
             }),
 
             'teilgenommen' => Tab::make('Teilgenommen')->modifyQueryUsing(function (Builder $query) {
@@ -57,7 +59,7 @@ class ListPublicPolls extends ListRecords
 
             'alle' => Tab::make('Alle')->modifyQueryUsing(function (Builder $query) {
                 $query->orderBy('published_at', 'desc');
-            })->badge(fn () => \Number::abbreviate(PublicPoll::count())),
+            })->badge(fn () => Number::abbreviate(PublicPoll::count())),
         ];
     }
 }

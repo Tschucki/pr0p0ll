@@ -15,6 +15,7 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use InvalidArgumentException;
 
 class PollFormService
 {
@@ -67,7 +68,7 @@ class PollFormService
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getComponent(\App\Models\QuestionType $questionType, Question $question): Field
     {
@@ -85,7 +86,7 @@ class PollFormService
             QuestionType::DATETIME->value => DateTimePicker::make((string) $questionKey)->seconds(false)->displayFormat('DD.MM.YYYY HH:mm'),
             QuestionType::COLOR->value => ColorPicker::make((string) $questionKey),
             QuestionType::NUMBER->value => TextInput::make((string) $questionKey)->numeric(),
-            default => throw new \InvalidArgumentException('Unknown question type'),
+            default => throw new InvalidArgumentException('Unknown question type'),
         };
     }
 

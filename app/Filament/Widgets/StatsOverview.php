@@ -9,13 +9,14 @@ use App\Models\Polls\Poll;
 use App\Models\Question;
 use App\Models\QuestionType;
 use App\Models\User;
+use App\Services\PlausibleService;
+use Exception;
 use Filament\Notifications\Notification;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Flowframe\Trend\Trend;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Number;
-use NjoguAmos\Plausible\Facades\Plausible;
 
 class StatsOverview extends BaseWidget
 {
@@ -49,14 +50,15 @@ class StatsOverview extends BaseWidget
         });
 
         try {
-            $visitors = (int) Plausible::realtime();
+            $plausible = app(PlausibleService::class);
+            $visitors = $plausible->realtime();
 
-            $aggregates = Plausible::aggregates(
+            $aggregates = $plausible->aggregates(
                 period: 'day',
                 metrics: ['visitors'],
             );
-            $todayVisitors = $aggregates['visitors']['value'];
-        } catch (\Exception $e) {
+            $todayVisitors = (int) ($aggregates['visitors']['value'] ?? 0);
+        } catch (Exception $e) {
             Notification::make('plausible_error')->danger()->title('Plausible Fehler')->body('Es gab einen Fehler beim Abrufen der Besucherzahlen.')->send();
             $visitors = 0;
             $todayVisitors = 0;

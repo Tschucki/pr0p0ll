@@ -26,7 +26,7 @@ class ViewMyPoll extends ViewRecord
             SubmitForReviewAction::make(),
             ActionGroup::make([
                 EditAction::make('edit')->label('Bearbeiten'),
-                DeleteAction::make('delete')->label('Löschen')->infolist([TextEntry::make('Info')->state('Wenn du diese Umfrage löschst wird sie für alle Benutzer gelöscht. Du kannst sie nicht wiederherstellen.')])->requiresConfirmation(),
+                DeleteAction::make('delete')->label('Löschen')->schema([TextEntry::make('Info')->state('Wenn du diese Umfrage löschst wird sie für alle Benutzer gelöscht. Du kannst sie nicht wiederherstellen.')])->requiresConfirmation(),
             ]),
         ];
     }

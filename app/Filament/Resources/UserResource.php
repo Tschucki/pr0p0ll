@@ -4,23 +4,29 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Models\User;
+use Auth;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Widiu7omo\FilamentBandel\Actions\BanAction;
-use Widiu7omo\FilamentBandel\Actions\UnbanAction;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationGroup = 'Administration';
+    protected static string|\UnitEnum|null $navigationGroup = 'Administration';
 
     protected static ?string $slug = 'benutzer';
 
@@ -28,43 +34,61 @@ class UserResource extends Resource
 
     protected static ?string $pluralLabel = 'Benutzer';
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
 
     public static function canAccess(): bool
     {
-        return \Auth::user()->isAdmin();
+        return Auth::user()->isAdmin();
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->searchable()->sortable()->toggleable()->label('ID'),
-                Tables\Columns\TextColumn::make('name')->searchable()->sortable()->toggleable()->label('Name'),
-                Tables\Columns\TextColumn::make('polls_count')->label('Anzahl Umfragen')->sortable()->toggleable()->counts('polls'),
-                Tables\Columns\TextColumn::make('participations_count')->sortable()->toggleable()->label('Anzahl Teilnahmen')->counts('participations'),
-                Tables\Columns\IconColumn::make('email_verified_at')->boolean()->sortable()->toggleable()->label('E-Mail verifiziert'),
-                Tables\Columns\IconColumn::make('admin')->boolean()->sortable()->toggleable()->label('Ist Admin'),
-                Tables\Columns\TextColumn::make('created_at')->sortable()->toggleable()->label('Registriert am')->dateTime('d.m.Y H:i')->suffix(' Uhr'),
+                TextColumn::make('id')->searchable()->sortable()->toggleable()->label('ID'),
+                TextColumn::make('name')->searchable()->sortable()->toggleable()->label('Name'),
+                TextColumn::make('polls_count')->label('Anzahl Umfragen')->sortable()->toggleable()->counts('polls'),
+                TextColumn::make('participations_count')->sortable()->toggleable()->label('Anzahl Teilnahmen')->counts('participations'),
+                IconColumn::make('email_verified_at')->boolean()->sortable()->toggleable()->label('E-Mail verifiziert'),
+                IconColumn::make('admin')->boolean()->sortable()->toggleable()->label('Ist Admin'),
+                TextColumn::make('created_at')->sortable()->toggleable()->label('Registriert am')->dateTime('d.m.Y H:i')->suffix(' Uhr'),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\Action::make('reset_data_lock')->label('Daten entsperren')->visible(fn (User $record) => $record->last_data_change?->isPast() ?? false)->action(function (User $user) {
+            ->recordActions([
+                ViewAction::make(),
+                Action::make('reset_data_lock')->label('Daten entsperren')->visible(fn (User $record) => $record->last_data_change?->isPast() ?? false)->action(function (User $user) {
                     $user->last_data_change = null;
                     $user->save();
                     Notification::make('data_lock_removed')->success()->title('Datensperre entfernt')->body('Die Datensperre wurde entfernt.')->send();
                 })->requiresConfirmation(),
-                BanAction::make()->visible(fn ($record) => ! $record->isBanned()),
-                UnbanAction::make()->visible(fn ($record) => $record->isBanned()),
+                Action::make('ban')
+                    ->label('Bannen')
+                    ->icon('heroicon-o-no-symbol')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->visible(fn (User $record) => ! $record->isBanned())
+                    ->action(function (User $record): void {
+                        $record->ban();
+                        Notification::make()->title('Benutzer gebannt')->success()->send();
+                    }),
+                Action::make('unban')
+                    ->label('Entbannen')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->visible(fn (User $record) => $record->isBanned())
+                    ->action(function (User $record): void {
+                        $record->unban();
+                        Notification::make()->title('Benutzer entbannt')->success()->send();
+                    }),
 
-                Tables\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -76,9 +100,9 @@ class UserResource extends Resource
         ];
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist->schema([
+        return $schema->components([
             RepeatableEntry::make('answers')->label('Antworten')->schema([
                 TextEntry::make('question.title')->label('Frage'),
                 TextEntry::make('answerable.answer_value')->label('Antwort'),
@@ -91,8 +115,8 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'view' => Pages\ViewUser::route('/{record}'),
+            'index' => ListUsers::route('/'),
+            'view' => ViewUser::route('/{record}'),
         ];
     }
 }

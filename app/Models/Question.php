@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Models\Abstracts\AnswerType;
 use App\Models\Polls\MyPoll;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Question extends Model
 {
@@ -18,12 +20,12 @@ class Question extends Model
         'blocks' => 'array',
     ];
 
-    public function questionType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function questionType(): BelongsTo
     {
         return $this->belongsTo(QuestionType::class, 'question_type_id');
     }
 
-    public function answers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
     }
@@ -33,7 +35,7 @@ class Question extends Model
         return $this->questionType->answerType();
     }
 
-    public function poll(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function poll(): BelongsTo
     {
         return $this->belongsTo(MyPoll::class, 'poll_id', 'id');
     }

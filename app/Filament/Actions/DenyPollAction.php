@@ -13,7 +13,7 @@ class DenyPollAction
 {
     public static function make(): Action
     {
-        return Action::make('Ablehnen')->form([
+        return Action::make('Ablehnen')->schema([
             Textarea::make('reason')->required()->placeholder('Grund für die Ablehnung')->label('Grund'),
         ])->color('danger')->action(function (Poll $poll, array $data) {
             $poll->deny($data['reason']);

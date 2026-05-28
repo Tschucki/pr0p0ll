@@ -17,10 +17,10 @@ use Filament\Actions\ExportAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Database\Eloquent\Builder;
@@ -52,7 +52,7 @@ class PollResults extends Page
 
     protected static string $resource = PublicPollsResource::class;
 
-    protected static string $view = 'filament.pages.my-poll-results';
+    protected string $view = 'filament.pages.my-poll-results';
 
     protected static ?string $title = 'Ergebnisse';
 
@@ -96,9 +96,9 @@ class PollResults extends Page
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->live(true)
             ->schema([
                 Select::make('gender')->afterStateUpdated(function (Get $get) {

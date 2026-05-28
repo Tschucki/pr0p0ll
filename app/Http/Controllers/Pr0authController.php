@@ -6,10 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Filament\Notifications\Notification;
+use Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
+use Str;
 
 class Pr0authController extends Controller
 {
@@ -35,7 +37,7 @@ class Pr0authController extends Controller
         ], [
             'name' => $user->name,
             'pr0gramm_identifier' => $user->user['identifier'],
-            'password' => \Hash::make(\Str::password(24)),
+            'password' => Hash::make(Str::password(24)),
         ]);
 
         Auth::login($user, true);
