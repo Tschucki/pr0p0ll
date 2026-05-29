@@ -102,15 +102,23 @@ it('treats blank tags and comment from the flat form as null', function () {
         ->and($config->comment)->toBeNull();
 });
 
-it('builds auto tags and an auto comment containing a signed results link', function () {
+it('builds auto tags and an auto comment containing an unsigned filament results link', function () {
     $poll = makeClosedPoll();
 
     expect(ResultPostConfig::defaultTags($poll))
         ->toContain('pr0p0ll', 'Umfrage', 'Auswertung');
 
     expect(ResultPostConfig::defaultComment($poll))
-        ->toContain('/umfragen/'.$poll->getKey().'/auswertung')
-        ->toContain('signature=')
+        ->toContain(route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll->getKey()]))
+        ->toContain('/pr0p0ll/umfragen/'.$poll->getKey().'/auswertung')
+        ->not->toContain('signature=')
         ->toContain('@'.$poll->user->name)
         ->toContain('Bei Fragen und Anregungen bitte @PimmelmannJones schreiben');
+});
+
+it('derives the title tag identically for upload matching and default tags', function () {
+    $poll = makeClosedPoll(); // title 'Test Umfrage'
+
+    expect(ResultPostConfig::titleTag($poll))->toBe('Test Umfrage')
+        ->and(ResultPostConfig::defaultTags($poll))->toContain(ResultPostConfig::titleTag($poll));
 });

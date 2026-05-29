@@ -43,6 +43,7 @@ abstract class Poll extends Model
         'target_group' => 'array',
         'closes_at' => 'datetime',
         'result_post_config' => 'array',
+        'result_post_uploaded_at' => 'datetime',
     ];
 
     public function user(): BelongsTo
@@ -134,6 +135,7 @@ abstract class Poll extends Model
         return $query
             ->where('approved', true)
             ->whereNull('original_content_link')
+            ->whereNull('result_post_uploaded_at')
             ->whereNotNull('closes_at')
             ->where('closes_at', '<=', now()->subWeeks(2));
     }
@@ -142,6 +144,7 @@ abstract class Poll extends Model
     {
         return (bool) $this->approved
             && $this->original_content_link === null
+            && $this->result_post_uploaded_at === null
             && $this->closes_at !== null
             && Carbon::make($this->closes_at)->lessThanOrEqualTo(now()->subWeeks(2));
     }
