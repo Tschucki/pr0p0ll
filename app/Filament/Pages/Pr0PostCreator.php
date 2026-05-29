@@ -152,10 +152,12 @@ class Pr0PostCreator extends Page
                         TextInput::make('tags')
                             ->label('Tags (kommagetrennt)')
                             ->placeholder(ResultPostConfig::defaultTags($this->record))
+                            ->visible(fn (): bool => Auth::user()->isAdmin())
                             ->helperText('Leer lassen für automatische Tags.'),
                         Textarea::make('comment')
                             ->label('Kommentar')
                             ->placeholder(ResultPostConfig::defaultComment($this->record))
+                            ->visible(fn (): bool => Auth::user()->isAdmin())
                             ->helperText('Leer lassen für einen automatischen Kommentar mit Link zur Auswertung.')
                             ->nullable(),
                         ...$this->getQuestionConfigFields(),
