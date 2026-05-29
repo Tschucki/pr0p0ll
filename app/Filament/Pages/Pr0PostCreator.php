@@ -204,6 +204,8 @@ class Pr0PostCreator extends Page
 
     public function postToPr0gramm(): void
     {
+        abort_unless(Auth::user()?->isAdmin() && $this->record->isEligibleForResultPost(), 403);
+
         $config = ResultPostConfig::fromFlatForm($this->data, $this->record);
         $this->record->update(['result_post_config' => $config->toArray()]);
 
