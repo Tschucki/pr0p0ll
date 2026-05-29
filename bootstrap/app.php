@@ -33,7 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withSchedule(function (Schedule $schedule): void {
         $schedule->command('app:login-to-pr0gramm')->hourly();
         $schedule->command('ban:delete-expired')->everyMinute();
-        $schedule->command('app:post-poll-result')->daily()->withoutOverlapping();
+        $schedule->command('app:post-poll-result')->dailyAt('19:45')->withoutOverlapping();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

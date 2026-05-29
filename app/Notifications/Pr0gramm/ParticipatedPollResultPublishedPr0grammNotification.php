@@ -29,7 +29,7 @@ class ParticipatedPollResultPublishedPr0grammNotification extends Notification
         $url = $this->poll->original_content_link
             ?? route('filament.pr0p0ll.resources.umfragen.results', ['record' => $this->poll->getKey()]);
 
-        return 'Die Auswertung der Umfrage "'.$this->poll->title.'" wurde auf pr0gramm veröffentlicht.'."\n".'Zum Beitrag: '.$url;
+        return 'Die Auswertung der Umfrage "'.$this->poll->title.'" wurde auf pr0gramm veröffentlicht.'."\n".'Du wolltest darüber benachrichtigt werden.'."\n".'Zum Beitrag: '.$url;
     }
 
     /**

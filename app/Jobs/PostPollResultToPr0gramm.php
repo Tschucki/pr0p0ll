@@ -100,6 +100,7 @@ class PostPollResultToPr0gramm implements ShouldBeUnique, ShouldQueue
             SendResultPublishedDiscordNotification::dispatch($this->poll);
 
             $participatedType = NotificationType::where('identifier', \App\Enums\NotificationType::PARTICIPATEDPOLLHASFINISHED)->first();
+
             if ($participatedType !== null) {
                 $this->poll->participants()
                     ->whereHas('notificationSettings', function (Builder $query) use ($participatedType): void {
