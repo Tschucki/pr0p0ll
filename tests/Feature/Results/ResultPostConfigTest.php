@@ -110,5 +110,6 @@ it('builds auto tags and an auto comment containing a signed results link', func
 
     expect(ResultPostConfig::defaultComment($poll))
         ->toContain('/umfragen/'.$poll->getKey().'/auswertung')
-        ->toContain('signature=');
+        ->toContain('signature=')
+        ->toContain('@'.$poll->user->name);
 });

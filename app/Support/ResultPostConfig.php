@@ -158,14 +158,17 @@ class ResultPostConfig
     {
         $titleTag = trim(str_replace(',', ' ', (string) $poll->title));
 
-        return 'pr0p0ll,Umfrage,Auswertung'.($titleTag !== '' ? ','.$titleTag : '');
+        return 'pr0p0ll,Umfrage,Auswertung'.($titleTag !== '' ? ','.$titleTag : '').',Automatischer Post,API';
     }
 
     public static function defaultComment(Poll $poll): string
     {
         $link = URL::signedRoute('poll.results.render', ['poll' => $poll->getKey()]);
+        $title = (string) Str::of((string) $poll->title)->trim();
+        $author = $poll->user?->name;
+        $credit = $author !== null && $author !== '' ? ' von @'.$author : '';
 
-        return Str::of((string) $poll->title)->trim().' — alle Ergebnisse auf pr0p0ll: '.$link;
+        return $title.$credit.' — alle Ergebnisse zur Auswertung: '.$link;
     }
 
     private static function blankToNull(?string $value): ?string
