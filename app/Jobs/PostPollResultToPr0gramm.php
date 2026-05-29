@@ -68,37 +68,39 @@ class PostPollResultToPr0gramm implements ShouldBeUnique, ShouldQueue
         Storage::disk('local')->put($relPath, $png);
         $absPath = Storage::disk('local')->path($relPath);
 
-        Log::info('pr0gramm-autopost: lade Screenshot hoch.', ['poll_id' => $this->poll->getKey(), 'trigger' => $trigger]);
-        $key = Pr0grammApi::Post()->upload($absPath)->json('key');
+        try {
+            Log::info('pr0gramm-autopost: lade Screenshot hoch.', ['poll_id' => $this->poll->getKey(), 'trigger' => $trigger]);
+            $key = Pr0grammApi::Post()->upload($absPath)->json('key');
 
-        if (! is_string($key) || $key === '') {
-            throw new \RuntimeException('pr0gramm-autopost: kein Upload-Key in der Antwort.');
+            if (! is_string($key) || $key === '') {
+                throw new \RuntimeException('pr0gramm-autopost: kein Upload-Key in der Antwort.');
+            }
+
+            $response = Pr0grammApi::Post()->post(
+                key: $key,
+                tags: $tags,
+                siteUrl: $siteUrl,
+                comment: $comment,
+            );
+
+            $itemId = $response->json('itemId') ?? $response->json('item.id');
+
+            if (! is_numeric($itemId)) {
+                throw new \RuntimeException('pr0gramm-autopost: keine Item-ID in der Antwort: '.$response->body());
+            }
+
+            $postUrl = 'https://pr0gramm.com/new/'.$itemId;
+            $this->poll->update(['original_content_link' => $postUrl]);
+
+            Log::info('pr0gramm-autopost: erfolgreich gepostet.', [
+                'poll_id' => $this->poll->getKey(),
+                'item_id' => $itemId,
+                'post_url' => $postUrl,
+                'trigger' => $trigger,
+            ]);
+        } finally {
+            Storage::disk('local')->delete($relPath);
         }
-
-        $response = Pr0grammApi::Post()->post(
-            key: $key,
-            tags: $tags,
-            siteUrl: $siteUrl,
-            comment: $comment,
-        );
-
-        $itemId = $response->json('itemId') ?? $response->json('item.id');
-
-        if (! is_numeric($itemId)) {
-            throw new \RuntimeException('pr0gramm-autopost: keine Item-ID in der Antwort: '.$response->body());
-        }
-
-        $postUrl = 'https://pr0gramm.com/new/'.$itemId;
-        $this->poll->update(['original_content_link' => $postUrl]);
-
-        Storage::disk('local')->delete($relPath);
-
-        Log::info('pr0gramm-autopost: erfolgreich gepostet.', [
-            'poll_id' => $this->poll->getKey(),
-            'item_id' => $itemId,
-            'post_url' => $postUrl,
-            'trigger' => $trigger,
-        ]);
     }
 
     private function ensureLoggedIn(string $trigger): void
