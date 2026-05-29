@@ -17,9 +17,9 @@ use Illuminate\Support\Str;
 // Persistierte, stets vollständige Auswertungs-Post-Konfiguration eines Polls.
 class ResultPostConfig
 {
-    public const CHART_BAR = 'bar';
+    public const string CHART_BAR = 'bar';
 
-    public const CHART_DONUT = 'donut';
+    public const string CHART_DONUT = 'donut';
 
     public function __construct(
         public string $title,
@@ -168,7 +168,8 @@ class ResultPostConfig
         $author = $poll->user?->name;
         $credit = $author !== null && $author !== '' ? ' von @'.$author : '';
 
-        return $title.$credit.' — alle Ergebnisse zur Auswertung: '.$link;
+        return $title.$credit.' — alle Ergebnisse zur Auswertung: '.$link
+            ."\n\nBei Fragen und Anregungen bitte @PimmelmannJones schreiben";
     }
 
     private static function blankToNull(?string $value): ?string
