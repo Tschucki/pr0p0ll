@@ -11,12 +11,10 @@ use Spatie\Browsershot\Browsershot;
 // Erzeugt einen server-seitigen PNG-Screenshot der Auswertung über Browsershot.
 class PollResultScreenshotService
 {
-    public function __construct(private Poll $poll) {}
-
-    public function png(?ResultPostConfig $config = null): string
+    public function png(Poll $poll, ?ResultPostConfig $config = null): string
     {
-        $config ??= ResultPostConfig::fromArray($this->poll->result_post_config, $this->poll);
-        $evaluation = (new PollResultService($this->poll))->buildEvaluation($config);
+        $config ??= ResultPostConfig::fromArray($poll->result_post_config, $poll);
+        $evaluation = (new PollResultService($poll))->buildEvaluation($config);
 
         $html = view('results.render', ['evaluation' => $evaluation])->render();
 

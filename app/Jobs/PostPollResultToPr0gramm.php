@@ -68,7 +68,7 @@ class PostPollResultToPr0gramm implements ShouldBeUnique, ShouldQueue
         $this->ensureLoggedIn($trigger);
 
         $relPath = 'result-screenshots/post-'.$this->poll->getKey().'.png';
-        $png = app(PollResultScreenshotService::class, ['poll' => $this->poll])->png($config);
+        $png = app(PollResultScreenshotService::class)->png($this->poll, $config);
         Storage::disk('local')->put($relPath, $png);
         $absPath = Storage::disk('local')->path($relPath);
 
