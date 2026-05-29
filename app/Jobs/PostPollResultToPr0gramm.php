@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Models\Abstracts\Poll;
+use App\Models\NotificationType;
+use App\Models\User;
 use App\Services\PollResultScreenshotService;
 use App\Support\ResultPostConfig;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -95,6 +98,19 @@ class PostPollResultToPr0gramm implements ShouldBeUnique, ShouldQueue
 
             SendResultPublishedTelegramNotification::dispatch($this->poll);
             SendResultPublishedDiscordNotification::dispatch($this->poll);
+
+            $participatedType = NotificationType::where('identifier', \App\Enums\NotificationType::PARTICIPATEDPOLLHASFINISHED)->first();
+            if ($participatedType !== null) {
+                $this->poll->participants()
+                    ->whereHas('notificationSettings', function (Builder $query) use ($participatedType): void {
+                        $query->where('notification_type_id', $participatedType->getKey())->where('enabled', true);
+                    })
+                    ->get()
+                    ->each(function (User $participant): void {
+                        SendParticipatedPollResultPublishedEmailNotification::dispatch($this->poll, $participant);
+                        SendParticipatedPollResultPublishedPr0grammNotification::dispatch($this->poll, $participant);
+                    });
+            }
 
             Log::info('pr0gramm-autopost: erfolgreich gepostet.', [
                 'poll_id' => $this->poll->getKey(),

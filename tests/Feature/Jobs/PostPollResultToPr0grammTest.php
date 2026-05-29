@@ -3,10 +3,16 @@
 declare(strict_types=1);
 
 use App\Jobs\PostPollResultToPr0gramm;
+use App\Jobs\SendParticipatedPollResultPublishedEmailNotification;
+use App\Jobs\SendParticipatedPollResultPublishedPr0grammNotification;
 use App\Jobs\SendResultPublishedDiscordNotification;
 use App\Jobs\SendResultPublishedTelegramNotification;
+use App\Models\NotificationChannel;
+use App\Models\NotificationType;
+use App\Models\User;
 use App\Services\PollResultScreenshotService;
 use App\Support\ResultPostConfig;
+use Database\Seeders\NotificationChannelSeeder;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Http;
@@ -17,6 +23,8 @@ beforeEach(function () {
     Bus::fake([
         SendResultPublishedTelegramNotification::class,
         SendResultPublishedDiscordNotification::class,
+        SendParticipatedPollResultPublishedEmailNotification::class,
+        SendParticipatedPollResultPublishedPr0grammNotification::class,
     ]);
 
     // pr0gramm-Facade cached die Instanz inkl. statischem Cookie über Tests hinweg — zurücksetzen.
@@ -105,4 +113,49 @@ it('logs in when the bot session is not yet authenticated', function () {
 
     Http::assertSent(fn ($request) => str_contains($request->url(), 'user/login'));
     expect($poll->fresh()->original_content_link)->toBe('https://pr0gramm.com/new/99');
+});
+
+it('dispatches participant notification jobs for opted-in participants after successful post', function () {
+    (new NotificationChannelSeeder)->run();
+    fakePr0grammHappyPath();
+
+    $poll = makeClosedPoll();
+    $participant = User::factory()->create([
+        'email' => 'teilnehmer@example.com',
+        'email_verified_at' => now(),
+    ]);
+
+    // Opt-in für den Teilnahme-Typ anlegen.
+    $type = NotificationType::where('identifier', App\Enums\NotificationType::PARTICIPATEDPOLLHASFINISHED)->firstOrFail();
+    $mailChannel = NotificationChannel::where('route', 'mail')->firstOrFail();
+    $pr0grammChannel = NotificationChannel::where('route', 'pr0gramm')->firstOrFail();
+
+    $participant->notificationSettings()->create([
+        'notification_type_id' => $type->getKey(),
+        'notification_channel_id' => $mailChannel->getKey(),
+        'enabled' => true,
+    ]);
+    $participant->notificationSettings()->create([
+        'notification_type_id' => $type->getKey(),
+        'notification_channel_id' => $pr0grammChannel->getKey(),
+        'enabled' => true,
+    ]);
+
+    $poll->participants()->attach($participant->getKey());
+
+    (new PostPollResultToPr0gramm($poll, ResultPostConfig::default($poll)->toArray()))->handle();
+
+    Bus::assertDispatched(SendParticipatedPollResultPublishedEmailNotification::class, function ($job) use ($participant) {
+        $reflection = new ReflectionProperty($job, 'user');
+        $reflection->setAccessible(true);
+
+        return $reflection->getValue($job)->getKey() === $participant->getKey();
+    });
+
+    Bus::assertDispatched(SendParticipatedPollResultPublishedPr0grammNotification::class, function ($job) use ($participant) {
+        $reflection = new ReflectionProperty($job, 'user');
+        $reflection->setAccessible(true);
+
+        return $reflection->getValue($job)->getKey() === $participant->getKey();
+    });
 });
