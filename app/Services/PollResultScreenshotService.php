@@ -22,6 +22,7 @@ class PollResultScreenshotService
             ->windowSize(1100, 800)
             ->deviceScaleFactor(2)
             ->fullPage()
+            ->noSandbox()
             ->setScreenshotType('png');
 
         if ($chromePath = config('pr0p0ll.chrome_path')) {
