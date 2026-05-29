@@ -11,7 +11,6 @@ use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Question;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 // Persistierte, stets vollständige Auswertungs-Post-Konfiguration eines Polls.
@@ -154,16 +153,21 @@ class ResultPostConfig
         ];
     }
 
+    public static function titleTag(Poll $poll): string
+    {
+        return trim(str_replace(',', ' ', (string) $poll->title));
+    }
+
     public static function defaultTags(Poll $poll): string
     {
-        $titleTag = trim(str_replace(',', ' ', (string) $poll->title));
+        $titleTag = self::titleTag($poll);
 
         return 'pr0p0ll,Umfrage,Auswertung'.($titleTag !== '' ? ','.$titleTag : '').',Automatischer Post,API';
     }
 
     public static function defaultComment(Poll $poll): string
     {
-        $link = URL::signedRoute('poll.results.render', ['poll' => $poll->getKey()]);
+        $link = route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll->getKey()]);
         $title = (string) Str::of((string) $poll->title)->trim();
         $author = $poll->user?->name;
         $credit = $author !== null && $author !== '' ? ' von @'.$author : '';

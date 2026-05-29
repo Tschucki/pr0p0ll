@@ -25,3 +25,11 @@ it('excludes polls closed less than two weeks ago', function () {
     expect($poll->isEligibleForResultPost())->toBeFalse()
         ->and(Poll::query()->eligibleForResultPost()->pluck('id'))->not->toContain($poll->getKey());
 });
+
+it('excludes polls whose screenshot was already uploaded while the item id is still pending', function () {
+    $poll = makeClosedPoll();
+    $poll->update(['result_post_uploaded_at' => now()]); // hochgeladen, original_content_link noch null
+
+    expect($poll->fresh()->isEligibleForResultPost())->toBeFalse()
+        ->and(Poll::query()->eligibleForResultPost()->pluck('id'))->not->toContain($poll->getKey());
+});
