@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use RuntimeException;
 use Tschucki\Pr0grammApi\Facades\Pr0grammApi;
 use Tschucki\Pr0grammApi\Pr0grammApi as Pr0grammApiClient;
 
@@ -73,7 +74,7 @@ class PostPollResultToPr0gramm implements ShouldBeUnique, ShouldQueue
             $key = Pr0grammApi::Post()->upload($absPath)->json('key');
 
             if (! is_string($key) || $key === '') {
-                throw new \RuntimeException('pr0gramm-autopost: kein Upload-Key in der Antwort.');
+                throw new RuntimeException('pr0gramm-autopost: kein Upload-Key in der Antwort.');
             }
 
             $response = Pr0grammApi::Post()->post(
@@ -86,11 +87,14 @@ class PostPollResultToPr0gramm implements ShouldBeUnique, ShouldQueue
             $itemId = $response->json('itemId') ?? $response->json('item.id');
 
             if (! is_numeric($itemId)) {
-                throw new \RuntimeException('pr0gramm-autopost: keine Item-ID in der Antwort: '.$response->body());
+                throw new RuntimeException('pr0gramm-autopost: keine Item-ID in der Antwort: '.$response->body());
             }
 
             $postUrl = 'https://pr0gramm.com/new/'.$itemId;
             $this->poll->update(['original_content_link' => $postUrl]);
+
+            SendResultPublishedTelegramNotification::dispatch($this->poll);
+            SendResultPublishedDiscordNotification::dispatch($this->poll);
 
             Log::info('pr0gramm-autopost: erfolgreich gepostet.', [
                 'poll_id' => $this->poll->getKey(),

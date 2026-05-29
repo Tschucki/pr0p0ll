@@ -3,14 +3,22 @@
 declare(strict_types=1);
 
 use App\Jobs\PostPollResultToPr0gramm;
+use App\Jobs\SendResultPublishedDiscordNotification;
+use App\Jobs\SendResultPublishedTelegramNotification;
 use App\Services\PollResultScreenshotService;
 use App\Support\ResultPostConfig;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Tschucki\Pr0grammApi\Pr0grammApi;
 
 beforeEach(function () {
+    Bus::fake([
+        SendResultPublishedTelegramNotification::class,
+        SendResultPublishedDiscordNotification::class,
+    ]);
+
     // pr0gramm-Facade cached die Instanz inkl. statischem Cookie über Tests hinweg — zurücksetzen.
     Facade::clearResolvedInstance(Pr0grammApi::class);
     Storage::fake('local');
@@ -50,6 +58,9 @@ it('uploads the screenshot, posts with tags and comment, and writes the post url
         && $request['tags'] === 'pr0p0ll,Spezialtag'
         && $request['comment'] === 'Spezialkommentar'
         && $request['key'] === 'UPLOADKEY');
+
+    Bus::assertDispatched(SendResultPublishedTelegramNotification::class);
+    Bus::assertDispatched(SendResultPublishedDiscordNotification::class);
 });
 
 it('falls back to auto tags and comment when none are configured', function () {
@@ -72,6 +83,8 @@ it('does nothing when the poll is no longer eligible', function () {
 
     expect($poll->fresh()->original_content_link)->toBe('https://pr0gramm.com/new/1');
     Http::assertNotSent(fn ($request) => str_contains($request->url(), 'items/post'));
+    Bus::assertNotDispatched(SendResultPublishedTelegramNotification::class);
+    Bus::assertNotDispatched(SendResultPublishedDiscordNotification::class);
 });
 
 it('logs in when the bot session is not yet authenticated', function () {
