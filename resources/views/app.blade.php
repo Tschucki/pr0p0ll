@@ -9,7 +9,13 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://pr0p0ll.com/pr0p0ll.png">
     <meta name="theme-color" content="#161618">
-    <script defer data-domain="pr0p0ll.com" src="https://plausible.marcelwagner.dev/js/script.outbound-links.js"></script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.marcelwagner.dev/js/pa-eIA6jUT039euoPH8fCU6u.js"></script>
+    <script>
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init()
+    </script>
+
     @routes
     @vite('resources/js/app.js')
     @inertiaHead
