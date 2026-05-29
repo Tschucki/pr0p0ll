@@ -44,7 +44,7 @@ class GenerateResultPostScreenshot implements ShouldQueue
             ->actions([
                 Action::make('download')
                     ->label('Herunterladen')
-                    ->url(route('poll.results.image', ['poll' => $this->poll->getKey()]), shouldOpenInNewTab: true)
+                    ->url(route('poll.results.image', ['poll' => $this->poll->getKey()]))
                     ->markAsRead(),
             ])
             ->sendToDatabase($this->user);
