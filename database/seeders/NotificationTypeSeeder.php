@@ -36,7 +36,7 @@ class NotificationTypeSeeder extends Seeder
             [
                 'identifier' => \App\Enums\NotificationType::PARTICIPATEDPOLLHASFINISHED,
                 'title' => \App\Enums\NotificationType::PARTICIPATEDPOLLHASFINISHED->getLabel(),
-                'description' => 'Eine Umfrage, an der du Teilgenommen hast wurde beendet.',
+                'description' => 'Die Auswertung einer Umfrage, an der du teilgenommen hast, wurde veröffentlicht.',
             ],
             [
                 'identifier' => \App\Enums\NotificationType::CREATEPOSTREMINDER,
@@ -46,7 +46,7 @@ class NotificationTypeSeeder extends Seeder
         ];
 
         foreach ($types as $type) {
-            NotificationType::firstOrCreate(['identifier' => $type['identifier']], $type);
+            NotificationType::updateOrCreate(['identifier' => $type['identifier']], $type);
         }
     }
 }
