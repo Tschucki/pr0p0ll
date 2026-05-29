@@ -24,3 +24,5 @@ DOCKER_ENV
 output.log
 docker_tag
 Dockerfile-php-build
+docs
+plans

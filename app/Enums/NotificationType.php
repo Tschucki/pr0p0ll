@@ -22,7 +22,7 @@ enum NotificationType: string implements HasLabel
             self::POLLDECLINED => 'Umfrage abgelehnt',
             self::POLLACCEPTED => 'Umfrage angenommen',
             self::OWNPOLLHASENDED => 'Eigene Umfrage beendet',
-            self::PARTICIPATEDPOLLHASFINISHED => 'Teilgenommene Umfrage beendet',
+            self::PARTICIPATEDPOLLHASFINISHED => 'Auswertung von teilgenommener Umfrage veröffentlicht',
             self::CREATEPOSTREMINDER => 'Erinnerung an Beitragserstellung',
         };
     }

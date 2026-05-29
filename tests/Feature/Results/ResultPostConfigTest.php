@@ -67,3 +67,50 @@ it('forces non-switchable question types back to their default chart', function 
 
     expect($config->questionConfig($text->getKey())['chart'])->toBe(ResultPostConfig::CHART_BAR);
 });
+
+it('defaults tags and comment to null so the job can resolve them dynamically', function () {
+    $poll = makeClosedPoll();
+
+    $config = ResultPostConfig::default($poll);
+
+    expect($config->tags)->toBeNull()
+        ->and($config->comment)->toBeNull();
+});
+
+it('round-trips tags and comment through toArray and fromArray', function () {
+    $poll = makeClosedPoll();
+
+    $config = ResultPostConfig::fromArray([
+        'tags' => 'pr0p0ll,Sonderfall',
+        'comment' => 'Mein Kommentar',
+    ], $poll);
+
+    expect($config->tags)->toBe('pr0p0ll,Sonderfall')
+        ->and($config->comment)->toBe('Mein Kommentar')
+        ->and($config->toArray())->toMatchArray([
+            'tags' => 'pr0p0ll,Sonderfall',
+            'comment' => 'Mein Kommentar',
+        ]);
+});
+
+it('treats blank tags and comment from the flat form as null', function () {
+    $poll = makeClosedPoll();
+
+    $config = ResultPostConfig::fromFlatForm(['tags' => '', 'comment' => '  '], $poll);
+
+    expect($config->tags)->toBeNull()
+        ->and($config->comment)->toBeNull();
+});
+
+it('builds auto tags and an auto comment containing a signed results link', function () {
+    $poll = makeClosedPoll();
+
+    expect(ResultPostConfig::defaultTags($poll))
+        ->toContain('pr0p0ll', 'Umfrage', 'Auswertung');
+
+    expect(ResultPostConfig::defaultComment($poll))
+        ->toContain('/umfragen/'.$poll->getKey().'/auswertung')
+        ->toContain('signature=')
+        ->toContain('@'.$poll->user->name)
+        ->toContain('Bei Fragen und Anregungen bitte @PimmelmannJones schreiben');
+});

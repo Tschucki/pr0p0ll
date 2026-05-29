@@ -11,13 +11,15 @@ use App\Models\AnswerTypes\SingleOptionAnswer;
 use App\Models\AnswerTypes\TextAnswer;
 use App\Models\Question;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 // Persistierte, stets vollständige Auswertungs-Post-Konfiguration eines Polls.
 class ResultPostConfig
 {
-    public const CHART_BAR = 'bar';
+    public const string CHART_BAR = 'bar';
 
-    public const CHART_DONUT = 'donut';
+    public const string CHART_DONUT = 'donut';
 
     public function __construct(
         public string $title,
@@ -25,6 +27,8 @@ class ResultPostConfig
         public string $color,
         public bool $showDemographics,
         public array $aQuestions,
+        public ?string $tags = null,
+        public ?string $comment = null,
     ) {}
 
     public static function default(Poll $poll): self
@@ -40,6 +44,8 @@ class ResultPostConfig
             color: '#ee4d2e',
             showDemographics: true,
             aQuestions: $aQuestions,
+            tags: null,
+            comment: null,
         );
     }
 
@@ -72,6 +78,8 @@ class ResultPostConfig
             color: (string) ($aStored['color'] ?? $default->color),
             showDemographics: (bool) ($aStored['showDemographics'] ?? $default->showDemographics),
             aQuestions: $aQuestions,
+            tags: self::blankToNull($aStored['tags'] ?? null),
+            comment: self::blankToNull($aStored['comment'] ?? null),
         );
     }
 
@@ -103,6 +111,8 @@ class ResultPostConfig
             color: (string) ($aForm['color'] ?? '#ee4d2e'),
             showDemographics: (bool) ($aForm['show_demographics'] ?? true),
             aQuestions: $aQuestions,
+            tags: self::blankToNull($aForm['tags'] ?? null),
+            comment: self::blankToNull($aForm['comment'] ?? null),
         );
     }
 
@@ -114,6 +124,8 @@ class ResultPostConfig
             'title' => $this->title,
             'description' => $this->description,
             'show_demographics' => $this->showDemographics,
+            'tags' => $this->tags ?? '',
+            'comment' => $this->comment ?? '',
         ];
 
         foreach ($this->aQuestions as $questionId => $aQuestion) {
@@ -137,7 +149,34 @@ class ResultPostConfig
             'color' => $this->color,
             'showDemographics' => $this->showDemographics,
             'questions' => $this->aQuestions,
+            'tags' => $this->tags,
+            'comment' => $this->comment,
         ];
+    }
+
+    public static function defaultTags(Poll $poll): string
+    {
+        $titleTag = trim(str_replace(',', ' ', (string) $poll->title));
+
+        return 'pr0p0ll,Umfrage,Auswertung'.($titleTag !== '' ? ','.$titleTag : '').',Automatischer Post,API';
+    }
+
+    public static function defaultComment(Poll $poll): string
+    {
+        $link = URL::signedRoute('poll.results.render', ['poll' => $poll->getKey()]);
+        $title = (string) Str::of((string) $poll->title)->trim();
+        $author = $poll->user?->name;
+        $credit = $author !== null && $author !== '' ? ' von @'.$author : '';
+
+        return $title.$credit.' — alle Ergebnisse zur Auswertung: '.$link
+            ."\n\nBei Fragen und Anregungen bitte @PimmelmannJones schreiben";
+    }
+
+    private static function blankToNull(?string $value): ?string
+    {
+        $value = $value === null ? null : trim($value);
+
+        return ($value === null || $value === '') ? null : $value;
     }
 
     public function questionConfig(int $questionId): array

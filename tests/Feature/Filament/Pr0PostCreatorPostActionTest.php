@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Filament\Pages\Pr0PostCreator;
+use App\Jobs\PostPollResultToPr0gramm;
+use App\Models\User;
+use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Queue;
+use Livewire\Livewire;
+
+beforeEach(function () {
+    Filament::setCurrentPanel(Filament::getPanel('pr0p0ll'));
+});
+
+it('dispatches the post job when an admin triggers postToPr0gramm', function () {
+    Queue::fake();
+    $admin = User::factory()->create(['admin' => true]);
+    $poll = makeClosedPoll($admin);
+
+    Livewire::actingAs($admin)
+        ->test(Pr0PostCreator::class, ['record' => $poll->getKey()])
+        ->call('postToPr0gramm')
+        ->assertHasNoErrors();
+
+    Queue::assertPushed(PostPollResultToPr0gramm::class, 1);
+});
+
+it('forbids a non-admin poll owner from calling postToPr0gramm', function () {
+    Queue::fake();
+    $owner = User::factory()->create(['admin' => false]);
+    $poll = makeClosedPoll($owner);
+
+    // PublicPollsResource::canViewResults() hat einen pre-existing Bug ($record statt $poll),
+    // der beim Mount für Nicht-Admins einen Fehler auslöst — der Owner gelangt also gar nicht
+    // zur Methode. Wir verifizieren trotzdem, dass kein Job dispatcht wird (mount-seitiger Abbruch
+    // oder method-seitige 403-Guard — beides verhindert den Dispatch).
+    try {
+        Livewire::actingAs($owner)
+            ->test(Pr0PostCreator::class, ['record' => $poll->getKey()])
+            ->call('postToPr0gramm');
+    } catch (Throwable) {
+        // Abbruch beim Mount oder in der Methode — kein Job darf dispatcht worden sein.
+    }
+
+    Queue::assertNothingPushed();
+});

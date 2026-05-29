@@ -129,6 +129,23 @@ abstract class Poll extends Model
         return false;
     }
 
+    public function scopeEligibleForResultPost(Builder $query): Builder
+    {
+        return $query
+            ->where('approved', true)
+            ->whereNull('original_content_link')
+            ->whereNotNull('closes_at')
+            ->where('closes_at', '<=', now()->subWeeks(2));
+    }
+
+    public function isEligibleForResultPost(): bool
+    {
+        return (bool) $this->approved
+            && $this->original_content_link === null
+            && $this->closes_at !== null
+            && Carbon::make($this->closes_at)->lessThanOrEqualTo(now()->subWeeks(2));
+    }
+
     public function approve(): void
     {
         $this->update([

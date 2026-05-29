@@ -7,6 +7,7 @@ namespace App\Filament\Pages;
 use App\Filament\Resources\MyPollResource;
 use App\Filament\Resources\PublicPollsResource;
 use App\Jobs\GenerateResultPostScreenshot;
+use App\Jobs\PostPollResultToPr0gramm;
 use App\Models\AnswerTypes\BoolAnswer;
 use App\Models\AnswerTypes\MultipleChoiceAnswer;
 use App\Models\AnswerTypes\SingleOptionAnswer;
@@ -94,6 +95,15 @@ class Pr0PostCreator extends Page
                         ->body('Dein Auswertungs-Bild wird im Hintergrund erzeugt. Du erhältst eine Benachrichtigung mit dem Download-Link, sobald es fertig ist.')
                         ->send();
                 }),
+            Action::make('postToPr0gramm')
+                ->label('Jetzt auf pr0gramm posten')
+                ->icon('heroicon-o-paper-airplane')
+                ->color('warning')
+                ->requiresConfirmation()
+                ->modalHeading('Auswertung auf pr0gramm posten?')
+                ->modalDescription('Die Auswertung wird als öffentlicher Beitrag auf pr0gramm veröffentlicht. Das kann nicht rückgängig gemacht werden.')
+                ->visible(fn (): bool => Auth::user()?->isAdmin() && $this->record->isEligibleForResultPost())
+                ->action(fn () => $this->postToPr0gramm()),
         ];
     }
 
@@ -139,6 +149,15 @@ class Pr0PostCreator extends Page
                         TextInput::make('title')->label('Titel')->required(),
                         Textarea::make('description')->label('Beschreibung')->nullable(),
                         Toggle::make('show_demographics')->label('Teilnehmer-Informationen anzeigen')->default(true),
+                        TextInput::make('tags')
+                            ->label('Tags (kommagetrennt)')
+                            ->placeholder(ResultPostConfig::defaultTags($this->record))
+                            ->helperText('Leer lassen für automatische Tags.'),
+                        Textarea::make('comment')
+                            ->label('Kommentar')
+                            ->placeholder(ResultPostConfig::defaultComment($this->record))
+                            ->helperText('Leer lassen für einen automatischen Kommentar mit Link zur Auswertung.')
+                            ->nullable(),
                         ...$this->getQuestionConfigFields(),
                     ]),
                 Grid::make()
@@ -181,6 +200,22 @@ class Pr0PostCreator extends Page
 
             return Section::make($question->title)->schema($aFields)->collapsible()->collapsed();
         })->toArray();
+    }
+
+    public function postToPr0gramm(): void
+    {
+        abort_unless(Auth::user()?->isAdmin() && $this->record->isEligibleForResultPost(), 403);
+
+        $config = ResultPostConfig::fromFlatForm($this->data, $this->record);
+        $this->record->update(['result_post_config' => $config->toArray()]);
+
+        PostPollResultToPr0gramm::dispatch($this->record, $config->toArray(), Auth::id());
+
+        Notification::make('post_queued')
+            ->success()
+            ->title('Wird auf pr0gramm gepostet')
+            ->body('Die Auswertung wird im Hintergrund veröffentlicht. Der Post-Link wird danach automatisch bei der Umfrage hinterlegt.')
+            ->send();
     }
 
     // Render-Model für die Live-Vorschau aus dem aktuellen Form-State.

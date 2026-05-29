@@ -33,7 +33,7 @@ class GenerateResultPostScreenshot implements ShouldQueue
     public function handle(): void
     {
         $config = ResultPostConfig::fromArray($this->aConfig, $this->poll);
-        $png = (new PollResultScreenshotService($this->poll))->png($config);
+        $png = app(PollResultScreenshotService::class)->png($this->poll, $config);
 
         Storage::put(self::pathFor($this->poll->getKey()), $png);
 
