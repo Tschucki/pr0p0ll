@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Models\Abstracts\Poll;
-use App\Models\NotificationType;
-use App\Models\User;
 use App\Services\Pr0grammBotService;
+use App\Services\ResultPostPublisher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
-// pr0gramm liefert beim Upload keine Item-ID (Bild geht erst in die Verarbeitungs-Queue). Dieser Job pollt die
-// Bot-Uploads bis der frische Post auftaucht, hinterlegt den Post-Link und stößt die Result-Notifications an.
+// items/post liefert (in prod) nur eine queueId, keine item.id. Dieser Job pollt die Bot-Uploads, bis das fertig
+// verarbeitete Item dort gelistet ist (permanent, race-frei), und übergibt dessen finale Item-ID dem ResultPostPublisher.
 class ResolvePr0grammPostItemId implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -35,13 +33,12 @@ class ResolvePr0grammPostItemId implements ShouldQueue
 
     public function __construct(
         private Poll $poll,
-        private string $expectedTitleTag,
         private int $uploadedAfter,
         private int $attempt = 1,
         private ?int $triggeredByUserId = null,
     ) {}
 
-    public function handle(Pr0grammBotService $bot): void
+    public function handle(Pr0grammBotService $bot, ResultPostPublisher $publisher): void
     {
         $this->poll->refresh();
 
@@ -50,13 +47,13 @@ class ResolvePr0grammPostItemId implements ShouldQueue
         }
 
         $bot->ensureLoggedIn();
-        $itemId = $bot->findRecentUploadItemId($this->expectedTitleTag, $this->uploadedAfter);
+        $itemId = $bot->findRecentUploadItemId($this->uploadedAfter);
 
         if ($itemId === null) {
             if ($this->attempt >= self::MAX_ATTEMPTS) {
-                Log::error('pr0gramm-autopost: Item-ID nach max Versuchen nicht gefunden.', [
+                Log::error('pr0gramm-autopost: frischer Upload nach max Versuchen nicht in den Bot-Uploads gefunden.', [
                     'poll_id' => $this->poll->getKey(),
-                    'expected_tag' => $this->expectedTitleTag,
+                    'uploaded_after' => $this->uploadedAfter,
                     'attempts' => $this->attempt,
                 ]);
 
@@ -65,41 +62,17 @@ class ResolvePr0grammPostItemId implements ShouldQueue
                 return;
             }
 
-            self::dispatch($this->poll, $this->expectedTitleTag, $this->uploadedAfter, $this->attempt + 1, $this->triggeredByUserId)
+            self::dispatch($this->poll, $this->uploadedAfter, $this->attempt + 1, $this->triggeredByUserId)
                 ->delay(now()->addSeconds(self::RETRY_DELAY));
 
             return;
         }
 
-        $this->finalize($itemId);
-    }
+        $publisher->publish($this->poll, $itemId);
 
-    private function finalize(int $itemId): void
-    {
-        $postUrl = 'https://pr0gramm.com/new/'.$itemId;
-        $this->poll->update(['original_content_link' => $postUrl]);
-
-        SendResultPublishedTelegramNotification::dispatch($this->poll);
-        SendResultPublishedDiscordNotification::dispatch($this->poll);
-
-        $participatedType = NotificationType::where('identifier', \App\Enums\NotificationType::PARTICIPATEDPOLLHASFINISHED)->first();
-
-        if ($participatedType !== null) {
-            $this->poll->participants()
-                ->whereHas('notificationSettings', function (Builder $query) use ($participatedType): void {
-                    $query->where('notification_type_id', $participatedType->getKey())->where('enabled', true);
-                })
-                ->get()
-                ->each(function (User $participant): void {
-                    SendParticipatedPollResultPublishedEmailNotification::dispatch($this->poll, $participant);
-                    SendParticipatedPollResultPublishedPr0grammNotification::dispatch($this->poll, $participant);
-                });
-        }
-
-        Log::info('pr0gramm-autopost: Item-ID aufgelöst.', [
+        Log::info('pr0gramm-autopost: Item-ID über die Bot-Uploads aufgelöst.', [
             'poll_id' => $this->poll->getKey(),
             'item_id' => $itemId,
-            'post_url' => $postUrl,
             'attempts' => $this->attempt,
         ]);
     }

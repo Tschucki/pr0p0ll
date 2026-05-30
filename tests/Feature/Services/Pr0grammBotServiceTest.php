@@ -16,55 +16,30 @@ beforeEach(function () {
     ]);
 });
 
-it('returns the item id of the newest upload carrying the title tag', function () {
-    $after = now()->subMinute()->timestamp;
-    Http::fake([
-        '*items/get*' => Http::response(['items' => [
-            ['id' => 500, 'created' => $after + 30, 'user' => 'pr0p0ll_bot'],
-            ['id' => 400, 'created' => $after - 3600, 'user' => 'pr0p0ll_bot'],
-        ]]),
-        '*items/info*' => Http::response(['tags' => [
-            ['tag' => 'pr0p0ll'],
-            ['tag' => 'Test Umfrage'],
-        ]]),
-    ]);
-
-    $id = app(Pr0grammBotService::class)->findRecentUploadItemId('Test Umfrage', $after);
-
-    expect($id)->toBe(500);
-    Http::assertSent(fn ($request) => str_contains($request->url(), 'items/info') && (int) $request['itemId'] === 500);
-});
-
-it('returns null when no recent upload carries the title tag', function () {
-    $after = now()->subMinute()->timestamp;
-    Http::fake([
-        '*items/get*' => Http::response(['items' => [
-            ['id' => 500, 'created' => $after + 30, 'user' => 'pr0p0ll_bot'],
-        ]]),
-        '*items/info*' => Http::response(['tags' => [
-            ['tag' => 'pr0p0ll'],
-            ['tag' => 'Ein anderer Titel'],
-        ]]),
-    ]);
-
-    $id = app(Pr0grammBotService::class)->findRecentUploadItemId('Test Umfrage', $after);
-
-    expect($id)->toBeNull();
-});
-
-it('ignores uploads created before the upload timestamp', function () {
+it('returns the newest bot upload created at or after the upload timestamp', function () {
     $after = now()->timestamp;
     Http::fake([
         '*items/get*' => Http::response(['items' => [
-            ['id' => 400, 'created' => $after - 3600, 'user' => 'pr0p0ll_bot'],
+            ['id' => 7031800, 'created' => $after + 5, 'user' => 'pr0p0ll_bot'],
+            ['id' => 6999999, 'created' => $after - 3600, 'user' => 'pr0p0ll_bot'],
         ]]),
-        '*items/info*' => Http::response(['tags' => [['tag' => 'Test Umfrage']]]),
     ]);
 
-    $id = app(Pr0grammBotService::class)->findRecentUploadItemId('Test Umfrage', $after);
+    $itemId = app(Pr0grammBotService::class)->findRecentUploadItemId($after);
 
-    expect($id)->toBeNull();
-    Http::assertNotSent(fn ($request) => str_contains($request->url(), 'items/info'));
+    expect($itemId)->toBe(7031800);
+    Http::assertSent(fn ($request) => str_contains($request->url(), 'items/get') && $request['user'] === 'pr0p0ll_bot');
+});
+
+it('returns null while the upload is still processing and not yet listed', function () {
+    $after = now()->timestamp;
+    Http::fake([
+        '*items/get*' => Http::response(['items' => [
+            ['id' => 6999999, 'created' => $after - 3600, 'user' => 'pr0p0ll_bot'],
+        ]]),
+    ]);
+
+    expect(app(Pr0grammBotService::class)->findRecentUploadItemId($after))->toBeNull();
 });
 
 it('logs in via the bot account when not yet authenticated', function () {

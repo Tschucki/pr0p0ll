@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Tschucki\Pr0grammApi\Facades\Pr0grammApi;
 use Tschucki\Pr0grammApi\Pr0grammApi as Pr0grammApiClient;
 
-// Kapselt die pr0gramm-Bot-Session und das Auflösen frisch hochgeladener Uploads zur Item-ID.
+// Kapselt die pr0gramm-Bot-Session und das Auflösen eines Uploads in der Verarbeitungs-Queue zur finalen Item-ID.
 class Pr0grammBotService
 {
     public function ensureLoggedIn(): void
@@ -23,33 +25,23 @@ class Pr0grammBotService
         Facade::clearResolvedInstance(Pr0grammApiClient::class);
     }
 
-    // Sucht den neuesten Bot-Upload (created >= $uploadedAfter) der den Umfrage-Titel als Tag trägt und liefert dessen Item-ID.
-    public function findRecentUploadItemId(string $expectedTitleTag, int $uploadedAfter): ?int
+    // Liefert die Item-ID des neuesten Bot-Uploads, der frühestens zum Post-Zeitpunkt erstellt wurde (sonst null,
+    // solange pr0gramm das Bild noch verarbeitet und es noch nicht in den Uploads gelistet ist).
+    public function findRecentUploadItemId(int $uploadedAfter): ?int
     {
-        $expected = mb_strtolower(trim($expectedTitleTag));
+        $cookie = config('services.pr0gramm.cookie') ?? Session::get('pr0gramm.cookie')[0] ?? null;
 
-        if ($expected === '') {
-            return null;
-        }
+        $aItems = Http::withHeaders(['Cookie' => $cookie])
+            ->get('https://pr0gramm.com/api/items/get', [
+                'user' => config('services.pr0gramm.username'),
+                'flags' => 31,
+            ])
+            ->json('items', []);
 
-        $aItems = Pr0grammApi::Post()->get([
-            'user' => config('services.pr0gramm.username'),
-            'flags' => 31,
-        ])->json('items', []);
-
+        // items/get liefert neueste zuerst — der erste Treffer ab dem Post-Zeitpunkt ist unser frischer Upload.
         foreach ($aItems as $aItem) {
-            $itemId = (int) ($aItem['id'] ?? 0);
-
-            if ($itemId === 0 || (int) ($aItem['created'] ?? 0) < $uploadedAfter) {
-                continue;
-            }
-
-            $aTags = Pr0grammApi::Post()->info($itemId)->json('tags', []);
-
-            foreach ($aTags as $aTag) {
-                if (mb_strtolower(trim((string) ($aTag['tag'] ?? ''))) === $expected) {
-                    return $itemId;
-                }
+            if ((int) ($aItem['created'] ?? 0) >= $uploadedAfter) {
+                return (int) ($aItem['id'] ?? 0) ?: null;
             }
         }
 
