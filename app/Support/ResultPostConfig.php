@@ -165,12 +165,18 @@ class ResultPostConfig
         return 'pr0p0ll,Umfrage,Auswertung'.($titleTag !== '' ? ','.$titleTag : '').',Automatischer Post,API';
     }
 
+    // Anonyme Polls (not_anonymous = false) nennen den Ersteller nicht — nur den Hinweis auf gewollte Anonymität.
     public static function defaultComment(Poll $poll): string
     {
         $link = route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll->getKey()]);
         $title = (string) Str::of((string) $poll->title)->trim();
-        $author = $poll->user?->name;
-        $credit = $author !== null && $author !== '' ? ' von @'.$author : '';
+
+        if ($poll->not_anonymous) {
+            $author = $poll->user?->name;
+            $credit = $author !== null && $author !== '' ? ' von @'.$author : '';
+        } else {
+            $credit = ' (Der Ersteller möchte anonym bleiben)';
+        }
 
         return $title.$credit.' — alle Ergebnisse zur Auswertung: '.$link
             ."\n\nBei Fragen und Anregungen bitte @PimmelmannJones schreiben";

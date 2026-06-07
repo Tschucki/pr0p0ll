@@ -38,3 +38,26 @@ it('returns 404 for a poll that has not ended', function () {
 
     $this->get($url)->assertNotFound();
 });
+
+it('does not render the creator name in the screenshot view for anonymous polls', function () {
+    $poll = makeClosedPoll(); // makeClosedPoll erstellt not_anonymous = false
+
+    $url = URL::signedRoute('poll.results.render', ['poll' => $poll->getKey()]);
+
+    $this->get($url)
+        ->assertOk()
+        ->assertDontSee('Erstellt von:')
+        ->assertDontSee($poll->user->name);
+});
+
+it('renders the creator name in the screenshot view for non-anonymous polls', function () {
+    $poll = makeClosedPoll();
+    $poll->update(['not_anonymous' => true]);
+
+    $url = URL::signedRoute('poll.results.render', ['poll' => $poll->getKey()]);
+
+    $this->get($url)
+        ->assertOk()
+        ->assertSee('Erstellt von:')
+        ->assertSee($poll->user->name);
+});

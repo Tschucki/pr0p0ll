@@ -139,3 +139,20 @@ it('assembles an evaluation honouring the config', function () {
         ->and($evaluation['questions'][0]['chart'])->toBe('donut')
         ->and($evaluation['demographics'])->toBeNull();
 });
+
+it('omits the creator name in the evaluation footer when the poll is anonymous', function () {
+    $poll = makeClosedPoll(); // makeClosedPoll erstellt not_anonymous = false
+
+    $evaluation = (new PollResultService($poll))->buildEvaluation(ResultPostConfig::default($poll));
+
+    expect($evaluation['footer']['author'])->toBeNull();
+});
+
+it('shows the creator name in the evaluation footer when the poll is not anonymous', function () {
+    $poll = makeClosedPoll();
+    $poll->update(['not_anonymous' => true]);
+
+    $evaluation = (new PollResultService($poll))->buildEvaluation(ResultPostConfig::default($poll));
+
+    expect($evaluation['footer']['author'])->toBe($poll->user->name);
+});

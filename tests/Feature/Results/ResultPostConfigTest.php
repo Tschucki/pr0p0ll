@@ -104,6 +104,7 @@ it('treats blank tags and comment from the flat form as null', function () {
 
 it('builds auto tags and an auto comment containing an unsigned filament results link', function () {
     $poll = makeClosedPoll();
+    $poll->update(['not_anonymous' => true]);
 
     expect(ResultPostConfig::defaultTags($poll))
         ->toContain('pr0p0ll', 'Umfrage', 'Auswertung');
@@ -112,7 +113,17 @@ it('builds auto tags and an auto comment containing an unsigned filament results
         ->toContain(route('filament.pr0p0ll.resources.umfragen.results', ['record' => $poll->getKey()]))
         ->toContain('/pr0p0ll/umfragen/'.$poll->getKey().'/auswertung')
         ->not->toContain('signature=')
-        ->toContain('@'.$poll->user->name)
+        ->toContain('von @'.$poll->user->name)
+        ->toContain('Bei Fragen und Anregungen bitte @PimmelmannJones schreiben');
+});
+
+it('omits the creator name in the auto comment when the poll is anonymous', function () {
+    $poll = makeClosedPoll(); // makeClosedPoll erstellt not_anonymous = false
+
+    expect(ResultPostConfig::defaultComment($poll))
+        ->not->toContain($poll->user->name)
+        ->not->toContain('von @')
+        ->toContain('Der Ersteller möchte anonym bleiben')
         ->toContain('Bei Fragen und Anregungen bitte @PimmelmannJones schreiben');
 });
 
