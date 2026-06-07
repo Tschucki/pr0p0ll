@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
+use App\Http\Middleware\HandleImpersonation;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
@@ -33,6 +34,11 @@ class Pr0p0llPanelProvider extends PanelProvider
         FilamentView::registerRenderHook(
             PanelsRenderHook::USER_MENU_BEFORE,
             static fn (): View => view('filament.header.aftersearch'),
+        );
+
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_START,
+            static fn (): View => view('filament.impersonation-banner'),
         );
 
         FilamentView::registerRenderHook(
@@ -83,6 +89,7 @@ class Pr0p0llPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 ForbidBannedUser::class,
+                HandleImpersonation::class,
             ])
             ->brandLogo(fn () => view('filament.admin.logo'))
             ->brandLogoHeight('auto')

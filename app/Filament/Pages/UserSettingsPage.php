@@ -10,6 +10,7 @@ use App\Enums\Region;
 use App\Models\NotificationChannel;
 use App\Models\NotificationType;
 use App\Models\User;
+use App\Services\ImpersonationService;
 use Auth;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
@@ -91,7 +92,13 @@ class UserSettingsPage extends Page implements HasForms
         return [
             Action::make('delete_account')->requiresConfirmation()->schema([
                 TextEntry::make('info')->label('Information')->state('Bist du dir absolut sicher, dass du deinen Account löschen möchtest? Wir löschen alle Daten, die mit dir im Zusammenhang stehen. Diese Aktion kann nicht rückgängig gemacht werden!'),
-            ])->action(function () {
+            ])->hidden(fn (): bool => ImpersonationService::isImpersonating())->action(function () {
+                if (ImpersonationService::isImpersonating()) {
+                    Notification::make()->danger()->title('Nicht möglich')->body('Während einer Impersonation kann der Account nicht gelöscht werden.')->send();
+
+                    return;
+                }
+
                 $user = Auth::user();
 
                 if ($user) {
@@ -120,25 +127,25 @@ class UserSettingsPage extends Page implements HasForms
                                 ->label('Geschlecht')
                                 ->options(Gender::class)
                                 ->native(false)
-                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData() || ImpersonationService::isImpersonating()),
                             DatePicker::make('birthday')
                                 ->label('Geburtstag')
                                 ->nullable()
                                 ->before('today')
                                 ->displayFormat('d.m.Y')
-                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData() || ImpersonationService::isImpersonating()),
                             Select::make('nationality')
                                 ->label('Nationalität')
                                 ->searchable()
                                 ->options(Nationality::class)
                                 ->native(false)
-                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData() || ImpersonationService::isImpersonating()),
                             Select::make('region')
                                 ->label('Region')
                                 ->searchable()
                                 ->options(Region::class)
                                 ->native(false)
-                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData()),
+                                ->disabled(fn (): bool => ! Auth::user()->canUpdateDemographicData() || ImpersonationService::isImpersonating()),
                         ]),
                         Placeholder::make('info')
                             ->hiddenLabel()
@@ -239,6 +246,12 @@ class UserSettingsPage extends Page implements HasForms
             if ($user->last_data_change === null || Carbon::make($user->last_data_change)->addMonths(2)->isPast()) {
                 // Check if dirty ignore array order and compare
                 if ($aOriginalDemographicData !== $demographicData) {
+                    if (ImpersonationService::isImpersonating()) {
+                        Notification::make()->danger()->title('Nicht möglich')->body('Demografische Daten können während einer Impersonation nicht geändert werden.')->send();
+
+                        return;
+                    }
+
                     $user->update($demographicData);
                     $user->update([
                         'last_data_change' => Carbon::now(),

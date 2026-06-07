@@ -7,6 +7,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Models\User;
+use App\Services\ImpersonationService;
 use Auth;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -24,6 +25,8 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Auth\Access\AuthorizationException;
+use Livewire\Component;
 
 class UserResource extends Resource
 {
@@ -117,6 +120,32 @@ class UserResource extends Resource
                     ->action(function (User $record): void {
                         $record->unban();
                         Notification::make()->title('Benutzer entbannt')->success()->send();
+                    }),
+                Action::make('impersonate')
+                    ->label('Impersonieren')
+                    ->icon('heroicon-o-finger-print')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Als Benutzer agieren')
+                    ->modalDescription(fn (User $record): string => sprintf(
+                        'Du wirst als "%s" eingeloggt. Die Aktion wird protokolliert und endet automatisch nach %d Minuten.',
+                        $record->name,
+                        ImpersonationService::MAX_DURATION_MINUTES,
+                    ))
+                    ->visible(fn (User $record): bool => ! $record->isAdmin()
+                        && ! $record->isBanned()
+                        && $record->isNot(Auth::user())
+                        && ! ImpersonationService::isImpersonating())
+                    ->action(function (User $record, Component $livewire): void {
+                        try {
+                            ImpersonationService::start(Auth::user(), $record);
+                        } catch (AuthorizationException $exception) {
+                            Notification::make()->title('Impersonation nicht möglich')->body($exception->getMessage())->danger()->send();
+
+                            return;
+                        }
+
+                        $livewire->redirect('/pr0p0ll');
                     }),
 
                 DeleteAction::make(),
