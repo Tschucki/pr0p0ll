@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\ImpersonationController;
 use App\Http\Controllers\LoginRedirectController;
 use App\Http\Controllers\PollResultImageController;
 use App\Http\Controllers\PollResultRenderController;
@@ -22,6 +23,11 @@ Route::get('/umfragen/{poll}/auswertung', PollResultRenderController::class)
 // Download des asynchron erzeugten Auswertungs-Screenshots (verlinkt aus der Notification).
 Route::get('/umfragen/{poll}/auswertung-bild', PollResultImageController::class)
     ->name('poll.results.image')
+    ->middleware('auth');
+
+// Beendet eine aktive Admin-Impersonation (POST + CSRF, kein GET — verhindert erzwungene Beendigung per Link).
+Route::post('/impersonation/beenden', [ImpersonationController::class, 'leave'])
+    ->name('impersonation.leave')
     ->middleware('auth');
 
 Route::middleware(['guest'])->group(function () {
