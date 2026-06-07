@@ -87,7 +87,7 @@ npm run prettier                  # Prettier --write
 ## Workflow-Konvention
 
 - Branch: `main` ist Default. PR-Workflow via GitHub (`Tschucki/pr0p0ll`). Deployment via Forge nach Merge.
-- Commits: knapp, häufig nur Verb + Kontext ("fix issue with yes_no fields"). Konventionelle Commits nicht erzwungen.
+- Commits: knapp, häufig nur Verb + Kontext ("fix issue with yes_no fields"). Konventionelle Commits nicht erzwungen. **Commit-Messages immer auf Englisch.**
 - Vor PR: `pint`, `pest`, `npm run lint`.
 
 ## Aktionsregeln für Claude
