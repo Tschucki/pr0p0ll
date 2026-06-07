@@ -206,11 +206,11 @@ class PublicPollsResource extends Resource
             return true;
         }
 
-        if ($record->resultsArePublic()) {
+        if ($poll->resultsArePublic()) {
             return true;
         }
 
-        if (Auth::user()?->getKey() === $record->user->getKey()) {
+        if (Auth::user()?->getKey() === $poll->user->getKey()) {
             return true;
         }
 

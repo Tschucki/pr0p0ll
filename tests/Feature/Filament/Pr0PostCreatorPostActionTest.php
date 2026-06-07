@@ -31,17 +31,10 @@ it('forbids a non-admin poll owner from calling postToPr0gramm', function () {
     $owner = User::factory()->create(['admin' => false]);
     $poll = makeClosedPoll($owner);
 
-    // PublicPollsResource::canViewResults() hat einen pre-existing Bug ($record statt $poll),
-    // der beim Mount für Nicht-Admins einen Fehler auslöst — der Owner gelangt also gar nicht
-    // zur Methode. Wir verifizieren trotzdem, dass kein Job dispatcht wird (mount-seitiger Abbruch
-    // oder method-seitige 403-Guard — beides verhindert den Dispatch).
-    try {
-        Livewire::actingAs($owner)
-            ->test(Pr0PostCreator::class, ['record' => $poll->getKey()])
-            ->call('postToPr0gramm');
-    } catch (Throwable) {
-        // Abbruch beim Mount oder in der Methode — kein Job darf dispatcht worden sein.
-    }
+    Livewire::actingAs($owner)
+        ->test(Pr0PostCreator::class, ['record' => $poll->getKey()])
+        ->call('postToPr0gramm')
+        ->assertForbidden();
 
     Queue::assertNothingPushed();
 });
