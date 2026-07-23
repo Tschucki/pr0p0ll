@@ -37,8 +37,11 @@ class ResultPublishedTelegramNotification extends Notification
             ->when(
                 $this->poll->original_content_link,
                 function (TelegramMessage $message) {
+                    $pr0AppLink = str_replace('pr0gramm.com', 'pr0.app', $this->poll->original_content_link);
                     $message->line('*Link:* '.$this->poll->original_content_link."\n");
+                    $message->line('*Link (neues Frontend):* '.$pr0AppLink."\n");
                     $message->button('Auf pr0gramm ansehen', $this->poll->original_content_link);
+                    $message->button('Auf pr0.app ansehen', $pr0AppLink);
                 }
             );
     }
