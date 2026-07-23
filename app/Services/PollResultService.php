@@ -120,14 +120,14 @@ class PollResultService
     private function optionResult(Question $question, bool $multiSelect): array
     {
         $morphClass = get_class($question->answerType());
-        $aCounts = $this->valueCounts($question, $morphClass);
+        $aCounts = $this->normalizedCounts($this->valueCounts($question, $morphClass));
         $totalAnswers = $this->totalAnswers($question, $morphClass);
         $respondents = $this->respondents($question, $morphClass);
         $base = $multiSelect ? max($respondents, 1) : max($totalAnswers, 1);
 
         $aOptions = [];
         foreach ($question->options ?? [] as $option) {
-            $label = (string) ($option['title'] ?? '');
+            $label = trim((string) ($option['title'] ?? ''));
             $count = (int) ($aCounts[$label] ?? 0);
             $aOptions[] = [
                 'label' => $label,
@@ -284,6 +284,18 @@ class PollResultService
         return $question->answers()
             ->filter($this->aFilters)
             ->where('answerable_type', $morphClass);
+    }
+
+    // Options-Titel können Trailing-Whitespace enthalten, answer_value wird von der TrimStrings-Middleware getrimmt gespeichert — deshalb beide Seiten normalisiert matchen.
+    private function normalizedCounts(Collection $aCounts): array
+    {
+        $aNormalized = [];
+        foreach ($aCounts as $value => $count) {
+            $key = trim((string) $value);
+            $aNormalized[$key] = ($aNormalized[$key] ?? 0) + $count;
+        }
+
+        return $aNormalized;
     }
 
     // Gruppierte Counts je answer_value via Join (effizient, filter-fest).

@@ -24,6 +24,21 @@ it('aggregates single option answers with counts and percentages', function () {
         ->and($byLabel['Kirsche']['count'])->toBe(0);
 });
 
+it('matches option counts although option titles carry trailing whitespace', function () {
+    $poll = makeClosedPoll();
+    $question = addQuestion($poll, 'radio', [['title' => 'Ja '], ['title' => 'Nein']]);
+    addAnswer($question, 'Ja');
+    addAnswer($question, 'Ja');
+    addAnswer($question, 'Nein');
+
+    $vm = (new PollResultService($poll))->getQuestionResults()[$question->getKey()];
+    $byLabel = collect($vm['options'])->keyBy('label');
+
+    expect($byLabel['Ja']['count'])->toBe(2)
+        ->and($byLabel['Ja']['percentage'])->toBe(66.7)
+        ->and($byLabel['Nein']['count'])->toBe(1);
+});
+
 it('uses respondents as percentage base for multiple choice', function () {
     $poll = makeClosedPoll();
     $question = addQuestion($poll, 'checkbox-list', [['title' => 'A'], ['title' => 'B']]);
