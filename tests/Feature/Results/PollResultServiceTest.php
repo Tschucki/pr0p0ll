@@ -87,6 +87,23 @@ it('collects non-empty text answers', function () {
         ->and(collect($vm['textAnswers'])->pluck('value')->all())->toContain('Hallo', 'Welt');
 });
 
+it('groups duplicate text answers with counts and sorts them alphabetically in the evaluation', function () {
+    $poll = makeClosedPoll();
+    $question = addQuestion($poll, 'text');
+    addAnswer($question, 'Zebra');
+    addAnswer($question, 'apfel ');
+    addAnswer($question, 'Apfel');
+    addAnswer($question, 'Banane');
+
+    $evaluation = (new PollResultService($poll))->buildEvaluation(ResultPostConfig::default($poll));
+    $aTextAnswers = collect($evaluation['questions'])->firstWhere('type', 'text')['textAnswers'];
+
+    expect(collect($aTextAnswers)->pluck('value')->all())->toBe(['apfel', 'Banane', 'Zebra'])
+        ->and($aTextAnswers[0]['count'])->toBe(2)
+        ->and($aTextAnswers[1]['count'])->toBe(1)
+        ->and($aTextAnswers[2]['count'])->toBe(1);
+});
+
 it('builds a number histogram with stats', function () {
     $poll = makeClosedPoll();
     $question = addQuestion($poll, 'number');

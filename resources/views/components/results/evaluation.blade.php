@@ -48,6 +48,7 @@
         .pr0eval__stat-value { font-size:1rem; font-weight:700; font-variant-numeric:tabular-nums; }
         .pr0eval__texts { display:grid; grid-template-columns:1fr; gap:.5rem; }
         .pr0eval__text { border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); border-radius:.5rem; padding:.75rem; font-size:.875rem; line-height:1.5; color:rgba(255,255,255,.9); word-break:break-word; }
+        .pr0eval__text-count { display:inline-block; margin-left:.375rem; padding:.0625rem .4375rem; border-radius:9999px; background:rgba(255,255,255,.12); font-size:.75rem; line-height:1.25; color:rgba(255,255,255,.7); vertical-align:middle; white-space:nowrap; }
         .pr0eval__demo-grid { margin-top:1.25rem; display:grid; grid-template-columns:1fr; gap:1.5rem; }
         .pr0eval__demo-block-title { font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:rgba(255,255,255,.5); margin:0 0 .75rem; }
         .pr0eval__footer { border-top:1px solid rgba(255,255,255,.1); padding:1.25rem 1.5rem; }

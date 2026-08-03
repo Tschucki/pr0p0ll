@@ -45,21 +45,12 @@ class PollResultService
             $vm['footerText'] = $this->footerText($vm);
 
             if ($vm['type'] === 'text') {
-                // Config-Auswahl respektieren, aber nur eindeutige Antworten anzeigen (Count = tatsächliche Zahl).
+                // Config-Auswahl respektieren; gleiche Antworten (getrimmt, case-insensitiv) zusammenfassen und alphabetisch sortieren.
                 $vm['textAnswers'] = array_values(array_filter(
                     $vm['textAnswers'],
                     fn (array $answer) => $config->wantsAnswer($id, $answer['id']),
                 ));
-                $aSeen = [];
-                $vm['textAnswers'] = array_values(array_filter($vm['textAnswers'], function (array $answer) use (&$aSeen) {
-                    $key = mb_strtolower(trim((string) $answer['value']));
-                    if ($key === '' || isset($aSeen[$key])) {
-                        return false;
-                    }
-                    $aSeen[$key] = true;
-
-                    return true;
-                }));
+                $vm['textAnswers'] = $this->groupedTextAnswers($vm['textAnswers']);
             }
 
             $aQuestions[] = $this->applyColors($vm, $config->color);
@@ -265,6 +256,33 @@ class PollResultService
             'isMultiSelect' => false,
             'textAnswers' => $aTextAnswers,
         ];
+    }
+
+    // Dedupliziert Freitextantworten case-insensitiv, zählt Mehrfachnennungen und sortiert alphabetisch (deutsche Kollation).
+    private function groupedTextAnswers(array $aTextAnswers): array
+    {
+        $aGrouped = [];
+        foreach ($aTextAnswers as $answer) {
+            $value = trim((string) $answer['value']);
+            if ($value === '') {
+                continue;
+            }
+
+            $key = mb_strtolower($value);
+            if (isset($aGrouped[$key])) {
+                $aGrouped[$key]['count']++;
+
+                continue;
+            }
+
+            $aGrouped[$key] = ['id' => $answer['id'], 'value' => $value, 'count' => 1];
+        }
+
+        $aAnswers = array_values($aGrouped);
+        $collator = new \Collator('de_DE');
+        usort($aAnswers, fn (array $a, array $b) => $collator->compare($a['value'], $b['value']));
+
+        return $aAnswers;
     }
 
     private function emptyResult(Question $question): array
